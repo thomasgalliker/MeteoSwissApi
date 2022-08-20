@@ -14,11 +14,14 @@ You can use this library in any .NET project which is compatible to .NET Standar
 ### API Usage
 The following sections document basic use cases of this library. The following code excerpts can also be found in the [sample applications](https://github.com/thomasgalliker/MeteoSwissApi/tree/develop/Samples).
 
-#### Retrieve all stations
-`SwissHydroClient` is the main entry point of this library. Create an instance of `SwissHydroClient` or inject `ISwissHydroClient` using dependency injection techniques.
+#### Create instance of weather service
+`MeteoSwissWeatherService` is the main entry point of this library. Create an instance of `MeteoSwissWeatherService` or inject `IMeteoSwissWeatherService` using dependency injection techniques.
 ```C#
-ISwissHydroClient swissHydroClient = new SwissHydroClient(options);
-var stations = await swissHydroClient.GetStationsAsync();
+IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
+```
+Request weather information for any Swiss zip code (plz):
+```C#
+var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
 ```
 
 ### Links

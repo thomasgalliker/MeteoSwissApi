@@ -34,8 +34,7 @@ namespace MeteoSwissApi.ConsoleSample
             IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
 
             // Request weather info:
-            const int plz = 6330;
-            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz);
+            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
 
             Console.WriteLine();
             Console.WriteLine(ObjectDumper.Dump(weatherInfo.CurrentWeather));
