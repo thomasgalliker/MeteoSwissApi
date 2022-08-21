@@ -1,7 +1,7 @@
 # MeteoSwissApi
 [![Version](https://img.shields.io/nuget/v/MeteoSwissApi.svg)](https://www.nuget.org/packages/MeteoSwissApi)  [![Downloads](https://img.shields.io/nuget/dt/MeteoSwissApi.svg)](https://www.nuget.org/packages/MeteoSwissApi)
 
-.NET client for easy access of Swiss national weather data provided by Federal Office of Meteorology and Climatology MeteoSwiss.
+.NET client for easy access of Swiss national weather data provided by the Federal Office of Meteorology and Climatology MeteoSwiss.
 
 ### Download and Install MeteoSwissApi
 This library is available on NuGet: https://www.nuget.org/packages/MeteoSwissApi
@@ -14,7 +14,7 @@ You can use this library in any .NET project which is compatible to .NET Standar
 ### API Usage
 The following sections document basic use cases of this library. The following code excerpts can also be found in the [sample applications](https://github.com/thomasgalliker/MeteoSwissApi/tree/develop/Samples).
 
-#### Create instance of weather service
+#### Request weather info by PLZ
 `MeteoSwissWeatherService` is the main entry point of this library. Create an instance of `MeteoSwissWeatherService` or inject `IMeteoSwissWeatherService` using dependency injection techniques.
 ```C#
 IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
