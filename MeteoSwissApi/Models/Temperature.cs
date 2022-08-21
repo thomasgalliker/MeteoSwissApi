@@ -61,7 +61,7 @@ namespace MeteoSwissApi.Models
 
         public static double KelvinToFahrenheit(double kelvin)
         {
-            return kelvin * 1.8 + AbsoluteZeroFahrenheit;
+            return (kelvin * 1.8) + AbsoluteZeroFahrenheit;
         }
 
         public static double FahrenheitToKelvin(double fahrenheit)
@@ -71,7 +71,7 @@ namespace MeteoSwissApi.Models
 
         public static double CelsiusToFahrenheit(double celsius)
         {
-            return celsius * 1.8 + 32.0;
+            return (celsius * 1.8) + 32.0;
         }
 
         public static double FahrenheitToCelsius(double fahrenheit)
@@ -112,7 +112,7 @@ namespace MeteoSwissApi.Models
                     return 273.15 + srcValue;
 
                 case TemperatureUnit.Fahrenheit:
-                    return ZeroFahrenheitAsKelvin + srcValue * KelvinPerFahrenheit;
+                    return ZeroFahrenheitAsKelvin + (srcValue * KelvinPerFahrenheit);
 
                 case TemperatureUnit.Kelvin:
                     return srcValue;
@@ -215,10 +215,7 @@ namespace MeteoSwissApi.Models
                 format = "0.##";
             }
 
-            if (provider == null)
-            {
-                provider = CultureInfo.CurrentCulture;
-            }
+            provider ??= CultureInfo.CurrentCulture;
 
             var unitString = EnumUtils.GetDescription(this.Unit);
 

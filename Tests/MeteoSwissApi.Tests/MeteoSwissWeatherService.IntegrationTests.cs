@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using MeteoSwissApi;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Tests.Logging;
 using MeteoSwissApi.Tests.Utils;
@@ -8,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace WeatherDisplay.Tests.Services.MeteoSwiss
+namespace MeteoSwissApi.Tests
 {
     public class MeteoSwissWeatherServiceIntegrationTests
     {
