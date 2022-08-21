@@ -49,12 +49,12 @@ namespace MeteoSwissApi
 
             if (plzString.Length < PlzMinLength)
             {
-                throw new ArgumentException($"Parameter {nameof(plz)} must have a minimum length of {PlzMinLength}", nameof(plz));
+                throw new ArgumentException($"Parameter {nameof(plz)} must have a minimum length of {PlzMinLength}.", nameof(plz));
             }
 
             if (plzString.Length > PlzPaddingLength)
             {
-                throw new ArgumentException($"Parameter {nameof(plz)} (padded) must not exceed a length of {PlzPaddingLength}", nameof(plz));
+                throw new ArgumentException($"Parameter {nameof(plz)} (padded) must not exceed a length of {PlzPaddingLength}.", nameof(plz));
             }
 
             this.logger.LogDebug($"GetCurrentWeatherAsync: plz={plz}");
@@ -89,6 +89,11 @@ namespace MeteoSwissApi
             if (weatherIconMapping == null)
             {
                 weatherIconMapping = this.defaultWeatherIconMapping;
+            }
+
+            if (weatherIconMapping == null)
+            {
+                throw new ArgumentNullException(nameof(weatherIconMapping), $"Parameter {nameof(weatherIconMapping)} must not be null.");
             }
 
             this.logger.LogDebug($"GetWeatherIconAsync: iconId={iconId}, weatherIconMapping={weatherIconMapping.GetType().Name}");
