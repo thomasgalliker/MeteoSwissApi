@@ -30,7 +30,7 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"{this.DayDate}";
+            return $"{this.DayDate:d} ({this.TemperatureMin:N0}-{this.TemperatureMax})";
         }
     }
 }

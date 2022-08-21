@@ -26,5 +26,10 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("graph")]
         public Graph Graph { get; set; }
+
+        public override string ToString()
+        {
+            return $"Time: {this.CurrentWeather.Time}, Temperature: {this.CurrentWeather.Temperature}, ";
+        }
     }
 }
