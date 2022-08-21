@@ -12,10 +12,8 @@ namespace MeteoSwissApi
 {
     public class MeteoSwissWeatherService : IMeteoSwissWeatherService
     {
-        public const double MinLatitude = -90d;
-        public const double MaxLatitude = 90d;
-        public const double MinLongitude = -180d;
-        public const double MaxLongitude = 180d;
+        public const int PlzMinLength = 4;
+        public const int PlzPaddingLength = 6;
 
         private readonly ILogger<MeteoSwissWeatherService> logger;
         private readonly HttpClient httpClient;
@@ -47,15 +45,26 @@ namespace MeteoSwissApi
 
         public async Task<WeatherInfo> GetCurrentWeatherAsync(int plz)
         {
+            var plzString = $"{plz}";
+
+            if (plzString.Length < PlzMinLength)
+            {
+                throw new ArgumentException($"Parameter {nameof(plz)} must have a minimum length of {PlzMinLength}.", nameof(plz));
+            }
+
+            if (plzString.Length > PlzPaddingLength)
+            {
+                throw new ArgumentException($"Parameter {nameof(plz)} (padded) must not exceed a length of {PlzPaddingLength}.", nameof(plz));
+            }
+
             this.logger.LogDebug($"GetCurrentWeatherAsync: plz={plz}");
 
-            // TODO Check plz argument length
-            var plzString = $"{plz}".PadRight(6, '0');
+            var plzPadded = $"{plz}".PadRight(6, '0');
 
             var builder = new UriBuilder(this.apiEndpoint)
             {
                 Path = "v1/plzDetail",
-                Query = $"plz={plzString}"
+                Query = $"plz={plzPadded}"
             };
 
             var uri = builder.ToString();
@@ -80,6 +89,11 @@ namespace MeteoSwissApi
             if (weatherIconMapping == null)
             {
                 weatherIconMapping = this.defaultWeatherIconMapping;
+            }
+
+            if (weatherIconMapping == null)
+            {
+                throw new ArgumentNullException(nameof(weatherIconMapping), $"Parameter {nameof(weatherIconMapping)} must not be null.");
             }
 
             this.logger.LogDebug($"GetWeatherIconAsync: iconId={iconId}, weatherIconMapping={weatherIconMapping.GetType().Name}");

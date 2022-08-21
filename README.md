@@ -1,7 +1,7 @@
 # MeteoSwissApi
 [![Version](https://img.shields.io/nuget/v/MeteoSwissApi.svg)](https://www.nuget.org/packages/MeteoSwissApi)  [![Downloads](https://img.shields.io/nuget/dt/MeteoSwissApi.svg)](https://www.nuget.org/packages/MeteoSwissApi)
 
-.NET client for easy access of Swiss national weather data provided by the Federal Office of Meteorology and Climatology MeteoSwiss.
+.NET client for easy access of Swiss national weather data. This library is a private, non-commercial project and is by no means related to or maintained by the Federal Office of Meteorology and Climatology MeteoSwiss.
 
 ### Download and Install MeteoSwissApi
 This library is available on NuGet: https://www.nuget.org/packages/MeteoSwissApi
@@ -32,5 +32,4 @@ https://www.meteoschweiz.admin.ch
 Contributors welcome! If you find a bug or you want to propose a new feature, feel free to do so by opening a new issue on github.com.
 
 ### License
-This library is a private, non-commercial project and is by no means related to or maintained by MeteoSwiss.
-Check the terms and conditions of the MeteoSwiss before using this client library.
+Check the terms and conditions of the Federal Office of Meteorology and Climatology MeteoSwiss before using this client library.
