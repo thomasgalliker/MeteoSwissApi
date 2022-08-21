@@ -1,12 +1,15 @@
-﻿using MeteoSwissApi.Models.Converters;
+﻿using System;
+using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
+using WeatherDisplay.Model.Wiewarm.Converters;
 
 namespace MeteoSwissApi.Models
 {
     public class Forecast
     {
         [JsonProperty("dayDate")]
-        public string DayDate { get; set; }
+        [JsonConverter(typeof(DateTimeStringJsonConverter))]
+        public DateTime DayDate { get; set; }
 
         [JsonProperty("iconDay")]
         public int IconDay { get; set; }
@@ -24,5 +27,10 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("precipitation")]
         public double Precipitation { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.DayDate}";
+        }
     }
 }
