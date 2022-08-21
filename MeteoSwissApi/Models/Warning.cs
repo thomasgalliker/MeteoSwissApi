@@ -5,6 +5,11 @@ namespace MeteoSwissApi.Models
 {
     public class Warning
     {
+        public Warning()
+        {
+            this.Links = new List<Link>();
+        }
+
         [JsonProperty("warnType")]
         public int WarnType { get; set; }
 
@@ -27,6 +32,11 @@ namespace MeteoSwissApi.Models
         public bool Outlook { get; set; }
 
         [JsonProperty("links")]
-        public List<Link> Links { get; set; }
+        public IReadOnlyCollection<Link> Links { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.Text}";
+        }
     }
 }
