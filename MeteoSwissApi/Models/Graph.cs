@@ -78,5 +78,10 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("precipitationMax1h")]
         public IReadOnlyCollection<double> PrecipitationMax1h { get; set; }
+
+        public override string ToString()
+        {
+            return $"{this.Start}";
+        }
     }
 }

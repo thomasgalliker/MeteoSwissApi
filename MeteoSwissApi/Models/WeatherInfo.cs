@@ -7,6 +7,7 @@ namespace MeteoSwissApi.Models
     {
         public WeatherInfo()
         {
+            this.Forecast = new List<Forecast>();
             this.Warnings = new List<Warning>();
             this.WarningsOverview = new List<WarningsOverview>();
         }
@@ -15,15 +16,20 @@ namespace MeteoSwissApi.Models
         public CurrentWeather CurrentWeather { get; set; }
 
         [JsonProperty("forecast")]
-        public List<Forecast> Forecast { get; set; }
+        public IReadOnlyCollection<Forecast> Forecast { get; set; }
 
         [JsonProperty("warnings")]
-        public List<Warning> Warnings { get; set; }
+        public IReadOnlyCollection<Warning> Warnings { get; set; }
 
         [JsonProperty("warningsOverview")]
-        public List<WarningsOverview> WarningsOverview { get; set; }
+        public IReadOnlyCollection<WarningsOverview> WarningsOverview { get; set; }
 
         [JsonProperty("graph")]
         public Graph Graph { get; set; }
+
+        public override string ToString()
+        {
+            return $"Time: {this.CurrentWeather.Time}, Temperature: {this.CurrentWeather.Temperature}, ";
+        }
     }
 }

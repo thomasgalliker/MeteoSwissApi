@@ -9,5 +9,10 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("warnLevel")]
         public int WarnLevel { get; set; }
+
+        public override string ToString()
+        {
+            return $"WarnType: {this.WarnType}, WarnLevel: {this.WarnLevel}";
+        }
     }
 }
