@@ -71,7 +71,7 @@ namespace MeteoSwissApi
             this.logger.LogDebug($"GetCurrentWeatherAsync: GET {uri}");
 
             var response = await this.httpClient.GetAsync(uri);
-            _ = response.EnsureSuccessStatusCode();
+            response.EnsureSuccessStatusCode();
 
             var responseJson = await response.Content.ReadAsStringAsync();
 

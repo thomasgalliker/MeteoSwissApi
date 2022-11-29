@@ -6,7 +6,7 @@ namespace MeteoSwissApi
 {
     public class DefaultWeatherIconMapping : IWeatherIconMapping
     {
-        private const string ImageApiEndpoint = "https://www.meteoswiss.admin.ch/etc.clientlibs/internet/clientlibs/meteoswiss/resources/assets/images/icons/meteo/weather-symbols";
+        private const string ImageApiEndpoint = "https://www.meteoswiss.admin.ch/static/product/resources/weather-symbols/{0}.svg";
 
         private readonly HttpClient httpClient;
 
@@ -17,7 +17,7 @@ namespace MeteoSwissApi
 
         public async Task<Stream> GetIconAsync(int iconId)
         {
-            var iconUrl = $"{ImageApiEndpoint}/{iconId}.svg";
+            var iconUrl = string.Format(ImageApiEndpoint, iconId);
 
             var response = await this.httpClient.GetAsync(iconUrl);
             response.EnsureSuccessStatusCode();
