@@ -12,9 +12,16 @@ namespace MeteoSwissApi.Models.Converters
     {
         private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public static DateTime Convert(long ms) => Epoch.AddMilliseconds(ms);
+        public static DateTime Convert(long ms)
+        {
+            return Epoch.AddMilliseconds(ms);
+        }
 
-        public static long Convert(DateTime utcDateTime) => (long)(utcDateTime - Epoch).TotalMilliseconds;
+        public static long Convert(DateTime dateTime)
+        {
+            var utcDateTime = dateTime.ToUniversalTime();
+            return (long)(utcDateTime - Epoch).TotalMilliseconds;
+        }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
