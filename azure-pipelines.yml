@@ -119,6 +119,7 @@ steps:
     packagesToPack: MeteoSwissApi/MeteoSwissApi.csproj
     versioningScheme: byEnvVar
     versionEnvVar: semVersion
+    nobuild: true
 
 - task: CopyFiles@2
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
