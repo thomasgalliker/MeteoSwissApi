@@ -59,7 +59,7 @@ namespace MeteoSwissApi
 
             this.logger.LogDebug($"GetCurrentWeatherAsync: plz={plz}");
 
-            var plzPadded = $"{plz}".PadRight(6, '0');
+            var plzPadded = PadPlz(plz);
 
             var builder = new UriBuilder(this.apiEndpoint)
             {
@@ -82,6 +82,52 @@ namespace MeteoSwissApi
 
             var weatherInfo = JsonConvert.DeserializeObject<WeatherInfo>(responseJson, this.serializerSettings);
             return weatherInfo;
+        }
+
+        public async Task<ForecastInfo> GetForecastAsync(int plz)
+        {
+            var plzString = $"{plz}";
+
+            if (plzString.Length < PlzMinLength)
+            {
+                throw new ArgumentException($"Parameter {nameof(plz)} must have a minimum length of {PlzMinLength}.", nameof(plz));
+            }
+
+            if (plzString.Length > PlzPaddingLength)
+            {
+                throw new ArgumentException($"Parameter {nameof(plz)} (padded) must not exceed a length of {PlzPaddingLength}.", nameof(plz));
+            }
+
+            this.logger.LogDebug($"GetForecastAsync: plz={plz}");
+
+            var plzPadded = PadPlz(plz);
+
+            var builder = new UriBuilder(this.apiEndpoint)
+            {
+                Path = "v1/forecast",
+                Query = $"plz={plzPadded}"
+            };
+
+            var uri = builder.ToString();
+            this.logger.LogDebug($"GetForecastAsync: GET {uri}");
+
+            var response = await this.httpClient.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+            if (this.verboseLogging)
+            {
+                this.logger.LogDebug($"GetForecastAsync returned content:{Environment.NewLine}{responseJson}");
+            }
+
+            var regionForecastResponse = JsonConvert.DeserializeObject<ForecastInfo>(responseJson, this.serializerSettings);
+            return regionForecastResponse;
+        }
+
+        private static string PadPlz(int plz)
+        {
+            return $"{plz}".PadRight(6, '0');
         }
 
         public async Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping weatherIconMapping = null)

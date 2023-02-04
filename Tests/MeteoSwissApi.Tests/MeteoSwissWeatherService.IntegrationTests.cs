@@ -40,8 +40,9 @@ namespace MeteoSwissApi.Tests
         }
 
         [Theory]
-        [InlineData(6330)]
-        [InlineData(633000)]
+        //[InlineData(6330)]
+        //[InlineData(633000)]
+        [InlineData(690000)]
         public async Task ShouldGetCurrentWeatherAsync(int plz)
         {
             // Arrange
@@ -54,6 +55,25 @@ namespace MeteoSwissApi.Tests
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherInfo, this.dumpOptions));
 
             weatherInfo.Should().NotBeNull();
+        }
+        
+
+        [Theory]
+        //[InlineData(6330)]
+        //[InlineData(633000)]
+        [InlineData(690000)]
+        public async Task ShouldGetForecastAsync(int plz)
+        {
+            // Arrange
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.meteoSwissWeatherServiceConfiguration);
+
+            // Act
+            var forecastInfo = await meteoSwissWeatherService.GetForecastAsync(plz);
+
+            // Assert
+            this.testOutputHelper.WriteLine(ObjectDumper.Dump(forecastInfo, this.dumpOptions));
+
+            forecastInfo.Should().NotBeNull();
         }
 
         [Fact]

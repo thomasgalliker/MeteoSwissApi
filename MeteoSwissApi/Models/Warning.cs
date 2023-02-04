@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
@@ -20,7 +22,12 @@ namespace MeteoSwissApi.Models
         public string Text { get; set; }
 
         [JsonProperty("validFrom")]
-        public long ValidFrom { get; set; }
+        [JsonConverter(typeof(EpochDateTimeConverter))]
+        public DateTime ValidFrom { get; set; }
+        
+        [JsonProperty("validTo")]
+        [JsonConverter(typeof(EpochDateTimeConverter))]
+        public DateTime? ValidTo { get; set; }
 
         [JsonProperty("ordering")]
         public string Ordering { get; set; }
@@ -36,7 +43,7 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"{this.Text}";
+            return $"Warning: {this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
         }
     }
 }
