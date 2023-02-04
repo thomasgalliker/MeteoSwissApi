@@ -13,7 +13,7 @@ namespace MeteoSwissApi.Models
         }
 
         [JsonProperty("warnType")]
-        public int WarnType { get; set; }
+        public WarnType WarnType { get; set; }
 
         [JsonProperty("warnLevel")]
         public int WarnLevel { get; set; }
