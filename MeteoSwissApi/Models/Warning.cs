@@ -43,7 +43,7 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"Warning: {this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
+            return $"Warning: Validity={this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
         }
     }
 }
