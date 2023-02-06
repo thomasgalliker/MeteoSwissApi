@@ -60,7 +60,6 @@ namespace MeteoSwissApi.Tests
 
             weatherInfo.Should().NotBeNull();
         }
-        
 
         [Theory]
         [InlineData(6330)]
@@ -82,6 +81,33 @@ namespace MeteoSwissApi.Tests
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(forecastInfo, this.dumpOptions));
 
             forecastInfo.Should().NotBeNull();
+        }
+
+        [Theory]
+        [InlineData("en")]
+        [InlineData("de")]
+        [InlineData("fr")]
+        [InlineData("it")]
+        public async Task ShouldGetCurrentWeatherAsync_WithLanguage(string language)
+        {
+            // Arrange
+            const int plz = 774200;
+
+            var configuration = new MeteoSwissWeatherServiceConfiguration
+            {
+                Language = language,
+                VerboseLogging = true
+            };
+
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, configuration);
+
+            // Act
+            var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
+
+            // Assert
+            this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherInfo, this.dumpOptions));
+
+            weatherInfo.Should().NotBeNull();
         }
 
         [Fact]
