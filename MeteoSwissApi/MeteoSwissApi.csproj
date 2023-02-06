@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+	
 	<PropertyGroup>
 		<AssemblyTitle>MeteoSwissApi</AssemblyTitle>
 		<Description>Server-side .NET SDK for Apple and Google push notifications.</Description>
@@ -18,7 +18,7 @@
 		<SignAssembly>True</SignAssembly>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
-
+	
 	<PropertyGroup>
 		<ApplicationIcon />
 		<OutputType>Library</OutputType>
@@ -27,28 +27,72 @@
 		<Product>MeteoSwissApi</Product>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<RootNamespace>MeteoSwissApi</RootNamespace>
-		<PackageReleaseNotes>1.0.0
+		<PackageReleaseNotes>1.1.0
+- Add new method GetForecastAsync
+- Handle properties WarnType and WarnLevel with custom types
+
+1.0.0
 - Initial release
 		</PackageReleaseNotes>
-		<Copyright>Copyright 2022</Copyright>
+		<Copyright>Copyright 2023</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
-	  <None Include="..\README.md">
-	    <Pack>True</Pack>
-	    <PackagePath>\</PackagePath>
-	  </None>
+		<None Include="..\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Folder Include="Extensions\" />
+		<Folder Include="Internals\" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
+	<PropertyGroup Label="MultilingualAppToolkit">
+		<MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+		<MultilingualFallbackLanguage>sv</MultilingualFallbackLanguage>
+		<TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+		<SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+	</PropertyGroup>
+	<Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
+	<Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
+		<Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+	</Target>
 	<ItemGroup>
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Internals\" />
+		<None Remove="MultilingualResources\MeteoSwissApi.de.xlf" />
+		<None Remove="MultilingualResources\MeteoSwissApi.en.xlf" />
 	</ItemGroup>
-
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<XliffResource Include="MultilingualResources\MeteoSwissApi.de.xlf" />
+		<XliffResource Include="MultilingualResources\MeteoSwissApi.en.xlf" />
 	</ItemGroup>
-
+	<ItemGroup>
+		<Compile Update="Resources\WarnLevels.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>WarnLevels.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\WarnTypes.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>WarnTypes.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\WarnLevels.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>WarnLevels.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\WarnTypes.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>WarnTypes.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

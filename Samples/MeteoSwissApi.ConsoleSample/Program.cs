@@ -15,7 +15,7 @@ namespace MeteoSwissApi.ConsoleSample
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Console.WriteLine($"MeteoSwissApi.ConsoleSample [Version 1.0.0.0]");
-            Console.WriteLine($"(c) 2022 superdev gmbh. All rights reserved.");
+            Console.WriteLine($"(c) 2023 superdev gmbh. All rights reserved.");
             Console.WriteLine();
 
             configuration = new ConfigurationBuilder()

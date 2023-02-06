@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
@@ -11,16 +13,23 @@ namespace MeteoSwissApi.Models
         }
 
         [JsonProperty("warnType")]
-        public int WarnType { get; set; }
+        [JsonConverter(typeof(WarnTypeJsonConverter))]
+        public WarnType WarnType { get; set; }
 
         [JsonProperty("warnLevel")]
-        public int WarnLevel { get; set; }
+        [JsonConverter(typeof(WarnLevelJsonConverter))]
+        public WarnLevel WarnLevel { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }
 
         [JsonProperty("validFrom")]
-        public long ValidFrom { get; set; }
+        [JsonConverter(typeof(EpochDateTimeConverter))]
+        public DateTime ValidFrom { get; set; }
+        
+        [JsonProperty("validTo")]
+        [JsonConverter(typeof(EpochDateTimeConverter))]
+        public DateTime? ValidTo { get; set; }
 
         [JsonProperty("ordering")]
         public string Ordering { get; set; }
@@ -36,7 +45,9 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"{this.Text}";
+            return 
+                $"WarnType={this.WarnType}, WarnLevel={this.WarnType.ToString(this.WarnLevel)}, " +
+                $"Validity={this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
         }
     }
 }
