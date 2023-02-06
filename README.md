@@ -33,3 +33,10 @@ Contributors welcome! If you find a bug or you want to propose a new feature, fe
 
 ### License
 Check the terms and conditions of the Federal Office of Meteorology and Climatology MeteoSwiss before using this client library.
+
+### Links
+- https://www.meteoswiss.admin.ch
+- https://www.meteoschweiz.admin.ch/wetter/gefahren/erlaeuterungen-der-gefahrenstufen.html
+- https://github.com/deMynchi/ioBroker.meteoswiss/blob/779a93c0bf767c2227dc55e455e308744964eb99/src/main.ts
+- 
+- 
