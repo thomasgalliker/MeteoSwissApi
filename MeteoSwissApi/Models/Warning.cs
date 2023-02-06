@@ -13,10 +13,12 @@ namespace MeteoSwissApi.Models
         }
 
         [JsonProperty("warnType")]
+        [JsonConverter(typeof(WarnTypeJsonConverter))]
         public WarnType WarnType { get; set; }
 
         [JsonProperty("warnLevel")]
-        public int WarnLevel { get; set; }
+        [JsonConverter(typeof(WarnLevelJsonConverter))]
+        public WarnLevel WarnLevel { get; set; }
 
         [JsonProperty("text")]
         public string Text { get; set; }
@@ -43,7 +45,9 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"Warning: Validity={this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
+            return 
+                $"WarnType={this.WarnType}, WarnLevel={this.WarnType.ToString(this.WarnLevel)}, " +
+                $"Validity={this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
         }
     }
 }

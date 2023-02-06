@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="sv" target-language="en" original="METEOSWISSAPI/RESOURCES/WARNTYPES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/WARNTYPES.RESX" datatype="resx">
+        <trans-unit id="Avalanches" translate="yes" xml:space="preserve">
+          <source>Avalanches</source>
+          <target state="final">Avalanches</target>
+        </trans-unit>
+        <trans-unit id="SlipperyRoads" translate="yes" xml:space="preserve">
+          <source>Slippery roads</source>
+          <target state="final">Slippery roads</target>
+        </trans-unit>
+        <trans-unit id="Earthquakes" translate="yes" xml:space="preserve">
+          <source>Earthquakes</source>
+          <target state="final">Earthquakes</target>
+        </trans-unit>
+        <trans-unit id="Floods" translate="yes" xml:space="preserve">
+          <source>Floods</source>
+          <target state="final">Floods</target>
+        </trans-unit>
+        <trans-unit id="ForestFire" translate="yes" xml:space="preserve">
+          <source>Forest fire</source>
+          <target state="final">Forest fire</target>
+        </trans-unit>
+        <trans-unit id="Frost" translate="yes" xml:space="preserve">
+          <source>Frost</source>
+          <target state="final">Frost</target>
+        </trans-unit>
+        <trans-unit id="Heat" translate="yes" xml:space="preserve">
+          <source>Heat</source>
+          <target state="final">Heat</target>
+        </trans-unit>
+        <trans-unit id="MassMovements" translate="yes" xml:space="preserve">
+          <source>Mass movements</source>
+          <target state="final">Mass movements</target>
+        </trans-unit>
+        <trans-unit id="Rain" translate="yes" xml:space="preserve">
+          <source>Rain</source>
+          <target state="final">Rain</target>
+        </trans-unit>
+        <trans-unit id="Snow" translate="yes" xml:space="preserve">
+          <source>Snow</source>
+          <target state="final">Snow</target>
+        </trans-unit>
+        <trans-unit id="Thunderstorms" translate="yes" xml:space="preserve">
+          <source>Thunderstorms</source>
+          <target state="final">Thunderstorms</target>
+        </trans-unit>
+        <trans-unit id="Wind" translate="yes" xml:space="preserve">
+          <source>Wind</source>
+          <target state="final">Wind</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="sv" target-language="en" original="METEOSWISSAPI/RESOURCES/WARNLEVELS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="0.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/WARNLEVELS.RESX" datatype="resx">
+        <trans-unit id="Level1" translate="yes" xml:space="preserve">
+          <source>Low</source>
+          <target state="final">Low</target>
+        </trans-unit>
+        <trans-unit id="Level2" translate="yes" xml:space="preserve">
+          <source>Moderate</source>
+          <target state="final">Moderate</target>
+        </trans-unit>
+        <trans-unit id="Level3" translate="yes" xml:space="preserve">
+          <source>Considerable</source>
+          <target state="final">Considerable</target>
+        </trans-unit>
+        <trans-unit id="Level4" translate="yes" xml:space="preserve">
+          <source>High</source>
+          <target state="final">High</target>
+        </trans-unit>
+        <trans-unit id="Level5" translate="yes" xml:space="preserve">
+          <source>Extreme</source>
+          <target state="final">Extreme</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

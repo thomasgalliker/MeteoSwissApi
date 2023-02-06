@@ -40,9 +40,13 @@ namespace MeteoSwissApi.Tests
         }
 
         [Theory]
-        //[InlineData(6330)]
-        //[InlineData(633000)]
+        [InlineData(6330)]
+        [InlineData(633000)]
         [InlineData(690000)]
+        [InlineData(601000)]
+        [InlineData(671700)]
+        [InlineData(195000)]
+        [InlineData(774200)]
         public async Task ShouldGetCurrentWeatherAsync(int plz)
         {
             // Arrange
@@ -59,9 +63,13 @@ namespace MeteoSwissApi.Tests
         
 
         [Theory]
-        //[InlineData(6330)]
-        //[InlineData(633000)]
+        [InlineData(6330)]
+        [InlineData(633000)]
         [InlineData(690000)]
+        [InlineData(601000)]
+        [InlineData(671700)]
+        [InlineData(195000)]
+        [InlineData(774200)]
         public async Task ShouldGetForecastAsync(int plz)
         {
             // Arrange
