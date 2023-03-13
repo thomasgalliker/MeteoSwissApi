@@ -15,7 +15,7 @@ namespace MeteoSwissApi.ConsoleSample
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             Console.WriteLine($"MeteoSwissApi.ConsoleSample [Version 1.0.0.0]");
-            Console.WriteLine($"(c) 2023 superdev gmbh. All rights reserved.");
+            Console.WriteLine($"(c)2023 superdev gmbh. All rights reserved.");
             Console.WriteLine();
 
             configuration = new ConfigurationBuilder()
@@ -25,16 +25,22 @@ namespace MeteoSwissApi.ConsoleSample
 
             using var loggerFactory = LoggerFactory.Create(builder =>
             {
-                builder.AddConsole();
+                builder.ClearProviders();
+                builder.SetMinimumLevel(LogLevel.Debug);
+                builder.AddDebug();
             });
 
             // Create weather service instance manually or resolve it from any dependency injection framework:
             var logger = loggerFactory.CreateLogger<MeteoSwissWeatherService>();
-            IMeteoSwissWeatherServiceConfiguration weatherServiceConfiguration = new MeteoSwissWeatherServiceConfiguration();
+            IMeteoSwissWeatherServiceConfiguration weatherServiceConfiguration = new MeteoSwissWeatherServiceConfiguration
+            {
+                VerboseLogging = true,
+                Language = "en"
+            };
             IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
 
             // Request weather info:
-            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
+            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6454);
 
             Console.WriteLine();
             Console.WriteLine(ObjectDumper.Dump(weatherInfo.CurrentWeather));
