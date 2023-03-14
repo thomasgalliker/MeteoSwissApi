@@ -1,18 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System.Globalization;
+using MeteoSwissApi.Models.Converters;
+using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
 {
     public class WarningsOverview
     {
         [JsonProperty("warnType")]
-        public int WarnType { get; set; }
+        [JsonConverter(typeof(WarnTypeJsonConverter))]
+        public WarnType WarnType { get; set; }
 
         [JsonProperty("warnLevel")]
-        public int WarnLevel { get; set; }
+        [JsonConverter(typeof(WarnLevelJsonConverter))]
+        public WarnLevel WarnLevel { get; set; }
 
         public override string ToString()
         {
-            return $"WarnType: {this.WarnType}, WarnLevel: {this.WarnLevel}";
+            return $"WarnType={this.WarnType}, WarnLevel={this.WarnType.ToString(this.WarnLevel)}";
         }
     }
 }

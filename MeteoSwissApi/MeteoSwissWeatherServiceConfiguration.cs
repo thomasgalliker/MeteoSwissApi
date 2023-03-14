@@ -9,7 +9,7 @@
             this.VerboseLogging = false;
         }
 
-        public string ApiEndpoint { get; set; }
+        public string ApiEndpoint { get; }
 
         public string Language { get; set; }
 

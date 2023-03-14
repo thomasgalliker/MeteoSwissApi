@@ -42,10 +42,64 @@ namespace MeteoSwissApi.Tests
         [Theory]
         [InlineData(6330)]
         [InlineData(633000)]
+        [InlineData(690000)]
+        [InlineData(601000)]
+        [InlineData(671700)]
+        [InlineData(195000)]
+        [InlineData(774200)]
         public async Task ShouldGetCurrentWeatherAsync(int plz)
         {
             // Arrange
             IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.meteoSwissWeatherServiceConfiguration);
+
+            // Act
+            var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
+
+            // Assert
+            this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherInfo, this.dumpOptions));
+
+            weatherInfo.Should().NotBeNull();
+        }
+
+        [Theory]
+        [InlineData(6330)]
+        [InlineData(633000)]
+        [InlineData(690000)]
+        [InlineData(601000)]
+        [InlineData(671700)]
+        [InlineData(195000)]
+        [InlineData(774200)]
+        public async Task ShouldGetForecastAsync(int plz)
+        {
+            // Arrange
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.meteoSwissWeatherServiceConfiguration);
+
+            // Act
+            var forecastInfo = await meteoSwissWeatherService.GetForecastAsync(plz);
+
+            // Assert
+            this.testOutputHelper.WriteLine(ObjectDumper.Dump(forecastInfo, this.dumpOptions));
+
+            forecastInfo.Should().NotBeNull();
+        }
+
+        [Theory]
+        [InlineData("en")]
+        [InlineData("de")]
+        [InlineData("fr")]
+        [InlineData("it")]
+        public async Task ShouldGetCurrentWeatherAsync_WithLanguage(string language)
+        {
+            // Arrange
+            const int plz = 774200;
+
+            var configuration = new MeteoSwissWeatherServiceConfiguration
+            {
+                Language = language,
+                VerboseLogging = true
+            };
+
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, configuration);
 
             // Act
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
