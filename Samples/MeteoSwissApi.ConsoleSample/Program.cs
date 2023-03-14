@@ -8,8 +8,6 @@ namespace MeteoSwissApi.ConsoleSample
 {
     public static class Program
     {
-        private static IConfigurationRoot configuration;
-
         private static async Task Main(string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
@@ -18,7 +16,7 @@ namespace MeteoSwissApi.ConsoleSample
             Console.WriteLine($"(c)2023 superdev gmbh. All rights reserved.");
             Console.WriteLine();
 
-            configuration = new ConfigurationBuilder()
+            var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
@@ -40,13 +38,16 @@ namespace MeteoSwissApi.ConsoleSample
             IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
 
             // Request weather info:
-            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6454);
+            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 1870);
 
             Console.WriteLine();
             Console.WriteLine(ObjectDumper.Dump(weatherInfo.CurrentWeather));
 
             Console.WriteLine();
             Console.WriteLine(ObjectDumper.Dump(weatherInfo.Forecast));
+            
+            Console.WriteLine();
+            Console.WriteLine(ObjectDumper.Dump(weatherInfo.Warnings));
 
             Console.WriteLine();
             Console.WriteLine("Press any key to close this window...");
