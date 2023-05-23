@@ -76,9 +76,9 @@ steps:
     DisableTelemetry: false'
     
 - task: UseDotNet@2
-  displayName: 'Use .NET 6.x'
+  displayName: 'Use .NET 7.x'
   inputs:
-    version: 6.x
+    version: 7.x
     
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 6.x'
