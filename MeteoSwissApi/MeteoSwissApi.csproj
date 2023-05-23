@@ -2,7 +2,7 @@
 	
 	<PropertyGroup>
 		<AssemblyTitle>MeteoSwissApi</AssemblyTitle>
-		<Description>Server-side .NET SDK for Apple and Google push notifications.</Description>
+		<Description>.NET API for Swiss national weather provider MeteoSwiss</Description>
 		<VersionPrefix>1.0.0</VersionPrefix>
 		<Version>1.0.0</Version>
 		<Authors>Thomas Galliker</Authors>
@@ -27,11 +27,17 @@
 		<Product>MeteoSwissApi</Product>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<RootNamespace>MeteoSwissApi</RootNamespace>
-		<PackageReleaseNotes>1.1.0
+		<PackageReleaseNotes>1.3.x
+- Maintenance updates
+
+1.2.x
+- Maintenance updates
+
+1.1.x
 - Add new method GetForecastAsync
 - Handle properties WarnType and WarnLevel with custom types
 
-1.0.0
+1.0.x
 - Initial release
 		</PackageReleaseNotes>
 		<Copyright>Copyright 2023</Copyright>
@@ -46,13 +52,8 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<Folder Include="Extensions\" />
-		<Folder Include="Internals\" />
-	</ItemGroup>
-	
-	<ItemGroup>
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[6.0.0,)" />
+		<PackageReference Include="Newtonsoft.Json" Version="[12.0.1,)" />
 	</ItemGroup>
 
 	<PropertyGroup Label="MultilingualAppToolkit">
