@@ -26,9 +26,4 @@
     <ProjectReference Include="..\..\MeteoSwissApi\MeteoSwissApi.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Testdata\" />
-  </ItemGroup>
-
-
 </Project>
