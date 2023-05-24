@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using UnitsNet;
 
 namespace MeteoSwissApi.Models.Converters
 {
@@ -14,16 +15,16 @@ namespace MeteoSwissApi.Models.Converters
         {
             if (reader.Value is long celsiusLong)
             {
-                return Temperature.FromCelsius(celsiusLong);
+                return Temperature.FromDegreesCelsius(celsiusLong);
             }
 
             if (reader.Value is double celsiusDouble)
             {
-                return Temperature.FromCelsius(celsiusDouble);
+                return Temperature.FromDegreesCelsius(celsiusDouble);
             }
 
             return reader.Value is string stringValue && double.TryParse(stringValue, out var celsius)
-                ? Temperature.FromCelsius(celsius)
+                ? Temperature.FromDegreesCelsius(celsius)
                 : default;
         }
     }

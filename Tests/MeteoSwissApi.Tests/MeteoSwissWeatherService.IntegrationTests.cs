@@ -4,6 +4,7 @@ using MeteoSwissApi.Models;
 using MeteoSwissApi.Tests.Logging;
 using MeteoSwissApi.Tests.Utils;
 using Microsoft.Extensions.Logging;
+using UnitsNet;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,7 +35,7 @@ namespace MeteoSwissApi.Tests
                 SetPropertiesOnly = true
             };
 
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"new Temperature({t.Value}, {nameof(TemperatureUnit)}.{t.Unit})");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"Temperature.FromDegreesCelsius({t.Value})");
 
             this.testHelper = new TestHelper(testOutputHelper);
         }
