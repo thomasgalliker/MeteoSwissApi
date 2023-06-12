@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
+using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
