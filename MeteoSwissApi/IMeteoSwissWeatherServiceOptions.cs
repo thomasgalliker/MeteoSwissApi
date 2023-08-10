@@ -1,6 +1,6 @@
 ﻿namespace MeteoSwissApi
 {
-    public interface IMeteoSwissWeatherServiceConfiguration
+    public interface IMeteoSwissWeatherServiceOptions
     {
         /// <summary>
         /// The API endpoint.

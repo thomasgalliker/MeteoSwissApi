@@ -22,18 +22,18 @@ namespace MeteoSwissApi
         private readonly Uri apiEndpoint;
         private readonly bool verboseLogging;
 
-        public MeteoSwissWeatherService(ILogger<MeteoSwissWeatherService> logger, IMeteoSwissWeatherServiceConfiguration openWeatherMapConfiguration)
-            : this(logger, new HttpClient(), openWeatherMapConfiguration)
+        public MeteoSwissWeatherService(ILogger<MeteoSwissWeatherService> logger, IMeteoSwissWeatherServiceOptions options)
+            : this(logger, new HttpClient(), options)
         {
         }
 
-        public MeteoSwissWeatherService(ILogger<MeteoSwissWeatherService> logger, HttpClient httpClient, IMeteoSwissWeatherServiceConfiguration openWeatherMapConfiguration)
+        public MeteoSwissWeatherService(ILogger<MeteoSwissWeatherService> logger, HttpClient httpClient, IMeteoSwissWeatherServiceOptions options)
         {
             this.logger = logger;
-            this.apiEndpoint = new Uri(openWeatherMapConfiguration.ApiEndpoint, UriKind.Absolute);
-            this.verboseLogging = openWeatherMapConfiguration.VerboseLogging;
+            this.apiEndpoint = new Uri(options.ApiEndpoint, UriKind.Absolute);
+            this.verboseLogging = options.VerboseLogging;
             this.httpClient = httpClient;
-            this.httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(openWeatherMapConfiguration.Language));
+            this.httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(options.Language));
             this.defaultWeatherIconMapping = new DefaultWeatherIconMapping(this.httpClient);
             this.serializerSettings = new JsonSerializerSettings
             {
@@ -63,7 +63,7 @@ namespace MeteoSwissApi
 
             var builder = new UriBuilder(this.apiEndpoint)
             {
-                Path = "v1/plzDetail",
+                Path = "v2/plzDetail",
                 Query = $"plz={plzPadded}"
             };
 
@@ -104,7 +104,7 @@ namespace MeteoSwissApi
 
             var builder = new UriBuilder(this.apiEndpoint)
             {
-                Path = "v1/forecast",
+                Path = "v2/forecast",
                 Query = $"plz={plzPadded}"
             };
 
@@ -124,6 +124,10 @@ namespace MeteoSwissApi
             var regionForecastResponse = JsonConvert.DeserializeObject<ForecastInfo>(responseJson, this.serializerSettings);
             return regionForecastResponse;
         }
+
+        // TODO: https://app-prod-ws.meteoswiss-app.ch/v2/vorortdetail?plz=633000,630000&ws=
+
+        // TODO: https://app-prod-ws.meteoswiss-app.ch/v1/stationOverview?station=CHZ
 
         private static string PadPlz(int plz)
         {

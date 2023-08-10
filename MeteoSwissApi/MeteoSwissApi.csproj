@@ -6,7 +6,7 @@
 		<VersionPrefix>1.0.0</VersionPrefix>
 		<Version>1.0.0</Version>
 		<Authors>Thomas Galliker</Authors>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<AssemblyName>MeteoSwissApi</AssemblyName>
 		<PackageId>MeteoSwissApi</PackageId>
 		<PackageTags>MeteoSwiss;Meteo;Swiss;Weather;Forecast;Temperature;Precipitation</PackageTags>
@@ -55,9 +55,10 @@
 	</ItemGroup>
 	
 	<ItemGroup>
+		<PackageReference Include="CsvHelper" Version="30.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[6.0.0,)" />
 		<PackageReference Include="Newtonsoft.Json" Version="[12.0.1,)" />
-		<PackageReference Include="UnitsNet" Version="[4.0.0,)" />
+		<PackageReference Include="UnitsNet" Version="5.29.0" />
 	</ItemGroup>
 
 	<PropertyGroup Label="MultilingualAppToolkit">

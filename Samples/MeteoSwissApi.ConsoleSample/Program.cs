@@ -32,29 +32,48 @@ namespace MeteoSwissApi.ConsoleSample
             var dumpOptions = new DumpOptions
             {
                 DumpStyle = DumpStyle.Console,
+                ExcludeProperties = { "Graph" },
             };
             dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => t.ToString());
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(l => l.ToString());
+            dumpOptions.CustomInstanceFormatters.AddFormatter<RelativeHumidity>(l => l.ToString());
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Duration>(l => l.ToString());
 
-            // Create weather service instance manually or resolve it from any dependency injection framework:
-            var logger = loggerFactory.CreateLogger<MeteoSwissWeatherService>();
-            IMeteoSwissWeatherServiceConfiguration weatherServiceConfiguration = new MeteoSwissWeatherServiceConfiguration
             {
-                VerboseLogging = true,
-                Language = "en"
-            };
-            IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
+                // Create weather service instance manually or resolve it from any dependency injection framework:
+                var logger = loggerFactory.CreateLogger<MeteoSwissWeatherService>();
+                IMeteoSwissWeatherServiceOptions weatherServiceConfiguration = new MeteoSwissWeatherServiceOptions
+                {
+                    VerboseLogging = true,
+                    Language = "en"
+                };
+                IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
 
-            // Request weather info:
-            var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 1870);
+                // Request weather info:
+                var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
+                Console.WriteLine(ObjectDumper.Dump(weatherInfo, dumpOptions));
+                Console.WriteLine();
 
-            Console.WriteLine();
-            Console.WriteLine(ObjectDumper.Dump(weatherInfo.CurrentWeather, dumpOptions));
+                var forecast = await weatherService.GetForecastAsync(plz: 6330);
+                Console.WriteLine(ObjectDumper.Dump(forecast, dumpOptions));
+                Console.WriteLine();
+            }
+            {
+                var logger = loggerFactory.CreateLogger<SwissMetNetService>();
+                ISwissMetNetServiceOptions options = new SwissMetNetServiceOptions
+                {
+                    VerboseLogging = true,
+                };
+                ISwissMetNetService swissMetNetService = new SwissMetNetService(logger, options);
 
-            Console.WriteLine();
-            Console.WriteLine(ObjectDumper.Dump(weatherInfo.Forecast, dumpOptions));
-            
-            Console.WriteLine();
-            Console.WriteLine(ObjectDumper.Dump(weatherInfo.Warnings, dumpOptions));
+                var weatherStations = await swissMetNetService.GetWeatherStationsAsync();
+                Console.WriteLine(ObjectDumper.Dump(weatherStations, dumpOptions));
+                Console.WriteLine();
+
+                var measurements = await swissMetNetService.GetLatestMeasurementsAsync();
+                Console.WriteLine(ObjectDumper.Dump(measurements, dumpOptions));
+                Console.WriteLine();
+            }
 
             Console.WriteLine();
             Console.WriteLine("Press any key to close this window...");

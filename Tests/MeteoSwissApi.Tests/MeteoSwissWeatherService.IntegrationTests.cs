@@ -15,7 +15,7 @@ namespace MeteoSwissApi.Tests
         private const string IconFileExtension = "svg";
 
         private readonly ILogger<MeteoSwissWeatherService> logger;
-        private readonly IMeteoSwissWeatherServiceConfiguration meteoSwissWeatherServiceConfiguration;
+        private readonly IMeteoSwissWeatherServiceOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
         private readonly TestHelper testHelper;
@@ -24,7 +24,7 @@ namespace MeteoSwissApi.Tests
         {
             this.testOutputHelper = testOutputHelper;
             this.logger = new TestOutputHelperLogger<MeteoSwissWeatherService>(testOutputHelper);
-            this.meteoSwissWeatherServiceConfiguration = new MeteoSwissWeatherServiceConfiguration
+            this.options = new MeteoSwissWeatherServiceOptions
             {
                 VerboseLogging = true
             };
@@ -51,7 +51,7 @@ namespace MeteoSwissApi.Tests
         public async Task ShouldGetCurrentWeatherAsync(int plz)
         {
             // Arrange
-            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.meteoSwissWeatherServiceConfiguration);
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
 
             // Act
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
@@ -73,7 +73,7 @@ namespace MeteoSwissApi.Tests
         public async Task ShouldGetForecastAsync(int plz)
         {
             // Arrange
-            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.meteoSwissWeatherServiceConfiguration);
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
 
             // Act
             var forecastInfo = await meteoSwissWeatherService.GetForecastAsync(plz);
@@ -94,7 +94,7 @@ namespace MeteoSwissApi.Tests
             // Arrange
             const int plz = 774200;
 
-            var configuration = new MeteoSwissWeatherServiceConfiguration
+            var configuration = new MeteoSwissWeatherServiceOptions
             {
                 Language = language,
                 VerboseLogging = true
@@ -117,7 +117,7 @@ namespace MeteoSwissApi.Tests
             // Arrange
             const int plz = 6330;
 
-            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.meteoSwissWeatherServiceConfiguration);
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
 
             // Act
