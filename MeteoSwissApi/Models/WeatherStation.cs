@@ -3,7 +3,7 @@ using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("Station {this.Abbreviation}")]
+    [DebuggerDisplay("Station \"{this.StationCode}\"")]
     public class WeatherStation
     {
         /// <summary>
@@ -12,9 +12,9 @@ namespace MeteoSwissApi.Models
         public string Place { get; set; }
 
         /// <summary>
-        /// Internal station short name.
+        /// Internal station code, also referred to as 'Abbreviation'.
         /// </summary>
-        public string Abbreviation { get; set; }
+        public string StationCode { get; set; }
         
         public string WigosId { get; set; }
         

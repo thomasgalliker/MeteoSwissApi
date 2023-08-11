@@ -1,6 +1,3 @@
-﻿using System;
-using System.Globalization;
-using System.Text.RegularExpressions;
 using CsvHelper.Configuration;
 using UnitsNet;
 using static System.Collections.Specialized.BitVector32;
@@ -12,7 +9,7 @@ namespace MeteoSwissApi.Models.Csv
         internal WeatherStationCsvMapping()
         {
             this.Map(m => m.Place).Name("Station");
-            this.Map(m => m.Abbreviation).Name("Abbr.");
+            this.Map(m => m.StationCode).Name("Abbr.");
             this.Map(m => m.WigosId).Name("WIGOS-ID");
             this.Map(m => m.StationType).Name("Station type");
             this.Map(m => m.Altitude).Convert(row =>

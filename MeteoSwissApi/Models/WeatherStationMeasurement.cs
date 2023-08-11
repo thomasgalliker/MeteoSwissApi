@@ -4,11 +4,11 @@ using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("Station {this.Abbreviation}, {this.Date}, {this.AirTemperature}")]
+    [DebuggerDisplay("Station {this.StationCode}, {this.Date}, {this.AirTemperature}")]
     public class WeatherStationMeasurement
     {
-        /// <inheritdoc cref="WeatherStation.Abbreviation"/>
-        public string Abbreviation { get; set; }
+        /// <inheritdoc cref="WeatherStation.StationCode"/>
+        public string StationCode { get; set; }
 
         /// <summary>
         /// Time of measurement.
