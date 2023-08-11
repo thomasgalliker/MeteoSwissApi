@@ -24,17 +24,17 @@ namespace MeteoSwissApi.ConsoleSample
                 .AddJsonFile("appsettings.json", true, true)
                 .Build();
 
-            var dateTimeFormat = CultureInfo.CurrentCulture.DateTimeFormat;
+            //var dateTimeFormat = CultureInfo.CurrentCulture.DateTimeFormat;
 
             using var loggerFactory = LoggerFactory.Create(builder =>
             {
                 builder.ClearProviders();
                 builder.SetMinimumLevel(LogLevel.Debug);
                 builder.AddDebug();
-                builder.AddSimpleConsole(c =>
-                {
-                    c.TimestampFormat = $"{dateTimeFormat.ShortDatePattern} {dateTimeFormat.LongTimePattern} ";
-                });
+                //builder.AddSimpleConsole(c =>
+                //{
+                //    c.TimestampFormat = $"{dateTimeFormat.ShortDatePattern} {dateTimeFormat.LongTimePattern} ";
+                //});
             });
 
             var dumpOptions = new DumpOptions
@@ -55,7 +55,7 @@ namespace MeteoSwissApi.ConsoleSample
                 var logger = loggerFactory.CreateLogger<MeteoSwissWeatherService>();
                 IMeteoSwissWeatherServiceOptions weatherServiceConfiguration = new MeteoSwissWeatherServiceOptions
                 {
-                    VerboseLogging = true,
+                    VerboseLogging = false,
                     Language = "en"
                 };
                 IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
@@ -73,12 +73,13 @@ namespace MeteoSwissApi.ConsoleSample
                 var logger = loggerFactory.CreateLogger<SwissMetNetService>();
                 ISwissMetNetServiceOptions options = new SwissMetNetServiceOptions
                 {
-                    VerboseLogging = true,
+                    VerboseLogging = false,
                 };
                 ISwissMetNetService swissMetNetService = new SwissMetNetService(logger, options);
 
                 var weatherStations = await swissMetNetService.GetWeatherStationsAsync();
-                Console.WriteLine(ObjectDumper.Dump(weatherStations, dumpOptions));
+                Console.WriteLine(ObjectDumper.Dump(weatherStations.Take(3), dumpOptions));
+                Console.WriteLine("...");
                 Console.WriteLine();
 
                 var weatherStation = await swissMetNetService.GetWeatherStationAsync(stationCode: "CHZ");

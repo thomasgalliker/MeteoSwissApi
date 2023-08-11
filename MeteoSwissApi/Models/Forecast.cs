@@ -27,7 +27,8 @@ namespace MeteoSwissApi.Models
         public Temperature TemperatureMin { get; set; }
 
         [JsonProperty("precipitation")]
-        public double Precipitation { get; set; }
+        [JsonConverter(typeof(PrecipitationJsonConverter))]
+        public Length Precipitation { get; set; }
 
         public override string ToString()
         {

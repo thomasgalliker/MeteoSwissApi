@@ -41,7 +41,7 @@ namespace MeteoSwissApi.Models.Csv
                     return Length.FromMillimeters(length);
                 }
 
-                return null;
+                return Length.Zero;
             });
 
             this.Map(m => m.SunshineDuration).Convert(row =>

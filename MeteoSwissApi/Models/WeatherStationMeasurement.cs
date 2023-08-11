@@ -23,7 +23,7 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// Precipitation; ten minutes total.
         /// </summary>
-        public Length? Precipitation { get; set; }
+        public Length Precipitation { get; set; }
 
         /// <summary>
         /// Sunshine duration; ten minutes total.
