@@ -1,4 +1,6 @@
-﻿namespace MeteoSwissApi
+﻿using System;
+
+namespace MeteoSwissApi
 {
     public interface ISwissMetNetServiceOptions
     {
@@ -11,5 +13,7 @@
         /// Writes more verbose logging.
         /// </summary>
         bool VerboseLogging { get; set; }
+
+        public TimeSpan CacheExpiration { get; set; }
     }
 }
