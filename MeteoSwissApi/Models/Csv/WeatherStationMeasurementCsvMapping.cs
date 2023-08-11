@@ -9,7 +9,7 @@ namespace MeteoSwissApi.Models.Csv
     {
         internal WeatherStationMeasurementCsvMapping()
         {
-            this.Map(m => m.Abbreviation).Name("Station/Location");
+            this.Map(m => m.StationCode).Name("Station/Location");
 
             this.Map(m => m.Date).Convert(row =>
             {

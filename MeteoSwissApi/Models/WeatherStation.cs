@@ -33,12 +33,12 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// Latitude of GPS position.
         /// </summary>
-        public string Latitude { get; set; }
+        public decimal? Latitude { get; set; }
 
         /// <summary>
         /// Longitude of GPS position.
         /// </summary>
-        public string Longitude { get; set; }
+        public decimal? Longitude { get; set; }
         
         /// <summary>
         /// Political canton.

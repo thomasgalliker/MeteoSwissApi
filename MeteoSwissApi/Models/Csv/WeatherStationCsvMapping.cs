@@ -1,6 +1,5 @@
-using CsvHelper.Configuration;
+﻿using CsvHelper.Configuration;
 using UnitsNet;
-using static System.Collections.Specialized.BitVector32;
 
 namespace MeteoSwissApi.Models.Csv
 {
@@ -32,8 +31,26 @@ namespace MeteoSwissApi.Models.Csv
 
                 return null;
             });
-            this.Map(m => m.Latitude).Name("Latitude");
-            this.Map(m => m.Longitude).Name("Longitude");
+            this.Map(m => m.Latitude).Convert(row =>
+            {
+                var columnValue = row.Row["Latitude"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return decimalValue;
+                }
+
+                return null;
+            });
+            this.Map(m => m.Longitude).Convert(row =>
+            {
+                var columnValue = row.Row["Longitude"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return decimalValue;
+                }
+
+                return null;
+            });
             this.Map(m => m.Canton).Name("Canton");
         }
     }
