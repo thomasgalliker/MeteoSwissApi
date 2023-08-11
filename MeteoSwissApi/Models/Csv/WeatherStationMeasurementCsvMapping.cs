@@ -14,9 +14,9 @@ namespace MeteoSwissApi.Models.Csv
             this.Map(m => m.Date).Convert(row =>
             {
                 var columnValue = row.Row["Date"];
-                if (DateTime.TryParseExact(columnValue, "yyyyMMddHHmm", CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out var date))
+                if (DateTime.TryParseExact(columnValue, "yyyyMMddHHmm", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
                 {
-                    return date;
+                    return DateTime.SpecifyKind(date, DateTimeKind.Utc);
                 }
 
                 return DateTime.MinValue;
