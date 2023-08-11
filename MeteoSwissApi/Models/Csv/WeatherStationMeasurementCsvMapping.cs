@@ -93,7 +93,37 @@ namespace MeteoSwissApi.Models.Csv
                 var columnValue = row.Row["fu3010z0"];
                 if (decimal.TryParse(columnValue, out var decimalValue))
                 {
-                    return decimalValue;
+                    return Speed.FromKilometersPerHour(decimalValue);
+                }
+
+                return null;
+            });
+            this.Map(m => m.PressureQFE).Convert(row =>
+            {
+                var columnValue = row.Row["prestas0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Pressure.FromHectopascals(decimalValue);
+                }
+
+                return null;
+            });
+            this.Map(m => m.PressureQFF).Convert(row =>
+            {
+                var columnValue = row.Row["pp0qffs0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Pressure.FromHectopascals(decimalValue);
+                }
+
+                return null;
+            });
+            this.Map(m => m.PressureQNH).Convert(row =>
+            {
+                var columnValue = row.Row["pp0qnhs0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Pressure.FromHectopascals(decimalValue);
                 }
 
                 return null;
