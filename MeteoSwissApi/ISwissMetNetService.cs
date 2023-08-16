@@ -11,15 +11,19 @@ namespace MeteoSwissApi
         /// Gets a list of all weather stations
         /// which belong to the automatic measuring network.
         /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync();
+        /// <param name="cacheExpiration">
+        /// Set a sliding cache expiration. It is recommended to use rather large TimeSpans here, e.g. <c>TimeSpan.FromDays(30)</c>.
+        /// </param>
+        Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync(TimeSpan? cacheExpiration = null);
 
         /// <summary>
         /// Gets the weather station by <paramref name="stationCode"/>.
         /// </summary>
         /// <param name="stationCode">The station code of the weather station.</param>
-        /// <returns></returns>
-        Task<WeatherStation> GetWeatherStationAsync(string stationCode);
+        /// <param name="cacheExpiration">
+        /// Set a sliding cache expiration. It is recommended to use rather large TimeSpans here, e.g. <c>TimeSpan.FromDays(30)</c>.
+        /// </param>
+        Task<WeatherStation> GetWeatherStationAsync(string stationCode, TimeSpan? cacheExpiration = null);
 
         /// <summary>
         /// Gets the list of actual measurement values from all weather stations.

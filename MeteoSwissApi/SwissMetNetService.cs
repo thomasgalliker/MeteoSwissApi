@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Models.Converters;
@@ -22,7 +23,10 @@ namespace MeteoSwissApi
         private readonly JsonSerializerSettings serializerSettings;
         private readonly IMemoryCache memoryCache;
 
-        private const string MeasurementsCacheKey = "weatherStations";
+        private static readonly Encoding Windows1252Encoding = Encoding.GetEncoding("Windows-1252");
+
+        private const string WeatherStationsCacheKey = "weatherStations";
+        private const string LatestMeasurementsCacheKey = "latestMeasurements";
 
         public SwissMetNetService(ILogger<SwissMetNetService> logger, ISwissMetNetServiceOptions options)
           : this(logger, new HttpClient(), options)
@@ -48,12 +52,22 @@ namespace MeteoSwissApi
             this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
 
             this.memoryCache = new MemoryCache(new MemoryCacheOptions { });
+            
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync()
+        public async Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync(TimeSpan? cacheExpiration = null)
         {
-            this.logger.LogDebug($"GetWeatherStationsAsync");
+            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStation>>(WeatherStationsCacheKey, out var cache))
+            {
+                this.logger.LogDebug($"GetWeatherStationsAsync (from cache)");
+                return cache;
+            }
+            else
+            {
+                this.logger.LogDebug($"GetWeatherStationsAsync");
+            }
 
             var builder = new UriBuilder(this.apiEndpoint)
             {
@@ -66,7 +80,8 @@ namespace MeteoSwissApi
             var response = await this.httpClient.GetAsync(uri);
             response.EnsureSuccessStatusCode();
 
-            var csvContent = await response.Content.ReadAsStringAsync();
+            var contentBytes = await response.Content.ReadAsByteArrayAsync();
+            var csvContent = Windows1252Encoding.GetString(contentBytes, 0, contentBytes.Length);
 
             if (this.verboseLogging)
             {
@@ -74,17 +89,27 @@ namespace MeteoSwissApi
             }
 
             var weatherStations = CsvImporter.Import<WeatherStation>(csvContent);
+
+            if (cacheExpiration is TimeSpan cacheExpirationTimeSpan && weatherStations.Any())
+            {
+                this.memoryCache.Set(WeatherStationsCacheKey, weatherStations, cacheExpirationTimeSpan);
+            }
+            else
+            {
+                this.memoryCache.Remove(WeatherStationsCacheKey);
+            }
+
             return weatherStations;
         }
 
-        public async Task<WeatherStation> GetWeatherStationAsync(string stationCode)
+        public async Task<WeatherStation> GetWeatherStationAsync(string stationCode, TimeSpan? cacheExpiration = null)
         {
             if (stationCode == null)
             {
                 throw new ArgumentNullException(nameof(stationCode));
             }
 
-            var weatherStation = (await this.GetWeatherStationsAsync())
+            var weatherStation = (await this.GetWeatherStationsAsync(cacheExpiration))
                 .Where(m => string.Equals(m.StationCode, stationCode, StringComparison.InvariantCultureIgnoreCase))
                 .FirstOrDefault();
 
@@ -94,7 +119,7 @@ namespace MeteoSwissApi
         /// <inheritdoc />
         public async Task<IEnumerable<WeatherStationMeasurement>> GetLatestMeasurementsAsync(TimeSpan? cacheExpiration = null)
         {
-            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStationMeasurement>>(MeasurementsCacheKey, out var measurementsCache))
+            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStationMeasurement>>(LatestMeasurementsCacheKey, out var measurementsCache))
             {
                 this.logger.LogDebug($"GetLatestMeasurementsAsync (from cache)");
                 return measurementsCache;
@@ -115,7 +140,8 @@ namespace MeteoSwissApi
             var response = await this.httpClient.GetAsync(uri);
             response.EnsureSuccessStatusCode();
 
-            var csvContent = await response.Content.ReadAsStringAsync();
+            var contentBytes = await response.Content.ReadAsByteArrayAsync();
+            var csvContent = Windows1252Encoding.GetString(contentBytes, 0, contentBytes.Length);
 
             if (this.verboseLogging)
             {
@@ -132,11 +158,11 @@ namespace MeteoSwissApi
                     .FirstOrDefault();
 
                 var cacheExpirationDate = measurementDate + cacheExpirationTimeSpan;
-                this.memoryCache.Set(MeasurementsCacheKey, measurements, cacheExpirationDate);
+                this.memoryCache.Set(LatestMeasurementsCacheKey, measurements, cacheExpirationDate);
             }
             else
             {
-                this.memoryCache.Remove(MeasurementsCacheKey);
+                this.memoryCache.Remove(LatestMeasurementsCacheKey);
             }
 
             return measurements;
