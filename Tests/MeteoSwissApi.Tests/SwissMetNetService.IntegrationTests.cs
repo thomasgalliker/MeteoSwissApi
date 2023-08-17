@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Threading.Tasks;
 using FluentAssertions;
 using MeteoSwissApi.Models;
@@ -14,13 +13,10 @@ namespace MeteoSwissApi.Tests
 {
     public class SwissMetNetServiceIntegrationTests
     {
-        private const string IconFileExtension = "svg";
-
         private readonly ILogger<SwissMetNetService> logger;
         private readonly ISwissMetNetServiceOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
-        private readonly TestHelper testHelper;
 
         public SwissMetNetServiceIntegrationTests(ITestOutputHelper testOutputHelper)
         {
@@ -39,8 +35,6 @@ namespace MeteoSwissApi.Tests
 
             this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"Temperature.FromDegreesCelsius({t.Value})");
             this.dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(t => $"Length.FromMeters({t.Value})");
-
-            this.testHelper = new TestHelper(testOutputHelper);
         }
 
         [Fact]

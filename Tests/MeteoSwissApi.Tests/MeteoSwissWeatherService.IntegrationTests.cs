@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using FluentAssertions;
-using MeteoSwissApi.Models;
 using MeteoSwissApi.Tests.Logging;
 using MeteoSwissApi.Tests.Utils;
 using Microsoft.Extensions.Logging;
