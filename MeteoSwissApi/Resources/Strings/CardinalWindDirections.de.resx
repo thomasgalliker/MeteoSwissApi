@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="E" xml:space="preserve">
+    <value>Ost</value>
+  </data>
+  <data name="ENE" xml:space="preserve">
+    <value>Ost-Nordost</value>
+  </data>
+  <data name="ESE" xml:space="preserve">
+    <value>Ost-Südost</value>
+  </data>
+  <data name="N" xml:space="preserve">
+    <value>Nord</value>
+  </data>
+  <data name="NE" xml:space="preserve">
+    <value>Nordost</value>
+  </data>
+  <data name="NNE" xml:space="preserve">
+    <value>Nord-Nordost</value>
+  </data>
+  <data name="NNW" xml:space="preserve">
+    <value>Nord-Nordwest</value>
+  </data>
+  <data name="NW" xml:space="preserve">
+    <value>Nordwest</value>
+  </data>
+  <data name="S" xml:space="preserve">
+    <value>Süd</value>
+  </data>
+  <data name="SE" xml:space="preserve">
+    <value>Südost</value>
+  </data>
+  <data name="SSE" xml:space="preserve">
+    <value>Süd-Südost</value>
+  </data>
+  <data name="SSW" xml:space="preserve">
+    <value>Süd-Südwest</value>
+  </data>
+  <data name="SW" xml:space="preserve">
+    <value>Südwest</value>
+  </data>
+  <data name="W" xml:space="preserve">
+    <value>West</value>
+  </data>
+  <data name="WNW" xml:space="preserve">
+    <value>West-Nordwest</value>
+  </data>
+  <data name="WSW" xml:space="preserve">
+    <value>West-Südwest</value>
+  </data>
+</root>

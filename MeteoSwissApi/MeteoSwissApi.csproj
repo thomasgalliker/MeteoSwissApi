@@ -80,29 +80,51 @@
 	<ItemGroup>
 		<None Remove="MultilingualResources\MeteoSwissApi.de.xlf" />
 		<None Remove="MultilingualResources\MeteoSwissApi.en.xlf" />
+		<None Remove="MultilingualResources\MeteoSwissApi.fr.xlf" />
+		<None Remove="MultilingualResources\MeteoSwissApi.it.xlf" />
 	</ItemGroup>
 	<ItemGroup>
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.de.xlf" />
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.en.xlf" />
+		<XliffResource Include="MultilingualResources\MeteoSwissApi.fr.xlf" />
+		<XliffResource Include="MultilingualResources\MeteoSwissApi.it.xlf" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="Resources\WarnLevels.Designer.cs">
+		<Compile Update="Resources\Strings\CardinalWindDirections.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>CardinalWindDirections.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\CardinalWindDirectionsAcronyms.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>CardinalWindDirectionsAcronyms.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\WarnLevels.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>WarnLevels.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Resources\WarnTypes.Designer.cs">
+		<Compile Update="Resources\Strings\WarnTypes.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>WarnTypes.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Update="Resources\WarnLevels.resx">
+		<EmbeddedResource Update="Resources\Strings\CardinalWindDirections.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>CardinalWindDirections.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\CardinalWindDirectionsAcronyms.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>CardinalWindDirectionsAcronyms.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\WarnLevels.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>WarnLevels.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\WarnTypes.resx">
+		<EmbeddedResource Update="Resources\Strings\WarnTypes.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>WarnTypes.Designer.cs</LastGenOutput>
 		</EmbeddedResource>

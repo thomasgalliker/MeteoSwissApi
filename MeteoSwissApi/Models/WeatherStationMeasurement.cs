@@ -37,8 +37,14 @@ namespace MeteoSwissApi.Models
         /// </summary>
         public RelativeHumidity? RelativeAirHumidity { get; set; }
         
+        /// <summary>
+        /// The wind direction.
+        /// </summary>
         public Angle? WindDirection { get; set; }
         
+        /// <summary>
+        /// The wind speed.
+        /// </summary>
         public Speed? WindSpeed { get; set; }
 
         /// <summary>
@@ -55,7 +61,5 @@ namespace MeteoSwissApi.Models
         /// Pressure reduced to sea level according to standard atmosphere (QNH).
         /// </summary>
         public Pressure? PressureQNH { get; set; }
-
-
     }
 }

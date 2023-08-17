@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MeteoSwissApi.Resources {
+namespace MeteoSwissApi.Resources.Strings {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MeteoSwissApi.Resources {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MeteoSwissApi.Resources.WarnTypes", typeof(WarnTypes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MeteoSwissApi.Resources.Strings.WarnTypes", typeof(WarnTypes).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
