@@ -59,12 +59,12 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<PackageReference Include="CsvHelper" Version="30.0.1" />
+		<PackageReference Include="CsvHelper" Version="[30.0.1,)" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="[6.0.0,)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[6.0.0,)" />
 		<PackageReference Include="Newtonsoft.Json" Version="[12.0.1,)" />
-		<PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
-		<PackageReference Include="UnitsNet" Version="5.29.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="[7.0.0,)" />
+		<PackageReference Include="UnitsNet" Version="[5.29.0,)" />
 	</ItemGroup>
 
 	<PropertyGroup Label="MultilingualAppToolkit">
