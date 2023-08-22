@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="sv" target-language="it" original="METEOSWISSAPI/RESOURCES/STRINGS/WARNLEVELS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/WARNLEVELS.RESX" datatype="resx">
+        <trans-unit id="Level1" translate="yes" xml:space="preserve">
+          <source>Low</source>
+          <target state="new">Low</target>
+        </trans-unit>
+        <trans-unit id="Level2" translate="yes" xml:space="preserve">
+          <source>Moderate</source>
+          <target state="new">Moderate</target>
+        </trans-unit>
+        <trans-unit id="Level3" translate="yes" xml:space="preserve">
+          <source>Considerable</source>
+          <target state="new">Considerable</target>
+        </trans-unit>
+        <trans-unit id="Level4" translate="yes" xml:space="preserve">
+          <source>High</source>
+          <target state="new">High</target>
+        </trans-unit>
+        <trans-unit id="Level5" translate="yes" xml:space="preserve">
+          <source>Extreme</source>
+          <target state="new">Extreme</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="sv" target-language="it" original="METEOSWISSAPI/RESOURCES/STRINGS/WARNTYPES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/WARNTYPES.RESX" datatype="resx">
+        <trans-unit id="Avalanches" translate="yes" xml:space="preserve">
+          <source>Avalanches</source>
+          <target state="new">Avalanches</target>
+        </trans-unit>
+        <trans-unit id="Earthquakes" translate="yes" xml:space="preserve">
+          <source>Earthquakes</source>
+          <target state="new">Earthquakes</target>
+        </trans-unit>
+        <trans-unit id="Floods" translate="yes" xml:space="preserve">
+          <source>Floods</source>
+          <target state="new">Floods</target>
+        </trans-unit>
+        <trans-unit id="ForestFire" translate="yes" xml:space="preserve">
+          <source>Forest fire</source>
+          <target state="new">Forest fire</target>
+        </trans-unit>
+        <trans-unit id="Frost" translate="yes" xml:space="preserve">
+          <source>Frost</source>
+          <target state="new">Frost</target>
+        </trans-unit>
+        <trans-unit id="Heat" translate="yes" xml:space="preserve">
+          <source>Heat</source>
+          <target state="new">Heat</target>
+        </trans-unit>
+        <trans-unit id="MassMovements" translate="yes" xml:space="preserve">
+          <source>Mass movements</source>
+          <target state="new">Mass movements</target>
+        </trans-unit>
+        <trans-unit id="Rain" translate="yes" xml:space="preserve">
+          <source>Rain</source>
+          <target state="new">Rain</target>
+        </trans-unit>
+        <trans-unit id="SlipperyRoads" translate="yes" xml:space="preserve">
+          <source>Slippery roads</source>
+          <target state="new">Slippery roads</target>
+        </trans-unit>
+        <trans-unit id="Snow" translate="yes" xml:space="preserve">
+          <source>Snow</source>
+          <target state="new">Snow</target>
+        </trans-unit>
+        <trans-unit id="Thunderstorms" translate="yes" xml:space="preserve">
+          <source>Thunderstorms</source>
+          <target state="new">Thunderstorms</target>
+        </trans-unit>
+        <trans-unit id="Wind" translate="yes" xml:space="preserve">
+          <source>Wind</source>
+          <target state="new">Wind</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+
+  <file datatype="xml" source-language="sv" target-language="it" original="METEOSWISSAPI/RESOURCES/STRINGS/CARDINALWINDDIRECTIONS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/CARDINALWINDDIRECTIONS.RESX" datatype="resx">
+        <trans-unit id="E" translate="yes" xml:space="preserve">
+          <source>East</source>
+          <target state="final">Est</target>
+        </trans-unit>
+        <trans-unit id="ENE" translate="yes" xml:space="preserve">
+          <source>East-northeast</source>
+          <target state="final">Est-nordest</target>
+        </trans-unit>
+        <trans-unit id="ESE" translate="yes" xml:space="preserve">
+          <source>East-southeast</source>
+          <target state="final">Est-sudest</target>
+        </trans-unit>
+        <trans-unit id="N" translate="yes" xml:space="preserve">
+          <source>North</source>
+          <target state="final">Nord</target>
+        </trans-unit>
+        <trans-unit id="NE" translate="yes" xml:space="preserve">
+          <source>Northeast</source>
+          <target state="final">Nordest</target>
+        </trans-unit>
+        <trans-unit id="NNE" translate="yes" xml:space="preserve">
+          <source>North-northeast</source>
+          <target state="final">Nord-nordest</target>
+        </trans-unit>
+        <trans-unit id="NNW" translate="yes" xml:space="preserve">
+          <source>North-northwest</source>
+          <target state="final">Nord-nordovest</target>
+        </trans-unit>
+        <trans-unit id="NW" translate="yes" xml:space="preserve">
+          <source>Northwest</source>
+          <target state="final" state-qualifier="mt-suggestion">Nordovest</target>
+        </trans-unit>
+        <trans-unit id="S" translate="yes" xml:space="preserve">
+          <source>South</source>
+          <target state="final">Sud</target>
+        </trans-unit>
+        <trans-unit id="SE" translate="yes" xml:space="preserve">
+          <source>Southeast</source>
+          <target state="final" state-qualifier="mt-suggestion">Sudest</target>
+        </trans-unit>
+        <trans-unit id="SSE" translate="yes" xml:space="preserve">
+          <source>South-southeast</source>
+          <target state="final">Sud-sudest</target>
+        </trans-unit>
+        <trans-unit id="SSW" translate="yes" xml:space="preserve">
+          <source>South-southwest</source>
+          <target state="final">Sud-sudovest</target>
+        </trans-unit>
+        <trans-unit id="SW" translate="yes" xml:space="preserve">
+          <source>Southwest</source>
+          <target state="final" state-qualifier="mt-suggestion">Sudovest</target>
+        </trans-unit>
+        <trans-unit id="W" translate="yes" xml:space="preserve">
+          <source>West</source>
+          <target state="final">Ovest</target>
+        </trans-unit>
+        <trans-unit id="WNW" translate="yes" xml:space="preserve">
+          <source>West-northwest</source>
+          <target state="final">Ovest-nordovest</target>
+        </trans-unit>
+        <trans-unit id="WSW" translate="yes" xml:space="preserve">
+          <source>West-southwest</source>
+          <target state="final">Ovest-sudovest</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="sv" target-language="it" original="METEOSWISSAPI/RESOURCES/STRINGS/CARDINALWINDDIRECTIONSACRONYMS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/CARDINALWINDDIRECTIONSACRONYMS.RESX" datatype="resx">
+        <trans-unit id="E" translate="yes" xml:space="preserve">
+          <source>E</source>
+          <target state="final" state-qualifier="mt-suggestion">E</target>
+        </trans-unit>
+        <trans-unit id="ENE" translate="yes" xml:space="preserve">
+          <source>ENE</source>
+          <target state="final" state-qualifier="mt-suggestion">ENE</target>
+        </trans-unit>
+        <trans-unit id="ESE" translate="yes" xml:space="preserve">
+          <source>ESE</source>
+          <target state="final" state-qualifier="mt-suggestion">ESE</target>
+        </trans-unit>
+        <trans-unit id="N" translate="yes" xml:space="preserve">
+          <source>N</source>
+          <target state="final" state-qualifier="mt-suggestion">N</target>
+        </trans-unit>
+        <trans-unit id="NE" translate="yes" xml:space="preserve">
+          <source>NE</source>
+          <target state="final" state-qualifier="mt-suggestion">NE</target>
+        </trans-unit>
+        <trans-unit id="NNE" translate="yes" xml:space="preserve">
+          <source>NNE</source>
+          <target state="final" state-qualifier="mt-suggestion">NNE</target>
+        </trans-unit>
+        <trans-unit id="NNW" translate="yes" xml:space="preserve">
+          <source>NNW</source>
+          <target state="final" state-qualifier="mt-suggestion">NNO</target>
+        </trans-unit>
+        <trans-unit id="NW" translate="yes" xml:space="preserve">
+          <source>NW</source>
+          <target state="final">NO</target>
+        </trans-unit>
+        <trans-unit id="S" translate="yes" xml:space="preserve">
+          <source>S</source>
+          <target state="final" state-qualifier="mt-suggestion">S</target>
+        </trans-unit>
+        <trans-unit id="SE" translate="yes" xml:space="preserve">
+          <source>SE</source>
+          <target state="final">SE</target>
+        </trans-unit>
+        <trans-unit id="SSE" translate="yes" xml:space="preserve">
+          <source>SSE</source>
+          <target state="final" state-qualifier="mt-suggestion">SSE</target>
+        </trans-unit>
+        <trans-unit id="SSW" translate="yes" xml:space="preserve">
+          <source>SSW</source>
+          <target state="final" state-qualifier="mt-suggestion">SSO</target>
+        </trans-unit>
+        <trans-unit id="SW" translate="yes" xml:space="preserve">
+          <source>SW</source>
+          <target state="final">SO</target>
+        </trans-unit>
+        <trans-unit id="W" translate="yes" xml:space="preserve">
+          <source>W</source>
+          <target state="final">O</target>
+        </trans-unit>
+        <trans-unit id="WNW" translate="yes" xml:space="preserve">
+          <source>WNW</source>
+          <target state="final" state-qualifier="mt-suggestion">ONO</target>
+        </trans-unit>
+        <trans-unit id="WSW" translate="yes" xml:space="preserve">
+          <source>WSW</source>
+          <target state="final" state-qualifier="mt-suggestion">OSO</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+
+</xliff>
