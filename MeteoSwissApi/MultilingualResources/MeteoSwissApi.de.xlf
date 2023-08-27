@@ -1,6 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
- 
   <file datatype="xml" source-language="sv" target-language="de" original="METEOSWISSAPI/RESOURCES/STRINGS/CARDINALWINDDIRECTIONS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
@@ -146,7 +145,8 @@
         </trans-unit>
       </group>
     </body>
-  </file> <file datatype="xml" source-language="sv" target-language="de" original="METEOSWISSAPI/RESOURCES/STRINGS/WARNLEVELS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+  </file>
+  <file datatype="xml" source-language="sv" target-language="de" original="METEOSWISSAPI/RESOURCES/STRINGS/WARNLEVELS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
     </header>
@@ -154,23 +154,23 @@
       <group id="METEOSWISSAPI/RESOURCES/STRINGS/WARNLEVELS.RESX" datatype="resx">
         <trans-unit id="Level1" translate="yes" xml:space="preserve">
           <source>Low</source>
-          <target state="new">Low</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Niedrig</target>
         </trans-unit>
         <trans-unit id="Level2" translate="yes" xml:space="preserve">
           <source>Moderate</source>
-          <target state="new">Moderate</target>
+          <target state="translated">Mässig</target>
         </trans-unit>
         <trans-unit id="Level3" translate="yes" xml:space="preserve">
           <source>Considerable</source>
-          <target state="new">Considerable</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Beträchtlich</target>
         </trans-unit>
         <trans-unit id="Level4" translate="yes" xml:space="preserve">
           <source>High</source>
-          <target state="new">High</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Hoch</target>
         </trans-unit>
         <trans-unit id="Level5" translate="yes" xml:space="preserve">
           <source>Extreme</source>
-          <target state="new">Extreme</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Extrem</target>
         </trans-unit>
       </group>
     </body>
@@ -183,51 +183,51 @@
       <group id="METEOSWISSAPI/RESOURCES/STRINGS/WARNTYPES.RESX" datatype="resx">
         <trans-unit id="Avalanches" translate="yes" xml:space="preserve">
           <source>Avalanches</source>
-          <target state="new">Avalanches</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Lawinen</target>
         </trans-unit>
         <trans-unit id="Earthquakes" translate="yes" xml:space="preserve">
           <source>Earthquakes</source>
-          <target state="new">Earthquakes</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Erdbeben</target>
         </trans-unit>
         <trans-unit id="Floods" translate="yes" xml:space="preserve">
           <source>Floods</source>
-          <target state="new">Floods</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Hochwasser</target>
         </trans-unit>
         <trans-unit id="ForestFire" translate="yes" xml:space="preserve">
           <source>Forest fire</source>
-          <target state="new">Forest fire</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Waldbrand</target>
         </trans-unit>
         <trans-unit id="Frost" translate="yes" xml:space="preserve">
           <source>Frost</source>
-          <target state="new">Frost</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Frost</target>
         </trans-unit>
         <trans-unit id="Heat" translate="yes" xml:space="preserve">
           <source>Heat</source>
-          <target state="new">Heat</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Wärme</target>
         </trans-unit>
         <trans-unit id="MassMovements" translate="yes" xml:space="preserve">
           <source>Mass movements</source>
-          <target state="new">Mass movements</target>
+          <target state="translated">Erdrutsche</target>
         </trans-unit>
         <trans-unit id="Rain" translate="yes" xml:space="preserve">
           <source>Rain</source>
-          <target state="new">Rain</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Regen</target>
         </trans-unit>
         <trans-unit id="SlipperyRoads" translate="yes" xml:space="preserve">
           <source>Slippery roads</source>
-          <target state="new">Slippery roads</target>
+          <target state="translated">Rutschige Strassen</target>
         </trans-unit>
         <trans-unit id="Snow" translate="yes" xml:space="preserve">
           <source>Snow</source>
-          <target state="new">Snow</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Schnee</target>
         </trans-unit>
         <trans-unit id="Thunderstorms" translate="yes" xml:space="preserve">
           <source>Thunderstorms</source>
-          <target state="new">Thunderstorms</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Gewitter</target>
         </trans-unit>
         <trans-unit id="Wind" translate="yes" xml:space="preserve">
           <source>Wind</source>
-          <target state="new">Wind</target>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Wind</target>
         </trans-unit>
       </group>
     </body>

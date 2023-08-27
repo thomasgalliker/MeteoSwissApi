@@ -12,4 +12,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Avalanches" xml:space="preserve">
+    <value>Avalanches</value>
+  </data>
+  <data name="Earthquakes" xml:space="preserve">
+    <value>Earthquakes</value>
+  </data>
+  <data name="Floods" xml:space="preserve">
+    <value>Floods</value>
+  </data>
+  <data name="ForestFire" xml:space="preserve">
+    <value>Forest fire</value>
+  </data>
+  <data name="Frost" xml:space="preserve">
+    <value>Frost</value>
+  </data>
+  <data name="Heat" xml:space="preserve">
+    <value>Heat</value>
+  </data>
+  <data name="MassMovements" xml:space="preserve">
+    <value>Mass movements</value>
+  </data>
+  <data name="Rain" xml:space="preserve">
+    <value>Rain</value>
+  </data>
+  <data name="SlipperyRoads" xml:space="preserve">
+    <value>Slippery roads</value>
+  </data>
+  <data name="Snow" xml:space="preserve">
+    <value>Snow</value>
+  </data>
+  <data name="Thunderstorms" xml:space="preserve">
+    <value>Thunderstorms</value>
+  </data>
+  <data name="Wind" xml:space="preserve">
+    <value>Wind</value>
+  </data>
 </root>
