@@ -24,13 +24,22 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("temperatureSnowSurface")]
         public SlfStationMeasurementTemperatureValue SurfaceTemperature { get; set; }
-        
+
+        /// <summary>
+        /// The mean wind speed. A vectorial mean over a 30 minute measuring period.
+        /// </summary>
         [JsonProperty("windVelocityMean")]
         public SlfStationMeasurementSpeedValue WindSpeedMean { get; set; }
-        
+
+        /// <summary>
+        /// The wind direction: Direction of the vectorial mean.
+        /// </summary>
         [JsonProperty("windDirectionMean")]
         public SlfStationMeasurementAngleValue WindDirection { get; set; }
-        
+
+        /// <summary>
+        /// Maximum gust lasting for 5 seconds recorded during the 30-minute measuring period.
+        /// </summary>
         [JsonProperty("windVelocityMax")]
         public SlfStationMeasurementSpeedValue WindSpeedMax { get; set; }
 
