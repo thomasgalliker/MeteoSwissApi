@@ -106,27 +106,27 @@ namespace MeteoSwissApi
             return measurement;
         }
 
-        private static readonly (string QueryParameter, string PropertiesType, Action<SlfProperties, SlfStationMeasurement> AssignmentAction)[] ValueMappings =
+        private static readonly (string QueryParameter, Action<SlfProperties, SlfStationMeasurement> AssignmentAction)[] ValueMappings =
         {
-            ("HEIGHT_NEW_SNOW_1D", "SNOW_FLAT", (SlfProperties p, SlfStationMeasurement m) =>
+            ("HEIGHT_NEW_SNOW_1D", (SlfProperties p, SlfStationMeasurement m) =>
                 m.NewSnowHeight1d = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
-            ("HEIGHT_NEW_SNOW_3D", "SNOW_FLAT", (SlfProperties p, SlfStationMeasurement m) =>
+            ("HEIGHT_NEW_SNOW_3D", (SlfProperties p, SlfStationMeasurement m) =>
                 m.NewSnowHeight3d = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
-            ("HEIGHT_NEW_SNOW_7D", "SNOW_FLAT", (SlfProperties p, SlfStationMeasurement m) =>
+            ("HEIGHT_NEW_SNOW_7D", (SlfProperties p, SlfStationMeasurement m) =>
                 m.NewSnowHeight7d = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
-            ("SNOW_HEIGHT", "SNOW_FLAT", (SlfProperties p, SlfStationMeasurement m) =>
+            ("SNOW_HEIGHT", (SlfProperties p, SlfStationMeasurement m) =>
                 m.SnowHeight = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
-            ("TEMPERATURE_AIR", "SNOW_FLAT", (SlfProperties p, SlfStationMeasurement m) =>
+            ("TEMPERATURE_AIR", (SlfProperties p, SlfStationMeasurement m) =>
                 m.AirTemperature = new SlfStationMeasurementTemperatureValue { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
 
-            ("TEMPERATURE_SNOW_SURFACE", "SNOW_FLAT", (SlfProperties p, SlfStationMeasurement m) =>
+            ("TEMPERATURE_SNOW_SURFACE", (SlfProperties p, SlfStationMeasurement m) =>
                 m.SurfaceTemperature = new SlfStationMeasurementTemperatureValue { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
 
-            ("WIND_MEAN", "WIND", (SlfProperties p, SlfStationMeasurement m) =>
+            ("WIND_MEAN", (SlfProperties p, SlfStationMeasurement m) =>
             {
                 m.WindSpeedMean = new SlfStationMeasurementSpeedValue{ Date = p.Timestamp.Value, Value = Speed.FromKilometersPerHour(p.Velocity.Value)};
                 m.WindDirection = new SlfStationMeasurementAngleValue{ Date = p.Timestamp.Value, Value = Angle.FromDegrees(p.Direction.Value) };
@@ -134,12 +134,7 @@ namespace MeteoSwissApi
         };
 
         /// <inheritdoc />
-        public Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsAsync()
-        {
-            return this.GetLatestMeasurementsInternalAsync(null);
-        }
-
-        private async Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsInternalAsync(string stationCode)
+        public async Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsAsync()
         {
             var parameterAndTasks = ValueMappings
                 .Select(p => (p.QueryParameter, Task: this.GetLatestMeasurementsAsync(p.QueryParameter)))
@@ -164,15 +159,7 @@ namespace MeteoSwissApi
             {
                 var stationDataTimepointParameter = ValueMappings.Single(m => m.QueryParameter == response.QueryParameter);
 
-                this.logger.LogDebug($"GetLatestMeasurementsAsync: Mapping response.QueryParameter=\"{response.QueryParameter}\" >> \"{stationDataTimepointParameter.PropertiesType}\"");
-
-                IEnumerable<SlfFeature> features = response.Response.Features;
-                if (!string.IsNullOrEmpty(stationCode))
-                {
-                    features = features.Where(f => f.Properties.Code == stationCode).ToList();
-                }
-
-                foreach (var feature in features)
+                foreach (var feature in response.Response.Features)
                 {
                     var measurement = measurements.SingleOrDefault(m => m.Station.Code == feature.Properties.Code);
                     if (measurement == null)
@@ -189,21 +176,14 @@ namespace MeteoSwissApi
 
                     if (feature.Properties.Timestamp is not null)
                     {
-                        //if (feature.Properties.Type == stationDataTimepointParameter.PropertiesType)
+                        if (feature.Properties.Value != null || feature.Properties.Velocity != null)
                         {
-                            if (feature.Properties.Value != null || feature.Properties.Velocity != null)
-                            {
-                                stationDataTimepointParameter.AssignmentAction(feature.Properties, measurement);
-                            }
-                            else
-                            {
-                                this.logger.LogWarning($"GetLatestMeasurementsAsync: feature.Properties does not contain a valid measurement value");
-                            }
+                            stationDataTimepointParameter.AssignmentAction(feature.Properties, measurement);
                         }
-                        //else
-                        //{
-                        //    this.logger.LogWarning($"GetLatestMeasurementsAsync: Station.Code={feature.Properties.Code} returned feature.Properties.Type=\"{feature.Properties.Type}\" (expected: \"{stationDataTimepointParameter.PropertiesType}\")");
-                        //}
+                        else
+                        {
+                            this.logger.LogWarning($"GetLatestMeasurementsAsync: Station {feature.Properties.Code} with feature.Properties.Type=\"{feature.Properties.Type}\" does not contain a valid measurement value");
+                        }
                     }
                 }
             }
