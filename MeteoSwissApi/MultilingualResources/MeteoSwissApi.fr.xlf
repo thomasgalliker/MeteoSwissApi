@@ -232,4 +232,37 @@
       </group>
     </body>
   </file>
+  <file datatype="xml" source-language="sv" target-language="fr" original="METEOSWISSAPI/RESOURCES/STRINGS/SLFSTATIONTYPES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/SLFSTATIONTYPES.RESX" datatype="resx">
+        <trans-unit id="FLOWCAPT" translate="yes" xml:space="preserve">
+          <source>Snowdrift sensor</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Capteur de congères</target>
+        </trans-unit>
+        <trans-unit id="PLUVIO" translate="yes" xml:space="preserve">
+          <source>Rain station</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Station de pluie</target>
+        </trans-unit>
+        <trans-unit id="SNOW_FLAT" translate="yes" xml:space="preserve">
+          <source>Snow station</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Station de neige</target>
+        </trans-unit>
+        <trans-unit id="SNOW_SLOPE" translate="yes" xml:space="preserve">
+          <source>Snow station</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Station de neige</target>
+        </trans-unit>
+        <trans-unit id="SPECIAL" translate="yes" xml:space="preserve">
+          <source>Special measurement station</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Station de mesure spéciale</target>
+        </trans-unit>
+        <trans-unit id="WIND" translate="yes" xml:space="preserve">
+          <source>Wind station</source>
+          <target state="needs-review-translation" state-qualifier="mt-suggestion">Station éolienne</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
 </xliff>
