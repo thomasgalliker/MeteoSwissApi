@@ -14,7 +14,7 @@ namespace MeteoSwissApi.Models
         public string Code { get; set; }
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public SlfStationType Type { get; set; }
 
         [JsonProperty("elevation")]
         [JsonConverter(typeof(MeterLengthJsonConverter))]
