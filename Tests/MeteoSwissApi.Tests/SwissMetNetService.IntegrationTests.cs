@@ -76,10 +76,8 @@ namespace MeteoSwissApi.Tests
                     StationCode = "CHZ",
                     WigosId = "0-20000-0-06674",
                     StationType = "Weather station",
-                    Altitude = Length.FromMeters(443m),
                     BarometricAltitude = Length.FromMeters(443m),
-                    Latitude = 47.188278m,
-                    Longitude = 8.464642m,
+                    Location = new GeoCoordinate(47.188278d, 8.464642d, Length.FromMeters(443m)),
                     Canton = "ZG"
                 });
         }

@@ -2,22 +2,51 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("Lon: {this.Longitude} / Lat: {this.Latitude}")]
+    [DebuggerDisplay("{this.Location}")]
     public class SlfLocation
     {
+        private List<double> coordinates = new List<double>();
+
         [JsonProperty("type")]
         public string Type { get; set; }
 
         [JsonProperty("coordinates")]
-        public List<decimal> Coordinates { get; set; } = new List<decimal>();
+        internal List<double> Coordinates
+        {
+            get => this.coordinates;
+            set
+            {
+                if (this.coordinates != value)
+                {
+                    if (value == null)
+                    {
+                        this.Location = null;
+                    }
 
-        [JsonIgnore]
-        public decimal? Latitude { get { return this.Coordinates?.ElementAtOrDefault(1); } }
+                    this.coordinates = value;
 
-        [JsonIgnore]
-        public decimal? Longitude { get { return this.Coordinates?.ElementAtOrDefault(0); } }
+                    if (value.Count >= 2)
+                    {
+                        var longitude = value.ElementAtOrDefault(0);
+                        var latitude = value.ElementAtOrDefault(1);
+                        var location = new GeoCoordinate(latitude, longitude);
+
+                        if (value.Count >= 3)
+                        {
+                            var altitude = value.ElementAtOrDefault(2);
+                            location.Altitude = Length.FromMeters(altitude);
+                        }
+
+                        this.Location = location;
+                    }
+                }
+            }
+        }
+
+        public GeoCoordinate Location { get; private set; }
     }
 }

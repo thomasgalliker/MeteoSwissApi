@@ -3,7 +3,7 @@ using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("Station \"{this.StationCode}\"")]
+    [DebuggerDisplay("{this.StationCode}")]
     public class WeatherStation
     {
         /// <summary>
@@ -21,25 +21,19 @@ namespace MeteoSwissApi.Models
         public string StationType { get; set; }
 
         /// <summary>
-        /// Station height above sea level.
-        /// </summary>
-        public Length? Altitude { get; set; }
-
-        /// <summary>
         /// Barometric altitude above ground.
         /// </summary>
+        /// <remarks>
+        /// See <see cref="Location"/> (property <see cref="GeoCoordinate.Altitude"/>) 
+        /// for station height (in meters a.s.l.).
+        /// </remarks>
         public Length? BarometricAltitude { get; set; }
 
         /// <summary>
-        /// Latitude of GPS position.
+        /// Geolocation of the weather station.
         /// </summary>
-        public decimal? Latitude { get; set; }
+        public GeoCoordinate Location { get; set; }
 
-        /// <summary>
-        /// Longitude of GPS position.
-        /// </summary>
-        public decimal? Longitude { get; set; }
-        
         /// <summary>
         /// Political canton.
         /// </summary>

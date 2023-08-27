@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MeteoSwissApi.Models;
+using UnitsNet;
 
 namespace MeteoSwissApi
 {
@@ -15,6 +16,8 @@ namespace MeteoSwissApi
         /// Set a sliding cache expiration. It is recommended to use rather large TimeSpans here, e.g. <c>TimeSpan.FromDays(30)</c>.
         /// </param>
         Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync(TimeSpan? cacheExpiration = null);
+
+        Task<IEnumerable<WeatherStation>> GetNearbyWeatherStationsAsync(double latitude, double longitude, Length maxRadius, TimeSpan? cacheExpiration = null);
 
         /// <summary>
         /// Gets the weather station by <paramref name="stationCode"/>.

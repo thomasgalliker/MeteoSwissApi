@@ -3,12 +3,12 @@ using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
 {
-    public class SlfGeometry
+    internal class SlfGeometry
     {
         [JsonProperty("type")]
         public string Type { get; set; }
 
         [JsonProperty("coordinates")]
-        public List<decimal> Coordinates { get; } = new List<decimal>();
+        public List<double> Coordinates { get; } = new List<double>();
     }
 }

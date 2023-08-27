@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
 {
-    public class SlfProperties : SlfStation
+    internal class SlfProperties : SlfStation
     {
         [JsonProperty("value")]
         public decimal? Value { get; set; }
