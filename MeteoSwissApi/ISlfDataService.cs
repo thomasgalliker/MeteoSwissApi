@@ -14,8 +14,14 @@ namespace MeteoSwissApi
         /// <param name="stationCode">The identifier of the weather station.</param>
         Task<SlfStationInfo> GetStationInfoAsync(string network, string stationCode);
 
+        /// <summary>
+        /// Gets a list of latest measurements from all operational SLF weather stations.
+        /// </summary>
         Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsAsync();
 
+        /// <summary>
+        /// Gets the latest measurements from the SLF weather station with <paramref name="network"/> / <paramref name="stationCode"/>.
+        /// </summary>
         Task<SlfStationMeasurement> GetLatestMeasurementByStationCodeAsync(string network, string stationCode);
 
         /// <summary>
