@@ -61,6 +61,15 @@ namespace MeteoSwissApi.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No danger level.
+        /// </summary>
+        internal static string Level0 {
+            get {
+                return ResourceManager.GetString("Level0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Low.
         /// </summary>
         internal static string Level1 {

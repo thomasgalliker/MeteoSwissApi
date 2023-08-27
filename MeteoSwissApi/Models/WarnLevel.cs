@@ -1,27 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using MeteoSwissApi.Resources;
 using MeteoSwissApi.Resources.Strings;
 
 namespace MeteoSwissApi.Models
 {
-    public struct WarnLevel : IFormattable
+    public readonly struct WarnLevel : IFormattable
     {
+        public static readonly WarnLevel NoWarnLevel = new WarnLevel(0);
         public static readonly WarnLevel Level1 = new WarnLevel(1);
         public static readonly WarnLevel Level2 = new WarnLevel(2);
         public static readonly WarnLevel Level3 = new WarnLevel(3);
         public static readonly WarnLevel Level4 = new WarnLevel(4);
         public static readonly WarnLevel Level5 = new WarnLevel(5);
 
-        public static readonly IEnumerable<WarnLevel> All = new List<WarnLevel>
+        public static readonly int MinValue = Level1;
+        public static readonly int MaxValue = Level5;
+
+        public static readonly WarnLevel[] All =
         {
-           Level1,
-           Level2,
-           Level3,
-           Level4,
-           Level5,
+            Level1,
+            Level2,
+            Level3,
+            Level4,
+            Level5,
         };
 
         private WarnLevel(int level)
@@ -33,10 +35,15 @@ namespace MeteoSwissApi.Models
 
         public static WarnLevel FromValue(int level)
         {
+            if (level < MinValue)
+            {
+                return NoWarnLevel;
+            }
+
             var warnLevel = All.SingleOrDefault(x => x.Level == level);
             if (warnLevel == default)
             {
-                throw new ArgumentOutOfRangeException(nameof(level), $"Value must be between {All.Min(x => x.Level)} and {All.Max(x => x.Level)}");
+                throw new ArgumentOutOfRangeException(nameof(level), $"Value must be between {MinValue} and {MaxValue}");
             }
 
             return warnLevel;
@@ -67,10 +74,7 @@ namespace MeteoSwissApi.Models
                 format = "G";
             }
 
-            if (provider == null)
-            {
-                provider = CultureInfo.CurrentCulture;
-            }
+            provider ??= CultureInfo.CurrentCulture;
 
             switch (format)
             {

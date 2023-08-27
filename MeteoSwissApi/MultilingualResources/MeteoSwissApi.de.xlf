@@ -172,6 +172,10 @@
           <source>Extreme</source>
           <target state="final" state-qualifier="mt-suggestion">Extrem</target>
         </trans-unit>
+        <trans-unit id="Level0" translate="yes" xml:space="preserve">
+          <source>No danger level</source>
+          <target state="final">Keine Gefahrenstufe</target>
+        </trans-unit>
       </group>
     </body>
   </file>

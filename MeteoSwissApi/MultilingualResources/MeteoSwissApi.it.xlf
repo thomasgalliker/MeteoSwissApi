@@ -26,6 +26,10 @@
           <source>Extreme</source>
           <target state="final" state-qualifier="mt-suggestion">Estremo</target>
         </trans-unit>
+        <trans-unit id="Level0" translate="yes" xml:space="preserve">
+          <source>No danger level</source>
+          <target state="final" state-qualifier="mt-suggestion">Nessun livello di pericolo</target>
+        </trans-unit>
       </group>
     </body>
   </file>
@@ -240,27 +244,27 @@
       <group id="METEOSWISSAPI/RESOURCES/STRINGS/SLFSTATIONTYPES.RESX" datatype="resx">
         <trans-unit id="FLOWCAPT" translate="yes" xml:space="preserve">
           <source>Snowdrift sensor</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Sensore di cumuli di neve</target>
+          <target state="final" state-qualifier="mt-suggestion">Sensore di cumuli di neve</target>
         </trans-unit>
         <trans-unit id="PLUVIO" translate="yes" xml:space="preserve">
           <source>Rain station</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Stazione di pioggia</target>
+          <target state="final" state-qualifier="mt-suggestion">Stazione di pioggia</target>
         </trans-unit>
         <trans-unit id="SNOW_FLAT" translate="yes" xml:space="preserve">
           <source>Snow station</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Stazione neve</target>
+          <target state="final" state-qualifier="mt-suggestion">Stazione neve</target>
         </trans-unit>
         <trans-unit id="SNOW_SLOPE" translate="yes" xml:space="preserve">
           <source>Snow station</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Stazione neve</target>
+          <target state="final" state-qualifier="mt-suggestion">Stazione neve</target>
         </trans-unit>
         <trans-unit id="SPECIAL" translate="yes" xml:space="preserve">
           <source>Special measurement station</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Stazione di misura speciale</target>
+          <target state="final" state-qualifier="mt-suggestion">Stazione di misura speciale</target>
         </trans-unit>
         <trans-unit id="WIND" translate="yes" xml:space="preserve">
           <source>Wind station</source>
-          <target state="needs-review-translation" state-qualifier="mt-suggestion">Stazione del vento</target>
+          <target state="final" state-qualifier="mt-suggestion">Stazione del vento</target>
         </trans-unit>
       </group>
     </body>

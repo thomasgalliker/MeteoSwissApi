@@ -27,4 +27,7 @@
   <data name="Level5" xml:space="preserve">
     <value>Extrême</value>
   </data>
+  <data name="Level0" xml:space="preserve">
+    <value>Aucun degré de danger</value>
+  </data>
 </root>

@@ -172,6 +172,10 @@
           <source>Extreme</source>
           <target state="final">Extreme</target>
         </trans-unit>
+        <trans-unit id="Level0" translate="yes" xml:space="preserve">
+          <source>No danger level</source>
+          <target state="new">No danger level</target>
+        </trans-unit>
       </group>
     </body>
   </file>
