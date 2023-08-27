@@ -116,7 +116,7 @@ namespace MeteoSwissApi.ConsoleSample
                 var measurementALI2 = await slfDataService.GetLatestMeasurementByStationCodeAsync("IMIS", "ALI2");
                 Console.WriteLine(ObjectDumper.Dump(measurementALI2, dumpOptions));
                 Console.WriteLine();
-
+                
                 var stationInfo = await slfDataService.GetStationInfoAsync("SMN", "*TIT1");
                 Console.WriteLine(ObjectDumper.Dump(stationInfo, dumpOptions));
                 Console.WriteLine();

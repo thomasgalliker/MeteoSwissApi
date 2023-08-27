@@ -4,12 +4,16 @@
     {
         public SlfDataServiceOptions()
         {
-            this.ApiEndpoint = "https://public-meas-data-v2.slf.ch";
+            this.SlfApiEndpoint = "https://public-meas-data-v2.slf.ch";
+            this.WhiteRiskApiEndpoint = "https://whiterisk.ch";
             this.VerboseLogging = false;
         }
 
         /// <inheritdoc />
-        public string ApiEndpoint { get; }
+        public string SlfApiEndpoint { get; }
+        
+        /// <inheritdoc />
+        public string WhiteRiskApiEndpoint { get; }
 
         /// <inheritdoc />
         public bool VerboseLogging { get; set; }

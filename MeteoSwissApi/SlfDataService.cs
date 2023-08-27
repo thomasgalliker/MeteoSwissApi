@@ -1,33 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Net.Http;
-using System.Text;
 using MeteoSwissApi.Models.Converters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using MeteoSwissApi.Utils;
 using System.Threading.Tasks;
 using MeteoSwissApi.Models;
-using System.Data.Common;
-using Newtonsoft.Json.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using System.Linq;
 using UnitsNet;
 using MeteoSwissApi.Extensions;
-using System.Linq.Expressions;
+using System.IO;
+using System.Data.Common;
 
 namespace MeteoSwissApi
 {
     public class SlfDataService : ISlfDataService
     {
+        private const string TeaserImageApiEndpoint = "https://whiterisk.ch/measurement-station-teaser/{0}-{1}-no-marker-m.webp";
+
         public const int PlzMinLength = 4;
         public const int PlzPaddingLength = 6;
 
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
         private readonly JsonSerializerSettings serializerSettings;
-        private readonly Uri apiEndpoint;
+        private readonly Uri slfApiEndpoint;
+        private readonly Uri whiteRiskApiEndpoint;
         private readonly bool verboseLogging;
 
         public SlfDataService(ILogger<SlfDataService> logger, ISlfDataServiceOptions options)
@@ -38,7 +36,8 @@ namespace MeteoSwissApi
         public SlfDataService(ILogger<SlfDataService> logger, HttpClient httpClient, ISlfDataServiceOptions options)
         {
             this.logger = logger;
-            this.apiEndpoint = new Uri(options.ApiEndpoint, UriKind.Absolute);
+            this.slfApiEndpoint = new Uri(options.SlfApiEndpoint, UriKind.Absolute);
+            this.whiteRiskApiEndpoint = new Uri(options.WhiteRiskApiEndpoint, UriKind.Absolute);
             this.verboseLogging = options.VerboseLogging;
             this.httpClient = httpClient;
             this.serializerSettings = new JsonSerializerSettings
@@ -54,7 +53,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetStationInfoAsync");
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(this.slfApiEndpoint)
             {
                 Path = $"public/station-data/info/{network}/{code}",
             };
@@ -81,7 +80,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetLatestMeasurementByStationCodeAsync");
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(this.slfApiEndpoint)
             {
                 Path = $"public/station-data/timeseries/current/{network}/{code}",
             };
@@ -195,7 +194,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetStationDataTimepointAsync");
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(this.slfApiEndpoint)
             {
                 Path = $"public/station-data/timepoint/{parameter}/current/geojson",
             };
@@ -220,6 +219,25 @@ namespace MeteoSwissApi
 
             var stationDataTimePointReponse = JsonConvert.DeserializeObject<SlfStationMeasurementResponse>(responseJson, this.serializerSettings);
             return stationDataTimePointReponse;
+        }
+
+        public async Task<Stream> GetMapTeaserImageAsync(string network, string stationCode)
+        {
+            this.logger.LogDebug($"GetMapTeaserImageAsync");
+
+            var builder = new UriBuilder(this.whiteRiskApiEndpoint)
+            {
+                Path = $"measurement-station-teaser/{network}-{stationCode}-no-marker-m.webp",
+            };
+
+            var uri = builder.ToString();
+            this.logger.LogDebug($"GetMapTeaserImageAsync: GET {uri}");
+
+            var response = await this.httpClient.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+
+            var responseStream = await response.Content.ReadAsStreamAsync();
+            return responseStream;
         }
     }
 }

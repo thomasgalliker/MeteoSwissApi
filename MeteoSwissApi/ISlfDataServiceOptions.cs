@@ -3,9 +3,14 @@
     public interface ISlfDataServiceOptions
     {
         /// <summary>
-        /// The API endpoint.
+        /// The SLF API endpoint.
         /// </summary>
-        string ApiEndpoint { get; }
+        string SlfApiEndpoint { get; }
+        
+        /// <summary>
+        /// The SLF API endpoint.
+        /// </summary>
+        string WhiteRiskApiEndpoint { get; }
 
         /// <summary>
         /// Writes more verbose logging.
