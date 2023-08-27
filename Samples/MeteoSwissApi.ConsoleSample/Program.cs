@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -85,7 +84,7 @@ namespace MeteoSwissApi.ConsoleSample
                 var weatherStation = await swissMetNetService.GetWeatherStationAsync(stationCode: "CHZ");
                 Console.WriteLine(ObjectDumper.Dump(weatherStation, dumpOptions));
                 Console.WriteLine();
-                
+
                 var weatherStationMeasurement = await swissMetNetService.GetLatestMeasurementAsync(stationCode: "CHZ");
                 Console.WriteLine(ObjectDumper.Dump(weatherStationMeasurement, dumpOptions));
                 Console.WriteLine();
@@ -94,6 +93,35 @@ namespace MeteoSwissApi.ConsoleSample
                 Console.WriteLine($"measurements={measurements.Count()}");
                 Console.WriteLine();
             }
+            {
+                var logger = loggerFactory.CreateLogger<SlfDataService>();
+                ISlfDataServiceOptions options = new SlfDataServiceOptions
+                {
+                    VerboseLogging = true,
+                };
+                ISlfDataService slfDataService = new SlfDataService(logger, options);
+
+                var measurements = (await slfDataService.GetLatestMeasurementsAsync())
+                    .OrderBy(m => m.Station.Code)
+                    .ToArray();
+
+                Console.WriteLine(ObjectDumper.Dump(measurements.Take(3), dumpOptions));
+                Console.WriteLine("...");
+                Console.WriteLine();
+
+                var measurementTIT1 = await slfDataService.GetLatestMeasurementByStationCodeAsync("SMN", "*TIT1");
+                Console.WriteLine(ObjectDumper.Dump(measurementTIT1, dumpOptions));
+                Console.WriteLine();
+
+                var measurementALI2 = await slfDataService.GetLatestMeasurementByStationCodeAsync("IMIS", "ALI2");
+                Console.WriteLine(ObjectDumper.Dump(measurementALI2, dumpOptions));
+                Console.WriteLine();
+
+                var stationInfo = await slfDataService.GetStationInfoAsync("SMN", "*TIT1");
+                Console.WriteLine(ObjectDumper.Dump(stationInfo, dumpOptions));
+                Console.WriteLine();
+            }
+
 
             Console.WriteLine();
             Console.WriteLine("Press any key to close this window...");

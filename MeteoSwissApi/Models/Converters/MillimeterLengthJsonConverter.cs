@@ -2,9 +2,9 @@
 
 namespace MeteoSwissApi.Models.Converters
 {
-    internal class PrecipitationJsonConverter : LengthJsonConverter
+    internal class MillimeterLengthJsonConverter : LengthJsonConverter
     {
-        public PrecipitationJsonConverter()
+        public MillimeterLengthJsonConverter()
             : base(LengthUnit.Millimeter)
         {
 

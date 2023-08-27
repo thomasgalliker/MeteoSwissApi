@@ -28,6 +28,9 @@ var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
 Federal Office of Meteorology and Climatology MeteoSwiss
 https://www.meteoschweiz.admin.ch
 
+WSL Institute for Snow and Avalanche Research SLF
+www.slf.ch
+
 ### Contribution
 Contributors welcome! If you find a bug or you want to propose a new feature, feel free to do so by opening a new issue on github.com.
 

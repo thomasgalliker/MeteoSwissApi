@@ -15,7 +15,7 @@ namespace MeteoSwissApi
         public const int PlzMinLength = 4;
         public const int PlzPaddingLength = 6;
 
-        private readonly ILogger<MeteoSwissWeatherService> logger;
+        private readonly ILogger logger;
         private readonly HttpClient httpClient;
         private readonly IWeatherIconMapping defaultWeatherIconMapping;
         private readonly JsonSerializerSettings serializerSettings;
