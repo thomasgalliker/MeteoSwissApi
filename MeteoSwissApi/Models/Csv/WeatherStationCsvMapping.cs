@@ -25,7 +25,7 @@ namespace MeteoSwissApi.Models.Csv
                 var latitudeString = row.Row["Latitude"];
                 var longitudeString = row.Row["Longitude"];
                 if (double.TryParse(latitudeString, out var latitude) &&
-                    double.TryParse(latitudeString, out var longitude))
+                    double.TryParse(longitudeString, out var longitude))
                 {
                     var location = new GeoCoordinate(latitude, longitude);
                     location.Altitude = GetAltitudeLength(row, "Station height m a. sea level");

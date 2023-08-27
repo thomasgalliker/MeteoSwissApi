@@ -149,7 +149,7 @@ namespace MeteoSwissApi.Models
 
         public bool IsUnknown => this.Equals(Unknown);
 
-        public double GetDistanceTo(GeoCoordinate other)
+        public Length GetDistanceTo(GeoCoordinate other)
         {
             //  The Haversine formula according to Dr. Math.
             //  http://mathforum.org/library/drmath/view/51879.html
@@ -194,7 +194,7 @@ namespace MeteoSwissApi.Models
             // Distance.
             const double kEarthRadiusMs = 6376500;
             var dDistance = kEarthRadiusMs * c;
-            return dDistance;
+            return Length.FromMeters(dDistance).ToUnit(UnitsNet.Units.LengthUnit.Kilometer);
         }
 
         public override int GetHashCode()

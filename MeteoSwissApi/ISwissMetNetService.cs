@@ -17,8 +17,6 @@ namespace MeteoSwissApi
         /// </param>
         Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync(TimeSpan? cacheExpiration = null);
 
-        Task<IEnumerable<WeatherStation>> GetNearbyWeatherStationsAsync(double latitude, double longitude, Length maxRadius, TimeSpan? cacheExpiration = null);
-
         /// <summary>
         /// Gets the weather station by <paramref name="stationCode"/>.
         /// </summary>

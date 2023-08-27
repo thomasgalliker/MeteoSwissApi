@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using MeteoSwissApi.Models;
+using MeteoSwissApi.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using UnitsNet;
@@ -79,6 +82,12 @@ namespace MeteoSwissApi.ConsoleSample
                 var weatherStations = await swissMetNetService.GetWeatherStationsAsync();
                 Console.WriteLine(ObjectDumper.Dump(weatherStations.Take(3), dumpOptions));
                 Console.WriteLine("...");
+                Console.WriteLine();
+
+                var location = new GeoCoordinate(latitude: 47.1826432d, longitude: 8.470528d);
+                var maxRadius = Length.FromKilometers(10);
+                var nearyWeatherStations = (await swissMetNetService.GetWeatherStationsAsync()).Nearby(location, maxRadius);
+                Console.WriteLine(ObjectDumper.Dump(nearyWeatherStations, dumpOptions));
                 Console.WriteLine();
 
                 var weatherStation = await swissMetNetService.GetWeatherStationAsync(stationCode: "CHZ");

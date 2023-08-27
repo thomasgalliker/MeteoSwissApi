@@ -182,16 +182,5 @@ namespace MeteoSwissApi
 
             return weatherStationMeasurement;
         }
-
-        public async Task<IEnumerable<WeatherStation>> GetNearbyWeatherStationsAsync(double latitude, double longitude, Length maxRadius, TimeSpan? cacheExpiration = null)
-        {
-            var weatherStations = await this.GetWeatherStationsAsync(cacheExpiration);
-
-            //var sCoord = new GeoCoordinate(sLatitude, sLongitude);
-            //var eCoord = new GeoCoordinate(eLatitude, eLongitude);
-
-            //return sCoord.GetDistanceTo(eCoord);
-            return null;
-        }
     }
 }

@@ -38,5 +38,10 @@ namespace MeteoSwissApi.Models
         /// Political canton.
         /// </summary>
         public string Canton { get; set; }
+
+        public override string ToString()
+        {
+            return this.StationCode;
+        }
     }
 }
