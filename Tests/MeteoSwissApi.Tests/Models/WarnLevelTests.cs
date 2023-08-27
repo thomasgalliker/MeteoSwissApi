@@ -40,8 +40,9 @@ namespace MeteoSwissApi.Tests.Models
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(6)]
+        [InlineData(7)]
+        [InlineData(8)]
         public void ShouldThrowOutOfRangeException(int warnLevelValue)
         {
             // Act
