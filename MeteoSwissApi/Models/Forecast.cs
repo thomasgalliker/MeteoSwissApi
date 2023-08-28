@@ -12,6 +12,7 @@ namespace MeteoSwissApi.Models
         [JsonConverter(typeof(DateTimeStringJsonConverter))]
         public DateTime DayDate { get; set; }
 
+        [Obsolete("Use IconDayV2")]
         [JsonProperty("iconDay")]
         public int IconDay { get; set; }
 

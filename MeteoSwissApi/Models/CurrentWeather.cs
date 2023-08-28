@@ -11,6 +11,7 @@ namespace MeteoSwissApi.Models
         [JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime Time { get; set; }
 
+        [Obsolete("Use IconV2")]
         [JsonProperty("icon")]
         public int Icon { get; set; }
 
