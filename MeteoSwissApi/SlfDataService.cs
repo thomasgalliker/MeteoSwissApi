@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
+using MeteoSwissApi.Extensions;
+using MeteoSwissApi.Models;
 using MeteoSwissApi.Models.Converters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
-using MeteoSwissApi.Models;
-using System.Linq;
 using UnitsNet;
-using MeteoSwissApi.Extensions;
-using System.IO;
-using System.Data.Common;
 
 namespace MeteoSwissApi
 {
     public class SlfDataService : ISlfDataService
     {
-        private const string TeaserImageApiEndpoint = "https://whiterisk.ch/measurement-station-teaser/{0}-{1}-no-marker-m.webp";
-
         public const int PlzMinLength = 4;
         public const int PlzPaddingLength = 6;
 
