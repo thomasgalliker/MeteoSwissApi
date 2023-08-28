@@ -124,7 +124,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             iconStream.Should().NotBeNull();
-            this.testHelper.WriteFile(iconStream, IconFileExtension);
+            this.testHelper.WriteFile(iconStream, fileExtension: IconFileExtension);
         }
     }
 }

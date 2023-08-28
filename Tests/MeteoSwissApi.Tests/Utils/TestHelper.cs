@@ -19,7 +19,7 @@ namespace MeteoSwissApi.Tests.Utils
             }
         }
 
-        internal void WriteFile(Stream bitmapStream, string fileExtension = "png", [CallerMemberName] string callerMemberName = null)
+        internal void WriteFile(Stream bitmapStream, [CallerMemberName] string fileName = null, string fileExtension = "png")
         {
             if (bitmapStream == null)
             {
@@ -27,7 +27,7 @@ namespace MeteoSwissApi.Tests.Utils
                 return;
             }
 
-            var outputFilePath = Path.Combine(this.outputFolder, $"{callerMemberName}.{fileExtension}");
+            var outputFilePath = Path.Combine(this.outputFolder, $"{fileName}.{fileExtension}");
             using (var fileStream = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
             {
                 bitmapStream.CopyTo(fileStream);
