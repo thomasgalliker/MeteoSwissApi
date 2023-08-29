@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
+
 	<PropertyGroup>
 		<AssemblyTitle>MeteoSwissApi</AssemblyTitle>
 		<Description>.NET API for Swiss national weather provider MeteoSwiss</Description>
@@ -18,7 +18,7 @@
 		<SignAssembly>True</SignAssembly>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
-	
+
 	<PropertyGroup>
 		<ApplicationIcon />
 		<OutputType>Library</OutputType>
@@ -28,8 +28,10 @@
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<RootNamespace>MeteoSwissApi</RootNamespace>
 		<PackageReleaseNotes>3.0.x
-- Add service to extract SwissMetNet weather stations
+- Add service to retrieve SwissMetNet weather stations
+- Add service to retrieve SLF weather stations
 - Add response caching
+- Add high-contrast svg icons
 
 2.0.x
 - Replace Temperature type with UnitsNet Temperature
@@ -50,14 +52,14 @@
 		<Copyright>Copyright 2023</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="CsvHelper" Version="[30.0.1,)" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="[6.0.0,)" />
@@ -84,6 +86,10 @@
 		<None Remove="MultilingualResources\MeteoSwissApi.it.xlf" />
 	</ItemGroup>
 	<ItemGroup>
+		<None Remove="Resources\Icons\**\*.svg" />
+		<EmbeddedResource Include="Resources\Icons\**\*.svg" />
+	</ItemGroup>
+	<ItemGroup>
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.de.xlf" />
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.en.xlf" />
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.fr.xlf" />
@@ -91,14 +97,14 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Resources\Strings\CardinalWindDirections.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>CardinalWindDirections.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>CardinalWindDirections.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Resources\Strings\CardinalWindDirectionsAcronyms.Designer.cs">
-		  <DesignTime>True</DesignTime>
-		  <AutoGen>True</AutoGen>
-		  <DependentUpon>CardinalWindDirectionsAcronyms.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>CardinalWindDirectionsAcronyms.resx</DependentUpon>
 		</Compile>
 		<Compile Update="Resources\Strings\WarnLevels.Designer.cs">
 			<DesignTime>True</DesignTime>
@@ -113,12 +119,12 @@
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Resources\Strings\CardinalWindDirections.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
-		  <LastGenOutput>CardinalWindDirections.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>CardinalWindDirections.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Strings\CardinalWindDirectionsAcronyms.resx">
-		  <Generator>ResXFileCodeGenerator</Generator>
-		  <LastGenOutput>CardinalWindDirectionsAcronyms.Designer.cs</LastGenOutput>
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>CardinalWindDirectionsAcronyms.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Strings\WarnLevels.resx">
 			<Generator>ResXFileCodeGenerator</Generator>

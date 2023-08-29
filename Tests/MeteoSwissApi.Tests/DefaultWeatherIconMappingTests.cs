@@ -23,9 +23,7 @@ namespace MeteoSwissApi.Tests
         public async void ShouldDownloadAllExistingIcons()
         {
             // Arrange
-            var range = Enumerable.Range(1, 100)
-                .Concat(Enumerable.Range(101, 200))
-                .ToArray();
+            var range = Enumerable.Range(1, 200).ToArray();
 
             var httpClient = new HttpClient();
             var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
