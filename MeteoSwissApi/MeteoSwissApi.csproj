@@ -32,6 +32,7 @@
 - Add service to retrieve SLF weather stations
 - Add response caching
 - Add high-contrast svg icons
+- Add support for Microsoft.Extensions.DependencyInjection
 
 2.0.x
 - Replace Temperature type with UnitsNet Temperature
