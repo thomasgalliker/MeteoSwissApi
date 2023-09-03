@@ -10,16 +10,18 @@ using MeteoSwissApi.Models.Converters;
 using MeteoSwissApi.Utils;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using UnitsNet;
 
 namespace MeteoSwissApi
 {
     public class SwissMetNetService : ISwissMetNetService
     {
+        private static readonly Uri ApiEndpoint = new Uri("https://data.geo.admin.ch", UriKind.Absolute);
+
         private readonly ILogger<SwissMetNetService> logger;
-        private readonly Uri apiEndpoint;
-        private readonly bool verboseLogging;
+        private readonly MeteoSwissApiOptions options;
         private readonly HttpClient httpClient;
         private readonly JsonSerializerSettings serializerSettings;
         private readonly IMemoryCache memoryCache;
@@ -29,16 +31,53 @@ namespace MeteoSwissApi
         private const string WeatherStationsCacheKey = "weatherStations";
         private const string LatestMeasurementsCacheKey = "latestMeasurements";
 
-        public SwissMetNetService(ILogger<SwissMetNetService> logger, ISwissMetNetServiceOptions options)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        public SwissMetNetService()
+            : this(new NullLogger<SwissMetNetService>())
+        {
+        }
+
+        public SwissMetNetService(
+            ILogger<SwissMetNetService> logger)
+            : this(logger, new MeteoSwissApiOptions())
+        {
+        }
+
+        public SwissMetNetService(
+            IOptions<MeteoSwissApiOptions> options)
+          : this(options.Value)
+        {
+        }
+
+        public SwissMetNetService(
+            MeteoSwissApiOptions options)
+          : this(new NullLogger<SwissMetNetService>(), options)
+        {
+        }
+
+        public SwissMetNetService(
+            ILogger<SwissMetNetService> logger,
+            MeteoSwissApiOptions options)
           : this(logger, new HttpClient(), options)
         {
         }
 
-        public SwissMetNetService(ILogger<SwissMetNetService> logger, HttpClient httpClient, ISwissMetNetServiceOptions options)
+        public SwissMetNetService(
+            ILogger<SwissMetNetService> logger,
+            IOptions<MeteoSwissApiOptions> options)
+          : this(logger, new HttpClient(), options.Value)
+        {
+        }
+
+        public SwissMetNetService(
+            ILogger<SwissMetNetService> logger,
+            HttpClient httpClient,
+            MeteoSwissApiOptions options)
         {
             this.logger = logger;
-            this.apiEndpoint = new Uri(options.ApiEndpoint, UriKind.Absolute);
-            this.verboseLogging = options.VerboseLogging;
+            this.options = options;
             this.httpClient = httpClient;
             this.httpClient.DefaultRequestHeaders.CacheControl = new CacheControlHeaderValue
             {
@@ -53,7 +92,7 @@ namespace MeteoSwissApi
             this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
 
             this.memoryCache = new MemoryCache(new MemoryCacheOptions { });
-            
+
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
@@ -70,7 +109,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetWeatherStationsAsync");
             }
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(ApiEndpoint)
             {
                 Path = "ch.meteoschweiz.messnetz-automatisch/ch.meteoschweiz.messnetz-automatisch_en.csv",
             };
@@ -84,13 +123,14 @@ namespace MeteoSwissApi
             var contentBytes = await response.Content.ReadAsByteArrayAsync();
             var csvContent = Windows1252Encoding.GetString(contentBytes, 0, contentBytes.Length);
 
-            if (this.verboseLogging)
+            if (this.options.VerboseLogging)
             {
                 this.logger.LogDebug($"GetWeatherStationsAsync returned content:{Environment.NewLine}{csvContent}");
             }
 
             var weatherStations = CsvImporter.Import<WeatherStation>(csvContent);
 
+            cacheExpiration ??= this.options.SwissMetNet.CacheExpiration;
             if (cacheExpiration is TimeSpan cacheExpirationTimeSpan && weatherStations.Any())
             {
                 this.memoryCache.Set(WeatherStationsCacheKey, weatherStations, cacheExpirationTimeSpan);
@@ -130,7 +170,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetLatestMeasurementsAsync");
             }
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(ApiEndpoint)
             {
                 Path = "ch.meteoschweiz.messwerte-aktuell/VQHA80.csv",
             };
@@ -144,13 +184,14 @@ namespace MeteoSwissApi
             var contentBytes = await response.Content.ReadAsByteArrayAsync();
             var csvContent = Windows1252Encoding.GetString(contentBytes, 0, contentBytes.Length);
 
-            if (this.verboseLogging)
+            if (this.options.VerboseLogging)
             {
                 this.logger.LogDebug($"GetLatestMeasurementsAsync returned content:{Environment.NewLine}{csvContent}");
             }
 
             var measurements = CsvImporter.Import<WeatherStationMeasurement>(csvContent);
 
+            cacheExpiration ??= this.options.SwissMetNet.CacheExpiration;
             if (cacheExpiration is TimeSpan cacheExpirationTimeSpan && measurements.Any())
             {
                 var measurementDate = measurements

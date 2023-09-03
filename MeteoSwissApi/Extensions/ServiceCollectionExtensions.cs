@@ -1,25 +1,38 @@
-﻿using MeteoSwissApi;
+﻿using System;
+using MeteoSwissApi;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddMeteoSwissApi(this IServiceCollection serviceCollection)
+        public static IServiceCollection AddMeteoSwissApi(this IServiceCollection serviceCollection, IConfiguration configuration)
         {
             // Configuration
-            // TODO
+            serviceCollection.Configure<MeteoSwissApiOptions>(configuration);
 
             // Register services
-            serviceCollection.AddSingleton<IMeteoSwissWeatherServiceOptions, MeteoSwissWeatherServiceOptions>();
-            serviceCollection.AddSingleton<IMeteoSwissWeatherService, MeteoSwissWeatherService>();
-
-            serviceCollection.AddSingleton<ISwissMetNetServiceOptions, SwissMetNetServiceOptions>();
-            serviceCollection.AddSingleton<ISwissMetNetService, SwissMetNetService>();
-
-            serviceCollection.AddSingleton<ISlfDataServiceOptions, SlfDataServiceOptions>();
-            serviceCollection.AddSingleton<ISlfDataService, SlfDataService>();
+            serviceCollection.AddMeteoSwissApi();
 
             return serviceCollection;
+        }
+
+        public static IServiceCollection AddMeteoSwissApi(
+            this IServiceCollection services,
+            Action<MeteoSwissApiOptions> options = null)
+        {
+            // Configuration
+            if (options != null)
+            {
+                services.Configure(options);
+            }
+
+            // Register services
+            services.AddSingleton<IMeteoSwissWeatherService, MeteoSwissWeatherService>();
+            services.AddSingleton<ISwissMetNetService, SwissMetNetService>();
+            services.AddSingleton<ISlfDataService, SlfDataService>();
+
+            return services;
         }
     }
 }

@@ -21,11 +21,6 @@ namespace MeteoSwissApi.ConsoleSample
             Console.WriteLine($"(c)2023 superdev gmbh. All rights reserved.");
             Console.WriteLine();
 
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-
             //var dateTimeFormat = CultureInfo.CurrentCulture.DateTimeFormat;
 
             using var loggerFactory = LoggerFactory.Create(builder =>
@@ -52,31 +47,28 @@ namespace MeteoSwissApi.ConsoleSample
             dumpOptions.CustomInstanceFormatters.AddFormatter<Pressure>(l => l.ToString());
             dumpOptions.CustomInstanceFormatters.AddFormatter<Angle>(l => l.ToString());
 
+            var options = new MeteoSwissApiOptions
+            {
+                VerboseLogging = false,
+                Language = "en",
+            };
+
             {
                 // Create weather service instance manually or resolve it from any dependency injection framework:
                 var logger = loggerFactory.CreateLogger<MeteoSwissWeatherService>();
-                IMeteoSwissWeatherServiceOptions weatherServiceConfiguration = new MeteoSwissWeatherServiceOptions
-                {
-                    VerboseLogging = false,
-                    Language = "en"
-                };
-                IMeteoSwissWeatherService weatherService = new MeteoSwissWeatherService(logger, weatherServiceConfiguration);
+                IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(logger, options);
 
                 // Request weather info:
-                var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
+                var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz: 6330);
                 Console.WriteLine(ObjectDumper.Dump(weatherInfo, dumpOptions));
                 Console.WriteLine();
 
-                var forecast = await weatherService.GetForecastAsync(plz: 6330);
+                var forecast = await meteoSwissWeatherService.GetForecastAsync(plz: 6330);
                 Console.WriteLine(ObjectDumper.Dump(forecast, dumpOptions));
                 Console.WriteLine();
             }
             {
                 var logger = loggerFactory.CreateLogger<SwissMetNetService>();
-                ISwissMetNetServiceOptions options = new SwissMetNetServiceOptions
-                {
-                    VerboseLogging = false,
-                };
                 ISwissMetNetService swissMetNetService = new SwissMetNetService(logger, options);
 
                 var weatherStations = await swissMetNetService.GetWeatherStationsAsync();
@@ -104,10 +96,6 @@ namespace MeteoSwissApi.ConsoleSample
             }
             {
                 var logger = loggerFactory.CreateLogger<SlfDataService>();
-                ISlfDataServiceOptions options = new SlfDataServiceOptions
-                {
-                    VerboseLogging = true,
-                };
                 ISlfDataService slfDataService = new SlfDataService(logger, options);
 
                 var measurements = (await slfDataService.GetLatestMeasurementsAsync())
@@ -125,7 +113,7 @@ namespace MeteoSwissApi.ConsoleSample
                 var measurementALI2 = await slfDataService.GetLatestMeasurementByStationCodeAsync("IMIS", "ALI2");
                 Console.WriteLine(ObjectDumper.Dump(measurementALI2, dumpOptions));
                 Console.WriteLine();
-                
+
                 var stationInfo = await slfDataService.GetStationInfoAsync("SMN", "*TIT1");
                 Console.WriteLine(ObjectDumper.Dump(stationInfo, dumpOptions));
                 Console.WriteLine();

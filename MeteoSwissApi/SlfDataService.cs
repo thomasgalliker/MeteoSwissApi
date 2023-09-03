@@ -8,6 +8,8 @@ using MeteoSwissApi.Extensions;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Models.Converters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using UnitsNet;
 
@@ -15,26 +17,61 @@ namespace MeteoSwissApi
 {
     public class SlfDataService : ISlfDataService
     {
+        private static readonly Uri SlfApiEndpoint = new Uri("https://public-meas-data-v2.slf.ch", UriKind.Absolute);
+        private static readonly Uri WhiteRiskApiEndpoint = new Uri("https://whiterisk.ch", UriKind.Absolute);
+
         public const int PlzMinLength = 4;
         public const int PlzPaddingLength = 6;
 
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
         private readonly JsonSerializerSettings serializerSettings;
-        private readonly Uri slfApiEndpoint;
-        private readonly Uri whiteRiskApiEndpoint;
         private readonly bool verboseLogging;
 
-        public SlfDataService(ILogger<SlfDataService> logger, ISlfDataServiceOptions options)
-            : this(logger, new HttpClient(), options)
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        public SlfDataService()
+            : this(new NullLogger<SlfDataService>())
         {
         }
 
-        public SlfDataService(ILogger<SlfDataService> logger, HttpClient httpClient, ISlfDataServiceOptions options)
+        public SlfDataService(
+            ILogger<SlfDataService> logger)
+            : this(logger, new MeteoSwissApiOptions())
+        {
+        }
+
+        public SlfDataService(
+            IOptions<MeteoSwissApiOptions> options)
+          : this(options.Value)
+        {
+        }
+
+        public SlfDataService(
+            MeteoSwissApiOptions options)
+          : this(new NullLogger<SlfDataService>(), options)
+        {
+        }
+
+        public SlfDataService(
+            ILogger<SlfDataService> logger,
+            MeteoSwissApiOptions options)
+          : this(logger, new HttpClient(), options)
+        {
+        }
+
+        public SlfDataService(
+            ILogger<SlfDataService> logger,
+            IOptions<MeteoSwissApiOptions> options)
+          : this(logger, new HttpClient(), options.Value)
+        {
+        }
+
+        public SlfDataService(ILogger<SlfDataService> logger, HttpClient httpClient, MeteoSwissApiOptions options)
         {
             this.logger = logger;
-            this.slfApiEndpoint = new Uri(options.SlfApiEndpoint, UriKind.Absolute);
-            this.whiteRiskApiEndpoint = new Uri(options.WhiteRiskApiEndpoint, UriKind.Absolute);
             this.verboseLogging = options.VerboseLogging;
             this.httpClient = httpClient;
             this.serializerSettings = new JsonSerializerSettings
@@ -50,7 +87,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetStationInfoAsync");
 
-            var builder = new UriBuilder(this.slfApiEndpoint)
+            var builder = new UriBuilder(SlfApiEndpoint)
             {
                 Path = $"public/station-data/info/{network}/{code}",
             };
@@ -77,7 +114,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetLatestMeasurementByStationCodeAsync");
 
-            var builder = new UriBuilder(this.slfApiEndpoint)
+            var builder = new UriBuilder(SlfApiEndpoint)
             {
                 Path = $"public/station-data/timeseries/current/{network}/{code}",
             };
@@ -191,7 +228,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetStationDataTimepointAsync");
 
-            var builder = new UriBuilder(this.slfApiEndpoint)
+            var builder = new UriBuilder(SlfApiEndpoint)
             {
                 Path = $"public/station-data/timepoint/{parameter}/current/geojson",
             };
@@ -222,7 +259,7 @@ namespace MeteoSwissApi
         {
             this.logger.LogDebug($"GetMapTeaserImageAsync");
 
-            var builder = new UriBuilder(this.whiteRiskApiEndpoint)
+            var builder = new UriBuilder(WhiteRiskApiEndpoint)
             {
                 Path = $"measurement-station-teaser/{network}-{stationCode}-no-marker-m.webp",
             };

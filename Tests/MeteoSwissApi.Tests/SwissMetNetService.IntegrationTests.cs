@@ -14,7 +14,7 @@ namespace MeteoSwissApi.Tests
     public class SwissMetNetServiceIntegrationTests
     {
         private readonly ILogger<SwissMetNetService> logger;
-        private readonly ISwissMetNetServiceOptions options;
+        private readonly MeteoSwissApiOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
 
@@ -22,7 +22,7 @@ namespace MeteoSwissApi.Tests
         {
             this.testOutputHelper = testOutputHelper;
             this.logger = new TestOutputHelperLogger<SwissMetNetService>(testOutputHelper);
-            this.options = new SwissMetNetServiceOptions
+            this.options = new MeteoSwissApiOptions
             {
                 VerboseLogging = true
             };

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MeteoSwissApi.Models;
-using UnitsNet;
 
 namespace MeteoSwissApi
 {

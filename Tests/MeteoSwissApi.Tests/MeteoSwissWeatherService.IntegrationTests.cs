@@ -14,7 +14,7 @@ namespace MeteoSwissApi.Tests
         private const string IconFileExtension = "svg";
 
         private readonly ILogger<MeteoSwissWeatherService> logger;
-        private readonly IMeteoSwissWeatherServiceOptions options;
+        private readonly MeteoSwissApiOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
         private readonly TestHelper testHelper;
@@ -23,7 +23,7 @@ namespace MeteoSwissApi.Tests
         {
             this.testOutputHelper = testOutputHelper;
             this.logger = new TestOutputHelperLogger<MeteoSwissWeatherService>(testOutputHelper);
-            this.options = new MeteoSwissWeatherServiceOptions
+            this.options = new MeteoSwissApiOptions
             {
                 VerboseLogging = true
             };
@@ -93,13 +93,13 @@ namespace MeteoSwissApi.Tests
             // Arrange
             const int plz = 774200;
 
-            var configuration = new MeteoSwissWeatherServiceOptions
+            var options = new MeteoSwissApiOptions
             {
                 Language = language,
                 VerboseLogging = true
             };
 
-            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, configuration);
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, options);
 
             // Act
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
