@@ -1,9 +1,7 @@
-﻿using System.Diagnostics;
-using UnitsNet;
+﻿using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("{this.StationCode}")]
     public class WeatherStation
     {
         /// <summary>
@@ -15,9 +13,9 @@ namespace MeteoSwissApi.Models
         /// Internal station code, also referred to as 'Abbreviation'.
         /// </summary>
         public string StationCode { get; set; }
-        
+
         public string WigosId { get; set; }
-        
+
         public string StationType { get; set; }
 
         /// <summary>
