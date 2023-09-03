@@ -10,7 +10,7 @@ internal class Program
 {
     private static async Task Main(string[] _)
     {
-        Console.WriteLine($"SwissMetNet.ConsoleSample [Version 1.0.0.0]");
+        Console.WriteLine($"MeteoSwissApi.ConsoleSampleDI [Version 1.0.0.0]");
         Console.WriteLine($"(c)2023 superdev gmbh. All rights reserved.");
         Console.WriteLine();
 
