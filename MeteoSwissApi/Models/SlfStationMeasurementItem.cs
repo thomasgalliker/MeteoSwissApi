@@ -6,13 +6,17 @@ using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("{this.Date}, {this.Value}")]
     public abstract class SlfStationMeasurementItem<TValue>
     {
         [JsonProperty("timestamp")]
         public DateTime Date { get; set; }
 
         public abstract TValue Value { get; set; }
+
+        public override string ToString()
+        {
+            return $"{{{this.Date}, {this.Value}}}";
+        }
     }
 
     public class SlfStationMeasurementLengthValue : SlfStationMeasurementItem<Length>
