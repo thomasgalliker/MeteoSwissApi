@@ -37,24 +37,53 @@ namespace MeteoSwissApi
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger)
             : this(logger, new MeteoSwissApiOptions())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        /// <param name="options">The service options.</param>
         public SlfDataService(
             IOptions<MeteoSwissApiOptions> options)
           : this(options.Value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
         public SlfDataService(
             MeteoSwissApiOptions options)
           : this(new NullLogger<SlfDataService>(), options)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
+        public SlfDataService(
+            ILogger<SlfDataService> logger,
+            IOptions<MeteoSwissApiOptions> options)
+          : this(logger, options.Value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger,
             MeteoSwissApiOptions options)
@@ -62,14 +91,16 @@ namespace MeteoSwissApi
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="httpClient">The HttpClient instance.</param>
+        /// <param name="options">The service options.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger,
-            IOptions<MeteoSwissApiOptions> options)
-          : this(logger, new HttpClient(), options.Value)
-        {
-        }
-
-        public SlfDataService(ILogger<SlfDataService> logger, HttpClient httpClient, MeteoSwissApiOptions options)
+            HttpClient httpClient,
+            MeteoSwissApiOptions options)
         {
             this.logger = logger;
             this.verboseLogging = options.VerboseLogging;

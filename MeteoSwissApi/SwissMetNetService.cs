@@ -39,24 +39,53 @@ namespace MeteoSwissApi
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger)
             : this(logger, new MeteoSwissApiOptions())
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
         public SwissMetNetService(
             IOptions<MeteoSwissApiOptions> options)
           : this(options.Value)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             MeteoSwissApiOptions options)
           : this(new NullLogger<SwissMetNetService>(), options)
         {
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
+        public SwissMetNetService(
+            ILogger<SwissMetNetService> logger,
+            IOptions<MeteoSwissApiOptions> options)
+          : this(logger, options.Value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger,
             MeteoSwissApiOptions options)
@@ -64,13 +93,12 @@ namespace MeteoSwissApi
         {
         }
 
-        public SwissMetNetService(
-            ILogger<SwissMetNetService> logger,
-            IOptions<MeteoSwissApiOptions> options)
-          : this(logger, new HttpClient(), options.Value)
-        {
-        }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="httpClient">The HttpClient instance.</param>
+        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger,
             HttpClient httpClient,

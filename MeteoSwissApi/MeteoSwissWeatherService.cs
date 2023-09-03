@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Models.Converters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
@@ -27,12 +28,38 @@ namespace MeteoSwissApi
         /// <summary>
         /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
         /// </summary>
+        public MeteoSwissWeatherService()
+            : this(new NullLogger<MeteoSwissWeatherService>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
         /// <param name="logger">The logger instance.</param>
+        public MeteoSwissWeatherService(
+            ILogger<MeteoSwissWeatherService> logger)
+            : this(logger, new MeteoSwissApiOptions())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
         /// <param name="options">The service options.</param>
         public MeteoSwissWeatherService(
-            ILogger<MeteoSwissWeatherService> logger,
+            IOptions<MeteoSwissApiOptions> options)
+          : this(options.Value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
             MeteoSwissApiOptions options)
-            : this(logger, new HttpClient(), options)
+          : this(new NullLogger<MeteoSwissWeatherService>(), options)
         {
         }
 
@@ -44,7 +71,19 @@ namespace MeteoSwissApi
         public MeteoSwissWeatherService(
             ILogger<MeteoSwissWeatherService> logger,
             IOptions<MeteoSwissApiOptions> options)
-            : this(logger, new HttpClient(), options.Value)
+            : this(logger, options.Value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
+            ILogger<MeteoSwissWeatherService> logger,
+            MeteoSwissApiOptions options)
+            : this(logger, new HttpClient(), options)
         {
         }
 
