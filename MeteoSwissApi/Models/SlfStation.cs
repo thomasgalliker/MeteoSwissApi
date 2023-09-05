@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using MeteoSwissApi.Models.Converters;
+﻿using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
 using UnitsNet;
 
