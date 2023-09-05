@@ -1,7 +1,12 @@
-﻿using UnitsNet;
+﻿using System;
+using System.Collections.Generic;
+using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
+    /// <summary>
+    /// SwissMetNet weather station.
+    /// </summary>
     public class WeatherStation
     {
         /// <summary>
@@ -14,9 +19,12 @@ namespace MeteoSwissApi.Models
         /// </summary>
         public string StationCode { get; set; }
 
+        /// <summary>
+        /// WIGOS station identifier.
+        /// </summary>
         public string WigosId { get; set; }
 
-        public string StationType { get; set; }
+        public WeatherStationType StationType { get; set; }
 
         /// <summary>
         /// Barometric altitude above ground.
@@ -31,6 +39,11 @@ namespace MeteoSwissApi.Models
         /// Geolocation of the weather station.
         /// </summary>
         public GeoCoordinate Location { get; set; }
+
+        /// <summary>
+        /// Owner(s) of the data provided by the weather station.
+        /// </summary>
+        public IReadOnlyCollection<string> DataOwners { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Political canton.

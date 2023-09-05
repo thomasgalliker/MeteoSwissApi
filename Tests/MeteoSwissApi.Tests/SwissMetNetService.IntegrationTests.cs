@@ -75,9 +75,10 @@ namespace MeteoSwissApi.Tests
                     Place = "Cham",
                     StationCode = "CHZ",
                     WigosId = "0-20000-0-06674",
-                    StationType = "Weather station",
+                    StationType = WeatherStationType.WeatherStation,
                     BarometricAltitude = Length.FromMeters(443m),
                     Location = new GeoCoordinate(47.188278d, 8.464642d, Length.FromMeters(443m)),
+                    DataOwners = new[] { "MeteoSwiss" },
                     Canton = "ZG"
                 });
         }
