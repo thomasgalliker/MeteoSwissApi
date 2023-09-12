@@ -12,22 +12,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Level1" xml:space="preserve">
-    <value>Low</value>
+  <data name="FLOWCAPT" xml:space="preserve">
+    <value>Snowdrift sensor</value>
   </data>
-  <data name="Level2" xml:space="preserve">
-    <value>Moderate</value>
+  <data name="PLUVIO" xml:space="preserve">
+    <value>Rain station</value>
   </data>
-  <data name="Level3" xml:space="preserve">
-    <value>Considerable</value>
+  <data name="SNOW_FLAT" xml:space="preserve">
+    <value>Snow station</value>
   </data>
-  <data name="Level4" xml:space="preserve">
-    <value>High</value>
+  <data name="SNOW_SLOPE" xml:space="preserve">
+    <value>Snow station</value>
   </data>
-  <data name="Level5" xml:space="preserve">
-    <value>Extreme</value>
+  <data name="SPECIAL" xml:space="preserve">
+    <value>Special measurement station</value>
   </data>
-  <data name="Level0" xml:space="preserve">
-    <value>No danger level</value>
+  <data name="WIND" xml:space="preserve">
+    <value>Wind station</value>
   </data>
 </root>

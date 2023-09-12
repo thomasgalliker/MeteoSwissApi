@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
 using UnitsNet;
@@ -8,16 +9,33 @@ namespace MeteoSwissApi.Models
 {
     public class Forecast
     {
+        private int iconDayV2;
+
         [JsonProperty("dayDate")]
         [JsonConverter(typeof(DateTimeStringJsonConverter))]
         public DateTime DayDate { get; set; }
 
         [Obsolete("Use IconDayV2")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("iconDay")]
         public int IconDay { get; set; }
 
         [JsonProperty("iconDayV2")]
-        public int IconDayV2 { get; set; }
+        public int IconDayV2
+        {
+            get => this.iconDayV2;
+            set
+            {
+                this.iconDayV2 = value;
+                if (WeatherConditionCode.TryGetFromValue(value, out var weatherConditionCode))
+                {
+                    this.WeatherCondition = weatherConditionCode;
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public WeatherConditionCode WeatherCondition { get; private set; }
 
         [JsonProperty("temperatureMax")]
         [JsonConverter(typeof(TemperatureJsonConverter))]

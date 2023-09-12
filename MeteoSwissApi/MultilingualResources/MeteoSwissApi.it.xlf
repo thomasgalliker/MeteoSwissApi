@@ -269,4 +269,461 @@
       </group>
     </body>
   </file>
+  <file datatype="xml" source-language="sv" target-language="it" original="METEOSWISSAPI/RESOURCES/STRINGS/WEATHERCONDITIONCODES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/WEATHERCONDITIONCODES.RESX" datatype="resx">
+        <trans-unit id="1" translate="yes" xml:space="preserve">
+          <source>Sunny</source>
+          <target state="final" state-qualifier="mt-suggestion">Assolato</target>
+        </trans-unit>
+        <trans-unit id="2" translate="yes" xml:space="preserve">
+          <source>Mostly sunny with some clouds</source>
+          <target state="final" state-qualifier="mt-suggestion">In prevalenza soleggiato con qualche nuvola</target>
+        </trans-unit>
+        <trans-unit id="3" translate="yes" xml:space="preserve">
+          <source>Partly sunny, thick passing clouds</source>
+          <target state="final" state-qualifier="mt-suggestion">Parzialmente soleggiato, nuvole spesse di passaggio</target>
+        </trans-unit>
+        <trans-unit id="4" translate="yes" xml:space="preserve">
+          <source>Overcast</source>
+          <target state="final" state-qualifier="mt-suggestion">Coperto</target>
+        </trans-unit>
+        <trans-unit id="5" translate="yes" xml:space="preserve">
+          <source>Very cloudy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso</target>
+        </trans-unit>
+        <trans-unit id="6" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, isolated showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, rovesci isolati</target>
+        </trans-unit>
+        <trans-unit id="7" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, isolated sleet</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, nevischio isolato</target>
+        </trans-unit>
+        <trans-unit id="10" translate="yes" xml:space="preserve">
+          <source>Overcast, some sleet</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, un po 'di nevischio</target>
+        </trans-unit>
+        <trans-unit id="101" translate="yes" xml:space="preserve">
+          <source>Clear sky</source>
+          <target state="final" state-qualifier="mt-suggestion">Cielo sereno</target>
+        </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve">
+          <source>Slightly overcast</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente nuvoloso</target>
+        </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve">
+          <source>Heavy cloud formations</source>
+          <target state="final" state-qualifier="mt-suggestion">Formazioni nuvolose pesanti</target>
+        </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve">
+          <source>Overcast</source>
+          <target state="final" state-qualifier="mt-suggestion">Coperto</target>
+        </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve">
+          <source>Very cloudy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso</target>
+        </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve">
+          <source>Overcast, scattered showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Piogge nuvolose e sparse</target>
+        </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve">
+          <source>Overcast, scattered rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, pioggia sparsa e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve">
+          <source>Overcast, snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve">
+          <source>Overcast, some showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, alcune docce</target>
+        </trans-unit>
+        <trans-unit id="11" translate="yes" xml:space="preserve">
+          <source>Overcast, some snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, alcuni rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve">
+          <source>Overcast, some rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, qualche pioggia e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="12" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, chance of thunderstorms</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, possibilità di temporali</target>
+        </trans-unit>
+        <trans-unit id="13" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, possible thunderstorms</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, possibili temporali</target>
+        </trans-unit>
+        <trans-unit id="14" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia leggera</target>
+        </trans-unit>
+        <trans-unit id="15" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light sleet</source>
+          <target state="final" state-qualifier="mt-suggestion">Nevischio molto nuvoloso e leggero</target>
+        </trans-unit>
+        <trans-unit id="16" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, deboli rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="17" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia intermittente</target>
+        </trans-unit>
+        <trans-unit id="18" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent sleet</source>
+          <target state="final" state-qualifier="mt-suggestion">Nevischio molto nuvoloso e intermittente</target>
+        </trans-unit>
+        <trans-unit id="19" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent snow</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, neve intermittente</target>
+        </trans-unit>
+        <trans-unit id="20" translate="yes" xml:space="preserve">
+          <source>Very overcast with rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso con pioggia</target>
+        </trans-unit>
+        <trans-unit id="21" translate="yes" xml:space="preserve">
+          <source>Very overcast with frequent sleet</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso con nevischio frequente</target>
+        </trans-unit>
+        <trans-unit id="22" translate="yes" xml:space="preserve">
+          <source>Very overcast with heavy snow</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso con abbondanti nevicate</target>
+        </trans-unit>
+        <trans-unit id="23" translate="yes" xml:space="preserve">
+          <source>Very overcast, slight chance of storms</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, leggera possibilità di temporali</target>
+        </trans-unit>
+        <trans-unit id="24" translate="yes" xml:space="preserve">
+          <source>Very overcast with storms</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso con temporali</target>
+        </trans-unit>
+        <trans-unit id="25" translate="yes" xml:space="preserve">
+          <source>Very cloudy, very stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, molto tempestoso</target>
+        </trans-unit>
+        <trans-unit id="26" translate="yes" xml:space="preserve">
+          <source>High cloud cover</source>
+          <target state="final" state-qualifier="mt-suggestion">Alta copertura nuvolosa</target>
+        </trans-unit>
+        <trans-unit id="27" translate="yes" xml:space="preserve">
+          <source>Stratus</source>
+          <target state="final" state-qualifier="mt-suggestion">Stratus</target>
+        </trans-unit>
+        <trans-unit id="28" translate="yes" xml:space="preserve">
+          <source>Fog</source>
+          <target state="final" state-qualifier="mt-suggestion">Giuntura</target>
+        </trans-unit>
+        <trans-unit id="29" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, scattered showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, rovesci sparsi</target>
+        </trans-unit>
+        <trans-unit id="30" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, scattered snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, rovesci di neve sparsi</target>
+        </trans-unit>
+        <trans-unit id="31" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, scattered sleet</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, nevischio sparso</target>
+        </trans-unit>
+        <trans-unit id="32" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, some showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, qualche rovescio</target>
+        </trans-unit>
+        <trans-unit id="33" translate="yes" xml:space="preserve">
+          <source>Short sunny intervals, frequent rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Brevi intervalli soleggiati, pioggia frequente</target>
+        </trans-unit>
+        <trans-unit id="34" translate="yes" xml:space="preserve">
+          <source>Short sunny intervals, frequent snowfalls</source>
+          <target state="final" state-qualifier="mt-suggestion">Brevi intervalli soleggiati, frequenti nevicate</target>
+        </trans-unit>
+        <trans-unit id="35" translate="yes" xml:space="preserve">
+          <source>Overcast and dry</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso e asciutto</target>
+        </trans-unit>
+        <trans-unit id="36" translate="yes" xml:space="preserve">
+          <source>Partly sunny, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Parzialmente soleggiato, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="37" translate="yes" xml:space="preserve">
+          <source>Partly sunny, stormy snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Parzialmente soleggiato, rovesci di neve tempestosi</target>
+        </trans-unit>
+        <trans-unit id="38" translate="yes" xml:space="preserve">
+          <source>Overcast, thundery showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Piogge nuvolose e temporalesche</target>
+        </trans-unit>
+        <trans-unit id="39" translate="yes" xml:space="preserve">
+          <source>Overcast, thundery snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Rovesci di neve nuvolosi e fragorosi</target>
+        </trans-unit>
+        <trans-unit id="40" translate="yes" xml:space="preserve">
+          <source>Very cloudly, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="41" translate="yes" xml:space="preserve">
+          <source>Overcast, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="42" translate="yes" xml:space="preserve">
+          <source>Very cloudly, thundery snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Rovesci di neve molto nuvolosi e temporaleschi</target>
+        </trans-unit>
+        <trans-unit id="8" translate="yes" xml:space="preserve">
+          <source>Sunny intervals, snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Intervalli soleggiati, rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="9" translate="yes" xml:space="preserve">
+          <source>Overcast, some rain showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, alcuni rovesci di pioggia</target>
+        </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve">
+          <source>Overcast, some snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, alcuni rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve">
+          <source>Slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve">
+          <source>Storms</source>
+          <target state="final" state-qualifier="mt-suggestion">Tempeste</target>
+        </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia leggera</target>
+        </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia leggera e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, deboli nevicate</target>
+        </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia intermittente</target>
+        </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittant mixed rain and snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia mista intermittant e nevicate</target>
+        </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, nevicate intermittenti</target>
+        </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve">
+          <source>Very cloudy, constant rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia costante</target>
+        </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve">
+          <source>Very cloudy, frequent rain and snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, frequenti piogge e nevicate</target>
+        </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve">
+          <source>Very cloudy, heavy snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, forti nevicate</target>
+        </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve">
+          <source>Very cloudy, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve">
+          <source>Very cloudy, stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, tempestoso</target>
+        </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve">
+          <source>Very cloudy, storms</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, temporali</target>
+        </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve">
+          <source>High cloud cover</source>
+          <target state="final" state-qualifier="mt-suggestion">Alta copertura nuvolosa</target>
+        </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve">
+          <source>Stratus</source>
+          <target state="final" state-qualifier="mt-suggestion">Stratus</target>
+        </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve">
+          <source>Fog</source>
+          <target state="final" state-qualifier="mt-suggestion">Giuntura</target>
+        </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve">
+          <source>Slightly overcast, scattered showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Docce sparse leggermente nuvolose</target>
+        </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve">
+          <source>Slightly overcast, scattered snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Cielo leggermente nuvoloso, nevicate sparse</target>
+        </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve">
+          <source>Slightly overcast, rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Cielo leggermente coperto, pioggia e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve">
+          <source>Slightly overcast, some showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente nuvoloso, alcune docce</target>
+        </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve">
+          <source>Overcast, frequent rain showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, frequenti rovesci di pioggia</target>
+        </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve">
+          <source>Overcast, frequent snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Piogge di neve nuvolose e frequenti</target>
+        </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve">
+          <source>Overcast and dry</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso e asciutto</target>
+        </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve">
+          <source>Slightly overcast, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve">
+          <source>Slightly overcast, stormy snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente nuvoloso, rovesci di neve tempestosi</target>
+        </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve">
+          <source>Overcast, thundery showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Piogge nuvolose e temporalesche</target>
+        </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve">
+          <source>Overcast, thundery snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Rovesci di neve nuvolosi e fragorosi</target>
+        </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve">
+          <source>Very cloudly, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve">
+          <source>Overcast, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve">
+          <source>Very cloudly, thundery snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Rovesci di neve molto nuvolosi e temporaleschi</target>
+        </trans-unit>
+        <trans-unit id="51" translate="yes" xml:space="preserve">
+          <source>Clear sky</source>
+          <target state="final" state-qualifier="mt-suggestion">Cielo sereno</target>
+        </trans-unit>
+        <trans-unit id="52" translate="yes" xml:space="preserve">
+          <source>Slightly overcast</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente nuvoloso</target>
+        </trans-unit>
+        <trans-unit id="53" translate="yes" xml:space="preserve">
+          <source>Heavy cloud formations</source>
+          <target state="final" state-qualifier="mt-suggestion">Formazioni nuvolose pesanti</target>
+        </trans-unit>
+        <trans-unit id="54" translate="yes" xml:space="preserve">
+          <source>Overcast</source>
+          <target state="final" state-qualifier="mt-suggestion">Coperto</target>
+        </trans-unit>
+        <trans-unit id="55" translate="yes" xml:space="preserve">
+          <source>Very cloudy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso</target>
+        </trans-unit>
+        <trans-unit id="56" translate="yes" xml:space="preserve">
+          <source>Overcast, scattered showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Piogge nuvolose e sparse</target>
+        </trans-unit>
+        <trans-unit id="57" translate="yes" xml:space="preserve">
+          <source>Overcast, scattered rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, pioggia sparsa e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="58" translate="yes" xml:space="preserve">
+          <source>Overcast, snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="59" translate="yes" xml:space="preserve">
+          <source>Overcast, some showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, alcune docce</target>
+        </trans-unit>
+        <trans-unit id="60" translate="yes" xml:space="preserve">
+          <source>Overcast, some rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, qualche pioggia e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="61" translate="yes" xml:space="preserve">
+          <source>Overcast, some snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Nuvoloso, alcuni rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="62" translate="yes" xml:space="preserve">
+          <source>Slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="63" translate="yes" xml:space="preserve">
+          <source>Storms</source>
+          <target state="final" state-qualifier="mt-suggestion">Tempeste</target>
+        </trans-unit>
+        <trans-unit id="64" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia leggera</target>
+        </trans-unit>
+        <trans-unit id="65" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light rain and snow showers</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia leggera e rovesci di neve</target>
+        </trans-unit>
+        <trans-unit id="66" translate="yes" xml:space="preserve">
+          <source>Very cloudy, light snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, deboli nevicate</target>
+        </trans-unit>
+        <trans-unit id="67" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia intermittente</target>
+        </trans-unit>
+        <trans-unit id="68" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittant mixed rain and snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia mista intermittant e nevicate</target>
+        </trans-unit>
+        <trans-unit id="69" translate="yes" xml:space="preserve">
+          <source>Very cloudy, intermittent snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, nevicate intermittenti</target>
+        </trans-unit>
+        <trans-unit id="70" translate="yes" xml:space="preserve">
+          <source>Very cloudy, constant rain</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, pioggia costante</target>
+        </trans-unit>
+        <trans-unit id="71" translate="yes" xml:space="preserve">
+          <source>Very cloudy, frequent rain and snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, frequenti piogge e nevicate</target>
+        </trans-unit>
+        <trans-unit id="72" translate="yes" xml:space="preserve">
+          <source>Very cloudy, heavy snowfall</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, forti nevicate</target>
+        </trans-unit>
+        <trans-unit id="73" translate="yes" xml:space="preserve">
+          <source>Very cloudy, slightly stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, leggermente tempestoso</target>
+        </trans-unit>
+        <trans-unit id="74" translate="yes" xml:space="preserve">
+          <source>Very cloudy, stormy</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, tempestoso</target>
+        </trans-unit>
+        <trans-unit id="75" translate="yes" xml:space="preserve">
+          <source>Very cloudy, storms</source>
+          <target state="final" state-qualifier="mt-suggestion">Molto nuvoloso, temporali</target>
+        </trans-unit>
+        <trans-unit id="76" translate="yes" xml:space="preserve">
+          <source>High cloud cover</source>
+          <target state="final" state-qualifier="mt-suggestion">Alta copertura nuvolosa</target>
+        </trans-unit>
+        <trans-unit id="77" translate="yes" xml:space="preserve">
+          <source>Stratus</source>
+          <target state="final" state-qualifier="mt-suggestion">Stratus</target>
+        </trans-unit>
+        <trans-unit id="78" translate="yes" xml:space="preserve">
+          <source>Fog</source>
+          <target state="final" state-qualifier="mt-suggestion">Giuntura</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
 </xliff>

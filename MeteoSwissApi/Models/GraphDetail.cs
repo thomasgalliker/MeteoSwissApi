@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
 using UnitsNet;
@@ -49,6 +50,7 @@ namespace MeteoSwissApi.Models
         public IReadOnlyCollection<Temperature> TemperatureMean1h { get; set; }
 
         [Obsolete("Use WeatherIcon3hV2")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("weatherIcon3h")]
         public IReadOnlyCollection<int> WeatherIcon3h { get; set; }
 

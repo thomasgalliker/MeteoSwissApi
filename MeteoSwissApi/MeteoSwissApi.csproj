@@ -121,6 +121,11 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>WarnTypes.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Resources\Strings\WeatherConditionCodes.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>WeatherConditionCodes.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Update="Resources\Strings\CardinalWindDirections.resx">
@@ -138,6 +143,10 @@
 		<EmbeddedResource Update="Resources\Strings\WarnTypes.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>WarnTypes.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\WeatherConditionCodes.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>WeatherConditionCodes.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

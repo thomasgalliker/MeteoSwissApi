@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace MeteoSwissApi.Tests.Utils
@@ -34,6 +37,30 @@ namespace MeteoSwissApi.Tests.Utils
             }
 
             this.testOutputHelper.WriteLine($"Testfile successfully written to: {outputFilePath}");
+        }
+
+        internal static async Task<(int IconId, Stream Stream)[]> TryGetIconsAsync(int[] range, Func<int, Task<Stream>> downloadFunc)
+        {
+            var iconDownloadTasks = range.Select(iconId =>
+            {
+                return Task.Run(async () =>
+                {
+                    try
+                    {
+                        return (IconId: iconId, Stream: await downloadFunc(iconId));
+                    }
+                    catch (Exception)
+                    {
+                        return (iconId, null);
+                    }
+                });
+            }).ToArray();
+
+            var downloadedIcons = (await Task.WhenAll(iconDownloadTasks))
+                .Where(x => x.Stream != null)
+                .ToArray();
+
+            return downloadedIcons;
         }
     }
 }

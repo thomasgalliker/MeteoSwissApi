@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1" xml:space="preserve">
+    <value>Sonnig</value>
+  </data>
+  <data name="2" xml:space="preserve">
+    <value>Ziemlich sonnig, ein paar Wolken</value>
+  </data>
+  <data name="3" xml:space="preserve">
+    <value>Teilweise sonnig</value>
+  </data>
+  <data name="4" xml:space="preserve">
+    <value>Wechselnd bewölkt</value>
+  </data>
+  <data name="5" xml:space="preserve">
+    <value>Bedeckt</value>
+  </data>
+  <data name="6" xml:space="preserve">
+    <value>Aufhellungen, einzelne Regenschauer</value>
+  </data>
+  <data name="7" xml:space="preserve">
+    <value>Aufhellungen, einzelne Regen‐ oder Schneeschauer</value>
+  </data>
+  <data name="10" xml:space="preserve">
+    <value>Bewölkt, einige Regen‐ oder Schneeschauer</value>
+  </data>
+  <data name="101" xml:space="preserve">
+    <value>Klarer Himmel</value>
+  </data>
+  <data name="102" xml:space="preserve">
+    <value>Leicht bewölkt</value>
+  </data>
+  <data name="103" xml:space="preserve">
+    <value>Teilweise bewölkt</value>
+  </data>
+  <data name="104" xml:space="preserve">
+    <value>Wechselnd bewölkt</value>
+  </data>
+  <data name="105" xml:space="preserve">
+    <value>Bedeckt</value>
+  </data>
+  <data name="106" xml:space="preserve">
+    <value>Aufhellungen, einzelne Regenschauer</value>
+  </data>
+  <data name="107" xml:space="preserve">
+    <value>Aufhellungen, einzelne Regen‐ oder Schneeschauer</value>
+  </data>
+  <data name="108" xml:space="preserve">
+    <value>Aufhellungen, einzelne Schneeschauer</value>
+  </data>
+  <data name="109" xml:space="preserve">
+    <value>Bewölkt, einige Regenschauer</value>
+  </data>
+  <data name="11" xml:space="preserve">
+    <value>Bewölkt, einige Schneeschauer</value>
+  </data>
+  <data name="110" xml:space="preserve">
+    <value>Bewölkt, einige Regen‐ oder Schneeschauer</value>
+  </data>
+  <data name="12" xml:space="preserve">
+    <value>Aufhellungen, leicht gewitterhaft</value>
+  </data>
+  <data name="13" xml:space="preserve">
+    <value>Aufhellungen und gewitterhaft</value>
+  </data>
+  <data name="14" xml:space="preserve">
+    <value> stark bewölkt, schwacher Regen</value>
+  </data>
+  <data name="15" xml:space="preserve">
+    <value>Stark bewölkt, schwacher Schnee oder Regen</value>
+  </data>
+  <data name="16" xml:space="preserve">
+    <value>Stark bewölkt, schwacher Schnee</value>
+  </data>
+  <data name="17" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Regen</value>
+  </data>
+  <data name="18" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Schnee oder Regen</value>
+  </data>
+  <data name="19" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Schnee</value>
+  </data>
+  <data name="20" xml:space="preserve">
+    <value>Stark bewölkt, anhaltender Regen</value>
+  </data>
+  <data name="21" xml:space="preserve">
+    <value>Stark bewölkt, anhaltender Regen oder Schnee</value>
+  </data>
+  <data name="22" xml:space="preserve">
+    <value>Stark bewölkt, anhaltender Schnee</value>
+  </data>
+  <data name="23" xml:space="preserve">
+    <value>Stark bewölkt, leicht gewitterhaft</value>
+  </data>
+  <data name="24" xml:space="preserve">
+    <value>Stark bewölkt, gewitterhaft</value>
+  </data>
+  <data name="25" xml:space="preserve">
+    <value>Stark bewölkt, stark gewitterhaft</value>
+  </data>
+  <data name="26" xml:space="preserve">
+    <value>Hohe Wolkendecke</value>
+  </data>
+  <data name="27" xml:space="preserve">
+    <value>Hochnebel</value>
+  </data>
+  <data name="28" xml:space="preserve">
+    <value>Nebel</value>
+  </data>
+  <data name="29" xml:space="preserve">
+    <value>Leicht bewölkt, einzelne Regenschauer</value>
+  </data>
+  <data name="30" xml:space="preserve">
+    <value>Leicht bewölkt, leichter Schneefall</value>
+  </data>
+  <data name="31" xml:space="preserve">
+    <value>Teilweise sonnig, einige Schnee‐ oder Regenschauer</value>
+  </data>
+  <data name="32" xml:space="preserve">
+    <value>Teilweise sonnig, einige Regenschauer</value>
+  </data>
+  <data name="33" xml:space="preserve">
+    <value>Bewölkt, häufige Regenschauer</value>
+  </data>
+  <data name="34" xml:space="preserve">
+    <value>Bewölkt, häufige Schneeschauer</value>
+  </data>
+  <data name="35" xml:space="preserve">
+    <value>Bedeckt und trocken</value>
+  </data>
+  <data name="36" xml:space="preserve">
+    <value>Teilweise sonnig, gewitterhaft</value>
+  </data>
+  <data name="37" xml:space="preserve">
+    <value>Teilweise sonnig, Gewitter und Schneeschauer</value>
+  </data>
+  <data name="38" xml:space="preserve">
+    <value>Bewölkt, Gewitter und häufige Regenschauer</value>
+  </data>
+  <data name="39" xml:space="preserve">
+    <value>Bewölkt, Gewitter und häufige Schneeschauer</value>
+  </data>
+  <data name="40" xml:space="preserve">
+    <value>Stark bewölkt, leicht gewitterhaft</value>
+  </data>
+  <data name="41" xml:space="preserve">
+    <value>Bewölkt, leicht gewitterhaft</value>
+  </data>
+  <data name="42" xml:space="preserve">
+    <value>Stark bewölkt, Gewitter und häufige Schneeschauer</value>
+  </data>
+  <data name="8" xml:space="preserve">
+    <value> Aufhellungen, einzelne Schneeschauer</value>
+  </data>
+  <data name="9" xml:space="preserve">
+    <value>Bewölkt, einige Regenschauer</value>
+  </data>
+  <data name="111" xml:space="preserve">
+    <value>Bewölkt, einige Schneeschauer</value>
+  </data>
+  <data name="112" xml:space="preserve">
+    <value>Aufhellungen, leicht gewitterhaft</value>
+  </data>
+  <data name="113" xml:space="preserve">
+    <value>Aufhellungen und gewitterhaft</value>
+  </data>
+  <data name="114" xml:space="preserve">
+    <value>Stark bewölkt, schwacher Regen</value>
+  </data>
+  <data name="115" xml:space="preserve">
+    <value>Stark bewölkt, schwacher Schnee oder Regen</value>
+  </data>
+  <data name="116" xml:space="preserve">
+    <value>Stark bewölkt, schwacher Schnee</value>
+  </data>
+  <data name="117" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Regen</value>
+  </data>
+  <data name="118" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Schnee oder Regen</value>
+  </data>
+  <data name="119" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Schnee</value>
+  </data>
+  <data name="120" xml:space="preserve">
+    <value>Stark bewölkt, anhaltender Regen</value>
+  </data>
+  <data name="121" xml:space="preserve">
+    <value>Stark bewölkt, anhaltender Regen oder Schnee</value>
+  </data>
+  <data name="122" xml:space="preserve">
+    <value>Stark bewölkt, anhaltender Schnee</value>
+  </data>
+  <data name="123" xml:space="preserve">
+    <value>Stark bewölkt, leicht gewitterhaft</value>
+  </data>
+  <data name="124" xml:space="preserve">
+    <value>Stark bewölkt, gewitterhaft</value>
+  </data>
+  <data name="125" xml:space="preserve">
+    <value>Stark bewölkt, stark gewitterhaft</value>
+  </data>
+  <data name="126" xml:space="preserve">
+    <value>Hohe Wolkendecke</value>
+  </data>
+  <data name="127" xml:space="preserve">
+    <value>Hochnebel</value>
+  </data>
+  <data name="128" xml:space="preserve">
+    <value>Nebel</value>
+  </data>
+  <data name="129" xml:space="preserve">
+    <value>Leicht bewölkt, einzelne Regenschauer</value>
+  </data>
+  <data name="130" xml:space="preserve">
+    <value>Leicht bewölkt, leichter Schneefall</value>
+  </data>
+  <data name="131" xml:space="preserve">
+    <value>Leicht bewölkt, einige Schnee‐ oder Regenschauer</value>
+  </data>
+  <data name="132" xml:space="preserve">
+    <value>Leicht bewölkt, einige Regenschauer</value>
+  </data>
+  <data name="133" xml:space="preserve">
+    <value>Bewölkt, häufige Regenschauer</value>
+  </data>
+  <data name="134" xml:space="preserve">
+    <value>Bewölkt, häufige Schneeschauer</value>
+  </data>
+  <data name="135" xml:space="preserve">
+    <value>Bedeckt und trocken</value>
+  </data>
+  <data name="136" xml:space="preserve">
+    <value>Aufhellungen, gewitterhaft</value>
+  </data>
+  <data name="137" xml:space="preserve">
+    <value>Leicht bewölkt, Gewitter und Schneeschauer</value>
+  </data>
+  <data name="138" xml:space="preserve">
+    <value>Bewölkt, Gewitter und häufige Regenschauer</value>
+  </data>
+  <data name="139" xml:space="preserve">
+    <value>Bewölkt, Gewitter und häufige Schneeschauer</value>
+  </data>
+  <data name="140" xml:space="preserve">
+    <value>Stark bewölkt, leicht gewitterhaft</value>
+  </data>
+  <data name="141" xml:space="preserve">
+    <value>Bewölkt, leicht gewitterhaft</value>
+  </data>
+  <data name="142" xml:space="preserve">
+    <value>Stark bewölkt, Gewitter und häufige Schneeschauer</value>
+  </data>
+  <data name="51" xml:space="preserve">
+    <value>Klarer Himmel</value>
+  </data>
+  <data name="52" xml:space="preserve">
+    <value>Leicht bewölkt</value>
+  </data>
+  <data name="53" xml:space="preserve">
+    <value>Starke Wolkenformationen</value>
+  </data>
+  <data name="54" xml:space="preserve">
+    <value>Bedeckt</value>
+  </data>
+  <data name="55" xml:space="preserve">
+    <value>Stark bewölkt</value>
+  </data>
+  <data name="56" xml:space="preserve">
+    <value>Bewölkt, vereinzelte Schauer</value>
+  </data>
+  <data name="57" xml:space="preserve">
+    <value>Bewölkt, vereinzelt Regen- und Schneeschauer</value>
+  </data>
+  <data name="58" xml:space="preserve">
+    <value>Bewölkt, Schneeschauer</value>
+  </data>
+  <data name="59" xml:space="preserve">
+    <value>Bewölkt, einige Schauer</value>
+  </data>
+  <data name="60" xml:space="preserve">
+    <value>Stark bewölkt, einige Regen- und Schneeschauer</value>
+  </data>
+  <data name="61" xml:space="preserve">
+    <value>Stark bewölkt, einige Schneeschauer</value>
+  </data>
+  <data name="62" xml:space="preserve">
+    <value>Leicht stürmisch</value>
+  </data>
+  <data name="63" xml:space="preserve">
+    <value>Aufhellungen und gewitterhaft</value>
+  </data>
+  <data name="64" xml:space="preserve">
+    <value>Stark bewölkt, leichter Regen</value>
+  </data>
+  <data name="65" xml:space="preserve">
+    <value>Stark bewölkt, leichte Regen- und Schneeschauer</value>
+  </data>
+  <data name="66" xml:space="preserve">
+    <value>Stark bewölkt, leichter Schneefall</value>
+  </data>
+  <data name="67" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Regen</value>
+  </data>
+  <data name="68" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Regen und Schneefall</value>
+  </data>
+  <data name="69" xml:space="preserve">
+    <value>Stark bewölkt, zeitweise Schneefall</value>
+  </data>
+  <data name="70" xml:space="preserve">
+    <value>Stark bewölkt, Dauerregen</value>
+  </data>
+  <data name="71" xml:space="preserve">
+    <value>Stark bewölkt, häufiger Regen- und Schneefall</value>
+  </data>
+  <data name="72" xml:space="preserve">
+    <value>Stark bewölkt, starker Schneefall</value>
+  </data>
+  <data name="73" xml:space="preserve">
+    <value>Stark bewölkt, leicht stürmisch</value>
+  </data>
+  <data name="74" xml:space="preserve">
+    <value>Stark bewölkt, stürmisch</value>
+  </data>
+  <data name="75" xml:space="preserve">
+    <value>Stark bewölkt, Gewitter</value>
+  </data>
+  <data name="76" xml:space="preserve">
+    <value>Hohe Wolkendecke</value>
+  </data>
+  <data name="77" xml:space="preserve">
+    <value>Hochnebel</value>
+  </data>
+  <data name="78" xml:space="preserve">
+    <value>Nebel</value>
+  </data>
+</root>

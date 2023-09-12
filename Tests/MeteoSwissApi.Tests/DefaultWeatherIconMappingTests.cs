@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using MeteoSwissApi.Tests.Utils;
 using Xunit;
 using Xunit.Abstractions;
@@ -29,27 +27,7 @@ namespace MeteoSwissApi.Tests
             var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
 
             // Act
-            var iconDownloadTasks = range.Select(iconId =>
-            {
-                return Task.Run(async () =>
-                {
-                    try
-                    {
-                        return (IconId: iconId, Stream: await weatherIconMapping.GetIconAsync(iconId));
-                    }
-                    catch (Exception)
-                    {
-                        return (iconId, null);
-                    }
-                });
-            }).ToArray();
-
-            await Task.WhenAll(iconDownloadTasks);
-
-            var downloadedIcons = (await Task.WhenAll(iconDownloadTasks))
-                .Where(x => x.Stream != null)
-                .ToArray();
-
+            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, weatherIconMapping.GetIconAsync);
 
             // Assert
             foreach (var (IconId, Stream) in downloadedIcons)
