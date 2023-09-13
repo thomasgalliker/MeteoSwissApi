@@ -361,7 +361,7 @@
         </trans-unit>
         <trans-unit id="14" translate="yes" xml:space="preserve">
           <source>Very cloudy, light rain</source>
-          <target state="final"> stark bewölkt, schwacher Regen</target>
+          <target state="final">Stark bewölkt, schwacher Regen</target>
         </trans-unit>
         <trans-unit id="15" translate="yes" xml:space="preserve">
           <source>Very cloudy, light sleet</source>
@@ -477,7 +477,7 @@
         </trans-unit>
         <trans-unit id="8" translate="yes" xml:space="preserve">
           <source>Sunny intervals, snow showers</source>
-          <target state="final"> Aufhellungen, einzelne Schneeschauer</target>
+          <target state="final">Aufhellungen, einzelne Schneeschauer</target>
         </trans-unit>
         <trans-unit id="9" translate="yes" xml:space="preserve">
           <source>Overcast, some rain showers</source>
