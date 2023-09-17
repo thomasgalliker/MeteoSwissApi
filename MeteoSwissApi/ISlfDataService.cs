@@ -22,7 +22,18 @@ namespace MeteoSwissApi
         /// <summary>
         /// Gets the latest measurements from the SLF weather station with <paramref name="network"/> / <paramref name="stationCode"/>.
         /// </summary>
+        /// <param name="network">The code of the measurement network.</param>
+        /// <param name="stationCode">The station code.</param>
+        /// <returns>The latest measurement of the selected weather station.</returns>
         Task<SlfStationMeasurement> GetLatestMeasurementByStationCodeAsync(string network, string stationCode);
+
+        /// <summary>
+        /// Gets the measurements from past seven days of the SLF weather station with <paramref name="network"/> / <paramref name="stationCode"/>.
+        /// </summary>
+        /// <param name="network">The code of the measurement network.</param>
+        /// <param name="stationCode">The station code.</param>
+        /// <returns>The measurements of the selected weather station.</returns>
+        Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string code);
 
         /// <summary>
         /// Returns a bitmap stream with a teaser image of the map

@@ -8,40 +8,40 @@ namespace MeteoSwissApi.Models
         public SlfStation Station { get; set; }
 
         [JsonProperty("heightNewSnow")]
-        public SlfStationMeasurementLengthValue NewSnowHeight1d { get; set; }
+        public SlfStationDateLength NewSnowHeight1d { get; set; }
 
         [JsonProperty("heightNewSnow3d")]
-        public SlfStationMeasurementLengthValue NewSnowHeight3d { get; set; }
+        public SlfStationDateLength NewSnowHeight3d { get; set; }
 
         [JsonProperty("heightNewSnow7d")]
-        public SlfStationMeasurementLengthValue NewSnowHeight7d { get; set; }
+        public SlfStationDateLength NewSnowHeight7d { get; set; }
 
         [JsonProperty("snowHeight")]
-        public SlfStationMeasurementLengthValue SnowHeight { get; set; }
+        public SlfStationDateLength SnowHeight { get; set; }
 
         [JsonProperty("temperatureAir")]
-        public SlfStationMeasurementTemperatureValue AirTemperature { get; set; }
+        public SlfStationDateTemperature AirTemperature { get; set; }
 
         [JsonProperty("temperatureSnowSurface")]
-        public SlfStationMeasurementTemperatureValue SurfaceTemperature { get; set; }
+        public SlfStationDateTemperature SurfaceTemperature { get; set; }
 
         /// <summary>
         /// The mean wind speed. A vectorial mean over a 30 minute measuring period.
         /// </summary>
         [JsonProperty("windVelocityMean")]
-        public SlfStationMeasurementSpeedValue WindSpeedMean { get; set; }
+        public SlfStationDateSpeed WindSpeedMean { get; set; }
 
         /// <summary>
         /// The wind direction: Direction of the vectorial mean.
         /// </summary>
         [JsonProperty("windDirectionMean")]
-        public SlfStationMeasurementAngleValue WindDirection { get; set; }
+        public SlfStationDateAngle WindDirection { get; set; }
 
         /// <summary>
         /// Maximum gust lasting for 5 seconds recorded during the 30-minute measuring period.
         /// </summary>
         [JsonProperty("windVelocityMax")]
-        public SlfStationMeasurementSpeedValue WindSpeedMax { get; set; }
+        public SlfStationDateSpeed WindSpeedMax { get; set; }
 
         public override string ToString()
         {

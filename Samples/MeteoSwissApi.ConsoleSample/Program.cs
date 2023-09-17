@@ -106,6 +106,10 @@ namespace MeteoSwissApi.ConsoleSample
                 Console.WriteLine("...");
                 Console.WriteLine();
 
+                var measurementTIT1All = await slfDataService.GetMeasurementsByStationCodeAsync("SMN", "*TIT1");
+                Console.WriteLine(ObjectDumper.Dump(measurementTIT1All, dumpOptions));
+                Console.WriteLine();
+
                 var measurementTIT1 = await slfDataService.GetLatestMeasurementByStationCodeAsync("SMN", "*TIT1");
                 Console.WriteLine(ObjectDumper.Dump(measurementTIT1, dumpOptions));
                 Console.WriteLine();

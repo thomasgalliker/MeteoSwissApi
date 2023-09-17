@@ -170,36 +170,91 @@ namespace MeteoSwissApi
             return measurement;
         }
 
+        /// <inheritdoc />
+        public async Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string code)
+        {
+            this.logger.LogDebug($"GetMeasurementsByStationCodeAsync");
+
+            var builder = new UriBuilder(SlfApiEndpoint)
+            {
+                Path = $"public/station-data/timeseries/week/current/{network}/{code}",
+            };
+
+            var uri = builder.ToString();
+            this.logger.LogDebug($"GetMeasurementsByStationCodeAsync: GET {uri}");
+
+            var response = await this.httpClient.GetAsync(uri);
+            response.EnsureSuccessStatusCode();
+
+            var responseJson = await response.Content.ReadAsStringAsync();
+
+            if (this.verboseLogging)
+            {
+                this.logger.LogDebug($"GetMeasurementsByStationCodeAsync returned content:{Environment.NewLine}{responseJson}");
+            }
+
+
+            var timeseries = JsonConvert.DeserializeObject<SlfStationMeasurementsResponse>(responseJson, this.serializerSettings);
+            
+            var slfStationMeasurementItems = timeseries.TemperatureAir
+                .Select(t =>
+                {
+                    var windVelocityMean = timeseries.WindVelocityMean.Single(w => w.Date == t.Date);
+                    var windVelocityMax = timeseries.WindVelocityMax.Single(w => w.Date == t.Date);
+                    var windDirectionMean = timeseries.WindDirectionMean.Single(w => w.Date == t.Date);
+
+                    var slfWindInfo = new SlfWindInfo
+                    {
+                        VelocityMax = windVelocityMax.Value,
+                        VelocityMean = windVelocityMean.Value,
+                        Direction = windDirectionMean.Value,
+                    };
+
+                    return new SlfStationMeasurementItem
+                    {
+                        Date = t.Date,
+                        TemperatureAir = t.Value,
+                        Wind = slfWindInfo
+                    };
+                })
+                .OrderBy(t => t.Date)
+                .ToArray();
+
+            return slfStationMeasurementItems;
+        }
+
         private static readonly (string QueryParameter, Action<SlfProperties, SlfStationMeasurement> AssignmentAction)[] ValueMappings =
         {
             ("HEIGHT_NEW_SNOW_1D", (SlfProperties p, SlfStationMeasurement m) =>
-                m.NewSnowHeight1d = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+                m.NewSnowHeight1d = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
             ("HEIGHT_NEW_SNOW_3D", (SlfProperties p, SlfStationMeasurement m) =>
-                m.NewSnowHeight3d = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+                m.NewSnowHeight3d = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
             ("HEIGHT_NEW_SNOW_7D", (SlfProperties p, SlfStationMeasurement m) =>
-                m.NewSnowHeight7d = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+                m.NewSnowHeight7d = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
             ("SNOW_HEIGHT", (SlfProperties p, SlfStationMeasurement m) =>
-                m.SnowHeight = new SlfStationMeasurementLengthValue { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+                m.SnowHeight = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
 
             ("TEMPERATURE_AIR", (SlfProperties p, SlfStationMeasurement m) =>
-                m.AirTemperature = new SlfStationMeasurementTemperatureValue { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
+                m.AirTemperature = new SlfStationDateTemperature { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
 
             ("TEMPERATURE_SNOW_SURFACE", (SlfProperties p, SlfStationMeasurement m) =>
-                m.SurfaceTemperature = new SlfStationMeasurementTemperatureValue { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
+                m.SurfaceTemperature = new SlfStationDateTemperature { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
 
             ("WIND_MEAN", (SlfProperties p, SlfStationMeasurement m) =>
             {
-                m.WindSpeedMean = new SlfStationMeasurementSpeedValue{ Date = p.Timestamp.Value, Value = Speed.FromKilometersPerHour(p.Velocity.Value)};
-                m.WindDirection = new SlfStationMeasurementAngleValue{ Date = p.Timestamp.Value, Value = Angle.FromDegrees(p.Direction.Value) };
+                m.WindSpeedMean = new SlfStationDateSpeed{ Date = p.Timestamp.Value, Value = Speed.FromKilometersPerHour(p.Velocity.Value)};
+                m.WindDirection = new SlfStationDateAngle{ Date = p.Timestamp.Value, Value = Angle.FromDegrees(p.Direction.Value) };
             }),
         };
 
         /// <inheritdoc />
         public async Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsAsync()
         {
+            this.logger.LogDebug($"GetLatestMeasurementsAsync");
+
             var parameterAndTasks = ValueMappings
                 .Select(p => (p.QueryParameter, Task: this.GetLatestMeasurementsAsync(p.QueryParameter)))
                 .ToArray();
@@ -257,7 +312,7 @@ namespace MeteoSwissApi
 
         private async Task<SlfStationMeasurementResponse> GetLatestMeasurementsAsync(string parameter)
         {
-            this.logger.LogDebug($"GetStationDataTimepointAsync");
+            this.logger.LogDebug($"GetLatestMeasurementsAsync");
 
             var builder = new UriBuilder(SlfApiEndpoint)
             {
@@ -270,7 +325,7 @@ namespace MeteoSwissApi
             }
 
             var uri = builder.ToString();
-            this.logger.LogDebug($"GetStationDataTimepointAsync: GET {uri}");
+            this.logger.LogDebug($"GetLatestMeasurementsAsync: GET {uri}");
 
             var response = await this.httpClient.GetAsync(uri);
             response.EnsureSuccessStatusCode();
@@ -279,11 +334,11 @@ namespace MeteoSwissApi
 
             if (this.verboseLogging)
             {
-                this.logger.LogDebug($"GetStationDataTimepointAsync returned content:{Environment.NewLine}{responseJson}");
+                this.logger.LogDebug($"GetLatestMeasurementsAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var stationDataTimePointReponse = JsonConvert.DeserializeObject<SlfStationMeasurementResponse>(responseJson, this.serializerSettings);
-            return stationDataTimePointReponse;
+            var slfStationMeasurementResponse = JsonConvert.DeserializeObject<SlfStationMeasurementResponse>(responseJson, this.serializerSettings);
+            return slfStationMeasurementResponse;
         }
 
         public async Task<Stream> GetMapTeaserImageAsync(string network, string stationCode)
