@@ -22,14 +22,14 @@ namespace MeteoSwissApi.Resources.Strings {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SlfStationTypes {
+    internal class HumidityRanges {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SlfStationTypes() {
+        internal HumidityRanges() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace MeteoSwissApi.Resources.Strings {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MeteoSwissApi.Resources.Strings.SlfStationTypes", typeof(SlfStationTypes).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MeteoSwissApi.Resources.Strings.HumidityRanges", typeof(HumidityRanges).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,56 +61,47 @@ namespace MeteoSwissApi.Resources.Strings {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Snowdrift sensor.
+        ///   Looks up a localized string similar to Average.
         /// </summary>
-        internal static string FLOWCAPT {
+        internal static string Average {
             get {
-                return ResourceManager.GetString("FLOWCAPT", resourceCulture);
+                return ResourceManager.GetString("Average", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rain station.
+        ///   Looks up a localized string similar to Dry.
         /// </summary>
-        internal static string PLUVIO {
+        internal static string Dry {
             get {
-                return ResourceManager.GetString("PLUVIO", resourceCulture);
+                return ResourceManager.GetString("Dry", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Snow station.
+        ///   Looks up a localized string similar to Moist.
         /// </summary>
-        internal static string SNOW_FLAT {
+        internal static string Moist {
             get {
-                return ResourceManager.GetString("SNOW_FLAT", resourceCulture);
+                return ResourceManager.GetString("Moist", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Snow station.
+        ///   Looks up a localized string similar to Very dry.
         /// </summary>
-        internal static string SNOW_SLOPE {
+        internal static string VeryDry {
             get {
-                return ResourceManager.GetString("SNOW_SLOPE", resourceCulture);
+                return ResourceManager.GetString("VeryDry", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Special measurement station.
+        ///   Looks up a localized string similar to Very moist.
         /// </summary>
-        internal static string SPECIAL {
+        internal static string VeryMoist {
             get {
-                return ResourceManager.GetString("SPECIAL", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Wind station.
-        /// </summary>
-        internal static string WIND {
-            get {
-                return ResourceManager.GetString("WIND", resourceCulture);
+                return ResourceManager.GetString("VeryMoist", resourceCulture);
             }
         }
     }

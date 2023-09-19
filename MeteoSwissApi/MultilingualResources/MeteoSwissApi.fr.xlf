@@ -726,4 +726,62 @@
       </group>
     </body>
   </file>
+  <file datatype="xml" source-language="sv" target-language="fr" original="METEOSWISSAPI/RESOURCES/STRINGS/PRESSURERANGES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/PRESSURERANGES.RESX" datatype="resx">
+       <trans-unit id="Average" translate="yes" xml:space="preserve">
+          <source>Average</source>
+          <target state="final" state-qualifier="mt-suggestion">Moyenne</target>
+        </trans-unit>
+        <trans-unit id="High" translate="yes" xml:space="preserve">
+          <source>High</source>
+          <target state="final" state-qualifier="mt-suggestion">Haut</target>
+        </trans-unit>
+        <trans-unit id="Low" translate="yes" xml:space="preserve">
+          <source>Low</source>
+          <target state="final" state-qualifier="mt-suggestion">Bas</target>
+        </trans-unit>
+        <trans-unit id="VeryHigh" translate="yes" xml:space="preserve">
+          <source>Very high</source>
+          <target state="final" state-qualifier="mt-suggestion">Très élevé</target>
+        </trans-unit>
+        <trans-unit id="VeryLow" translate="yes" xml:space="preserve">
+          <source>Very low</source>
+          <target state="final" state-qualifier="mt-suggestion">Très faible</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+  <file datatype="xml" source-language="sv" target-language="fr" original="METEOSWISSAPI/RESOURCES/STRINGS/HUMIDITYRANGES.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="METEOSWISSAPI/RESOURCES/STRINGS/HUMIDITYRANGES.RESX" datatype="resx">
+        <trans-unit id="Average" translate="yes" xml:space="preserve">
+          <source>Average</source>
+          <target state="new">Average</target>
+        </trans-unit>
+        <trans-unit id="Dry" translate="yes" xml:space="preserve">
+          <source>Dry</source>
+          <target state="new">Dry</target>
+        </trans-unit>
+        <trans-unit id="Moist" translate="yes" xml:space="preserve">
+          <source>Moist</source>
+          <target state="new">Moist</target>
+        </trans-unit>
+        <trans-unit id="VeryDry" translate="yes" xml:space="preserve">
+          <source>Very dry</source>
+          <target state="new">Very dry</target>
+        </trans-unit>
+        <trans-unit id="VeryMoist" translate="yes" xml:space="preserve">
+          <source>Very moist</source>
+          <target state="new">Very moist</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
 </xliff>

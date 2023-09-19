@@ -111,6 +111,21 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>CardinalWindDirectionsAcronyms.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Resources\Strings\HumidityRanges.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>HumidityRanges.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\PressureRanges.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PressureRanges.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\SlfStationTypes.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>SlfStationTypes.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Resources\Strings\WarnLevels.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -135,6 +150,18 @@
 		<EmbeddedResource Update="Resources\Strings\CardinalWindDirectionsAcronyms.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>CardinalWindDirectionsAcronyms.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\HumidityRanges.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>HumidityRanges.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\PressureRanges.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PressureRanges.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\SlfStationTypes.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>SlfStationTypes.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 		<EmbeddedResource Update="Resources\Strings\WarnLevels.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
