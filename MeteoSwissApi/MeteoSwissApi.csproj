@@ -52,6 +52,7 @@
 		</PackageReleaseNotes>
 		<Copyright>Copyright 2023</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
