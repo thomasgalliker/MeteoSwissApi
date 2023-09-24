@@ -12,4 +12,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Level1" xml:space="preserve">
+    <value>Basso</value>
+  </data>
+  <data name="Level2" xml:space="preserve">
+    <value>Moderato</value>
+  </data>
+  <data name="Level3" xml:space="preserve">
+    <value>Considerevole</value>
+  </data>
+  <data name="Level4" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="Level5" xml:space="preserve">
+    <value>Estremo</value>
+  </data>
+  <data name="Level0" xml:space="preserve">
+    <value>Nessun livello di pericolo</value>
+  </data>
 </root>

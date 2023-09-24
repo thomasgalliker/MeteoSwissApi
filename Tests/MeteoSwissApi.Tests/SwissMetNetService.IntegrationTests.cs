@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Tests.Logging;
-using MeteoSwissApi.Tests.Utils;
 using Microsoft.Extensions.Logging;
 using UnitsNet;
 using Xunit;
@@ -14,7 +13,7 @@ namespace MeteoSwissApi.Tests
     public class SwissMetNetServiceIntegrationTests
     {
         private readonly ILogger<SwissMetNetService> logger;
-        private readonly ISwissMetNetServiceOptions options;
+        private readonly MeteoSwissApiOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
 
@@ -22,7 +21,7 @@ namespace MeteoSwissApi.Tests
         {
             this.testOutputHelper = testOutputHelper;
             this.logger = new TestOutputHelperLogger<SwissMetNetService>(testOutputHelper);
-            this.options = new SwissMetNetServiceOptions
+            this.options = new MeteoSwissApiOptions
             {
                 VerboseLogging = true
             };
@@ -75,11 +74,10 @@ namespace MeteoSwissApi.Tests
                     Place = "Cham",
                     StationCode = "CHZ",
                     WigosId = "0-20000-0-06674",
-                    StationType = "Weather station",
-                    Altitude = Length.FromMeters(443m),
+                    StationType = WeatherStationType.WeatherStation,
                     BarometricAltitude = Length.FromMeters(443m),
-                    Latitude = 47.188278m,
-                    Longitude = 8.464642m,
+                    Location = new GeoCoordinate(47.188278d, 8.464642d, Length.FromMeters(443m)),
+                    DataOwners = new[] { "MeteoSwiss" },
                     Canton = "ZG"
                 });
         }

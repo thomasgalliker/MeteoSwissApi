@@ -1,5 +1,8 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Xunit.Abstractions;
 
 namespace MeteoSwissApi.Tests.Utils
@@ -19,7 +22,7 @@ namespace MeteoSwissApi.Tests.Utils
             }
         }
 
-        internal void WriteFile(Stream bitmapStream, string fileExtension = "png", [CallerMemberName] string callerMemberName = null)
+        internal void WriteFile(Stream bitmapStream, [CallerMemberName] string fileName = null, string fileExtension = "png")
         {
             if (bitmapStream == null)
             {
@@ -27,13 +30,37 @@ namespace MeteoSwissApi.Tests.Utils
                 return;
             }
 
-            var outputFilePath = Path.Combine(this.outputFolder, $"{callerMemberName}.{fileExtension}");
+            var outputFilePath = Path.Combine(this.outputFolder, $"{fileName}.{fileExtension}");
             using (var fileStream = new FileStream(outputFilePath, FileMode.Create, FileAccess.Write))
             {
                 bitmapStream.CopyTo(fileStream);
             }
 
             this.testOutputHelper.WriteLine($"Testfile successfully written to: {outputFilePath}");
+        }
+
+        internal static async Task<(int IconId, Stream Stream)[]> TryGetIconsAsync(int[] range, Func<int, Task<Stream>> downloadFunc)
+        {
+            var iconDownloadTasks = range.Select(iconId =>
+            {
+                return Task.Run(async () =>
+                {
+                    try
+                    {
+                        return (IconId: iconId, Stream: await downloadFunc(iconId));
+                    }
+                    catch (Exception)
+                    {
+                        return (iconId, null);
+                    }
+                });
+            }).ToArray();
+
+            var downloadedIcons = (await Task.WhenAll(iconDownloadTasks))
+                .Where(x => x.Stream != null)
+                .ToArray();
+
+            return downloadedIcons;
         }
     }
 }

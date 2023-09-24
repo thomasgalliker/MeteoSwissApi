@@ -18,13 +18,11 @@ namespace MeteoSwissApi.Tests.Models
                 WarnLevel = WarnLevel.Level1,
             };
 
-
             // Act
             var warnTypeAndLevel = warningOverview.WarnType.ToString(warningOverview.WarnLevel, cultureInfo);
 
-
             // Assert
-
+            // TODO
         }
     }
 }

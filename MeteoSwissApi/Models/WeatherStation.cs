@@ -1,9 +1,12 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
-    [DebuggerDisplay("Station \"{this.StationCode}\"")]
+    /// <summary>
+    /// SwissMetNet weather station.
+    /// </summary>
     public class WeatherStation
     {
         /// <summary>
@@ -15,34 +18,41 @@ namespace MeteoSwissApi.Models
         /// Internal station code, also referred to as 'Abbreviation'.
         /// </summary>
         public string StationCode { get; set; }
-        
-        public string WigosId { get; set; }
-        
-        public string StationType { get; set; }
 
         /// <summary>
-        /// Station height above sea level.
+        /// WIGOS station identifier.
         /// </summary>
-        public Length? Altitude { get; set; }
+        public string WigosId { get; set; }
+
+        public WeatherStationType StationType { get; set; }
 
         /// <summary>
         /// Barometric altitude above ground.
         /// </summary>
+        /// <remarks>
+        /// See <see cref="Location"/> (property <see cref="GeoCoordinate.Altitude"/>) 
+        /// for station height (in meters a.s.l.).
+        /// </remarks>
         public Length? BarometricAltitude { get; set; }
 
         /// <summary>
-        /// Latitude of GPS position.
+        /// Geolocation of the weather station.
         /// </summary>
-        public decimal? Latitude { get; set; }
+        public GeoCoordinate Location { get; set; }
 
         /// <summary>
-        /// Longitude of GPS position.
+        /// Owner(s) of the data provided by the weather station.
         /// </summary>
-        public decimal? Longitude { get; set; }
-        
+        public IReadOnlyCollection<string> DataOwners { get; set; } = Array.Empty<string>();
+
         /// <summary>
         /// Political canton.
         /// </summary>
         public string Canton { get; set; }
+
+        public override string ToString()
+        {
+            return this.StationCode;
+        }
     }
 }

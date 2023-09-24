@@ -1,0 +1,351 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="1" xml:space="preserve">
+    <value>Ensoleillé</value>
+  </data>
+  <data name="2" xml:space="preserve">
+    <value>Principalement ensoleillé avec quelques nuages</value>
+  </data>
+  <data name="3" xml:space="preserve">
+    <value>Nuages partiellement ensoleillés et épais</value>
+  </data>
+  <data name="4" xml:space="preserve">
+    <value>Couvert</value>
+  </data>
+  <data name="5" xml:space="preserve">
+    <value>Très nuageux</value>
+  </data>
+  <data name="6" xml:space="preserve">
+    <value>Intervalles ensoleillés, averses isolées</value>
+  </data>
+  <data name="7" xml:space="preserve">
+    <value>Intervalles ensoleillés, grésil isolé</value>
+  </data>
+  <data name="10" xml:space="preserve">
+    <value>Nuageux, un peu de grésil</value>
+  </data>
+  <data name="101" xml:space="preserve">
+    <value>Ciel dégagé</value>
+  </data>
+  <data name="102" xml:space="preserve">
+    <value>Légèrement couvert</value>
+  </data>
+  <data name="103" xml:space="preserve">
+    <value>Formations nuageuses lourdes</value>
+  </data>
+  <data name="104" xml:space="preserve">
+    <value>Couvert</value>
+  </data>
+  <data name="105" xml:space="preserve">
+    <value>Très nuageux</value>
+  </data>
+  <data name="106" xml:space="preserve">
+    <value>Averses nuageuses et éparses</value>
+  </data>
+  <data name="107" xml:space="preserve">
+    <value>Nuageux, pluies éparses et averses de neige</value>
+  </data>
+  <data name="108" xml:space="preserve">
+    <value>Nuageux, averses de neige</value>
+  </data>
+  <data name="109" xml:space="preserve">
+    <value>Nuageux, quelques averses</value>
+  </data>
+  <data name="11" xml:space="preserve">
+    <value>Nuageux, quelques averses de neige</value>
+  </data>
+  <data name="110" xml:space="preserve">
+    <value>Nuageux, quelques averses de pluie et de neige</value>
+  </data>
+  <data name="12" xml:space="preserve">
+    <value>Intervalles ensoleillés, risque d’orages</value>
+  </data>
+  <data name="13" xml:space="preserve">
+    <value>Intervalles ensoleillés, orages possibles</value>
+  </data>
+  <data name="14" xml:space="preserve">
+    <value>Très nuageux, pluie légère</value>
+  </data>
+  <data name="15" xml:space="preserve">
+    <value>Très nuageux, grésil léger</value>
+  </data>
+  <data name="16" xml:space="preserve">
+    <value>Très nuageux, légères averses de neige</value>
+  </data>
+  <data name="17" xml:space="preserve">
+    <value>Très nuageux, pluie intermittente</value>
+  </data>
+  <data name="18" xml:space="preserve">
+    <value>Très nuageux, grésil intermittent</value>
+  </data>
+  <data name="19" xml:space="preserve">
+    <value>Très nuageux, neige intermittente</value>
+  </data>
+  <data name="20" xml:space="preserve">
+    <value>Très couvert de pluie</value>
+  </data>
+  <data name="21" xml:space="preserve">
+    <value>Très couvert avec grésil fréquent</value>
+  </data>
+  <data name="22" xml:space="preserve">
+    <value>Très couvert avec de fortes chutes de neige</value>
+  </data>
+  <data name="23" xml:space="preserve">
+    <value>Très couvert, faible risque d’orages</value>
+  </data>
+  <data name="24" xml:space="preserve">
+    <value>Très couvert d’orages</value>
+  </data>
+  <data name="25" xml:space="preserve">
+    <value>Très nuageux, très orageux</value>
+  </data>
+  <data name="26" xml:space="preserve">
+    <value>Couverture nuageuse élevée</value>
+  </data>
+  <data name="27" xml:space="preserve">
+    <value>Stratus</value>
+  </data>
+  <data name="28" xml:space="preserve">
+    <value>Articulation</value>
+  </data>
+  <data name="29" xml:space="preserve">
+    <value>Intervalles ensoleillés, averses éparses</value>
+  </data>
+  <data name="30" xml:space="preserve">
+    <value>Intervalles ensoleillés, averses de neige éparses</value>
+  </data>
+  <data name="31" xml:space="preserve">
+    <value>Intervalles ensoleillés, grésil épars</value>
+  </data>
+  <data name="32" xml:space="preserve">
+    <value>Intervalles ensoleillés, quelques averses</value>
+  </data>
+  <data name="33" xml:space="preserve">
+    <value>Intervalles ensoleillés courts, pluies fréquentes</value>
+  </data>
+  <data name="34" xml:space="preserve">
+    <value>Courts intervalles ensoleillés, chutes de neige fréquentes</value>
+  </data>
+  <data name="35" xml:space="preserve">
+    <value>Couvert et sec</value>
+  </data>
+  <data name="36" xml:space="preserve">
+    <value>Partiellement ensoleillé, légèrement orageux</value>
+  </data>
+  <data name="37" xml:space="preserve">
+    <value>Averses de neige partiellement ensoleillées et orageuses</value>
+  </data>
+  <data name="38" xml:space="preserve">
+    <value>Averses nuageuses et orageuses</value>
+  </data>
+  <data name="39" xml:space="preserve">
+    <value>Nuageux, averses de neige orageuse</value>
+  </data>
+  <data name="40" xml:space="preserve">
+    <value>Très nuageux, légèrement orageux</value>
+  </data>
+  <data name="41" xml:space="preserve">
+    <value>Nuageux, légèrement orageux</value>
+  </data>
+  <data name="42" xml:space="preserve">
+    <value>Très nuageux, averses de neige orageuses</value>
+  </data>
+  <data name="8" xml:space="preserve">
+    <value>Intervalles ensoleillés, averses de neige</value>
+  </data>
+  <data name="9" xml:space="preserve">
+    <value>Nuageux, quelques averses de pluie</value>
+  </data>
+  <data name="111" xml:space="preserve">
+    <value>Nuageux, quelques averses de neige</value>
+  </data>
+  <data name="112" xml:space="preserve">
+    <value>Légèrement orageux</value>
+  </data>
+  <data name="113" xml:space="preserve">
+    <value>Tempêtes</value>
+  </data>
+  <data name="114" xml:space="preserve">
+    <value>Très nuageux, pluie légère</value>
+  </data>
+  <data name="115" xml:space="preserve">
+    <value>Très nuageux, pluie légère et averses de neige</value>
+  </data>
+  <data name="116" xml:space="preserve">
+    <value>Très nuageux, faibles chutes de neige</value>
+  </data>
+  <data name="117" xml:space="preserve">
+    <value>Très nuageux, pluie intermittente</value>
+  </data>
+  <data name="118" xml:space="preserve">
+    <value>Très nuageux, intermittent mélange de pluie et de neige</value>
+  </data>
+  <data name="119" xml:space="preserve">
+    <value>Très nuageux, chutes de neige intermittentes</value>
+  </data>
+  <data name="120" xml:space="preserve">
+    <value>Très nuageux, pluie constante</value>
+  </data>
+  <data name="121" xml:space="preserve">
+    <value>Très nuageux, pluies et chutes de neige fréquentes</value>
+  </data>
+  <data name="122" xml:space="preserve">
+    <value>Très nuageux, fortes chutes de neige</value>
+  </data>
+  <data name="123" xml:space="preserve">
+    <value>Très nuageux, légèrement orageux</value>
+  </data>
+  <data name="124" xml:space="preserve">
+    <value>Très nuageux, orageux</value>
+  </data>
+  <data name="125" xml:space="preserve">
+    <value>Très nuageux, orages</value>
+  </data>
+  <data name="126" xml:space="preserve">
+    <value>Couverture nuageuse élevée</value>
+  </data>
+  <data name="127" xml:space="preserve">
+    <value>Stratus</value>
+  </data>
+  <data name="128" xml:space="preserve">
+    <value>Articulation</value>
+  </data>
+  <data name="129" xml:space="preserve">
+    <value>Légèrement couvert, averses éparses</value>
+  </data>
+  <data name="130" xml:space="preserve">
+    <value>Légèrement couvert, chutes de neige éparses</value>
+  </data>
+  <data name="131" xml:space="preserve">
+    <value>Légèrement couvert, averses de pluie et de neige</value>
+  </data>
+  <data name="132" xml:space="preserve">
+    <value>Légèrement couvert, quelques averses</value>
+  </data>
+  <data name="133" xml:space="preserve">
+    <value>Nuageux, averses de pluie fréquentes</value>
+  </data>
+  <data name="134" xml:space="preserve">
+    <value>Nuageux, averses de neige fréquentes</value>
+  </data>
+  <data name="135" xml:space="preserve">
+    <value>Couvert et sec</value>
+  </data>
+  <data name="136" xml:space="preserve">
+    <value>Légèrement couvert, légèrement orageux</value>
+  </data>
+  <data name="137" xml:space="preserve">
+    <value>Averses de neige légèrement couvertes, orageuses</value>
+  </data>
+  <data name="138" xml:space="preserve">
+    <value>Averses nuageuses et orageuses</value>
+  </data>
+  <data name="139" xml:space="preserve">
+    <value>Nuageux, averses de neige orageuse</value>
+  </data>
+  <data name="140" xml:space="preserve">
+    <value>Très nuageux, légèrement orageux</value>
+  </data>
+  <data name="141" xml:space="preserve">
+    <value>Nuageux, légèrement orageux</value>
+  </data>
+  <data name="142" xml:space="preserve">
+    <value>Très nuageux, averses de neige orageuses</value>
+  </data>
+  <data name="51" xml:space="preserve">
+    <value>Ciel dégagé</value>
+  </data>
+  <data name="52" xml:space="preserve">
+    <value>Légèrement couvert</value>
+  </data>
+  <data name="53" xml:space="preserve">
+    <value>Formations nuageuses lourdes</value>
+  </data>
+  <data name="54" xml:space="preserve">
+    <value>Couvert</value>
+  </data>
+  <data name="55" xml:space="preserve">
+    <value>Très nuageux</value>
+  </data>
+  <data name="56" xml:space="preserve">
+    <value>Averses nuageuses et éparses</value>
+  </data>
+  <data name="57" xml:space="preserve">
+    <value>Nuageux, pluies éparses et averses de neige</value>
+  </data>
+  <data name="58" xml:space="preserve">
+    <value>Nuageux, averses de neige</value>
+  </data>
+  <data name="59" xml:space="preserve">
+    <value>Nuageux, quelques averses</value>
+  </data>
+  <data name="60" xml:space="preserve">
+    <value>Nuageux, quelques averses de pluie et de neige</value>
+  </data>
+  <data name="61" xml:space="preserve">
+    <value>Nuageux, quelques averses de neige</value>
+  </data>
+  <data name="62" xml:space="preserve">
+    <value>Légèrement orageux</value>
+  </data>
+  <data name="63" xml:space="preserve">
+    <value>Tempêtes</value>
+  </data>
+  <data name="64" xml:space="preserve">
+    <value>Très nuageux, pluie légère</value>
+  </data>
+  <data name="65" xml:space="preserve">
+    <value>Très nuageux, pluie légère et averses de neige</value>
+  </data>
+  <data name="66" xml:space="preserve">
+    <value>Très nuageux, faibles chutes de neige</value>
+  </data>
+  <data name="67" xml:space="preserve">
+    <value>Très nuageux, pluie intermittente</value>
+  </data>
+  <data name="68" xml:space="preserve">
+    <value>Très nuageux, intermittent mélange de pluie et de neige</value>
+  </data>
+  <data name="69" xml:space="preserve">
+    <value>Très nuageux, chutes de neige intermittentes</value>
+  </data>
+  <data name="70" xml:space="preserve">
+    <value>Très nuageux, pluie constante</value>
+  </data>
+  <data name="71" xml:space="preserve">
+    <value>Très nuageux, pluies et chutes de neige fréquentes</value>
+  </data>
+  <data name="72" xml:space="preserve">
+    <value>Très nuageux, fortes chutes de neige</value>
+  </data>
+  <data name="73" xml:space="preserve">
+    <value>Très nuageux, légèrement orageux</value>
+  </data>
+  <data name="74" xml:space="preserve">
+    <value>Très nuageux, orageux</value>
+  </data>
+  <data name="75" xml:space="preserve">
+    <value>Très nuageux, orages</value>
+  </data>
+  <data name="76" xml:space="preserve">
+    <value>Couverture nuageuse élevée</value>
+  </data>
+  <data name="77" xml:space="preserve">
+    <value>Stratus</value>
+  </data>
+  <data name="78" xml:space="preserve">
+    <value>Articulation</value>
+  </data>
+</root>
