@@ -13,18 +13,18 @@ namespace MeteoSwissApi.Models.Converters
 
         public override Temperature ReadJson(JsonReader reader, Type objectType, Temperature existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            if (reader.Value is long celsiusLong)
+            if (reader.Value is long integer)
             {
-                return Temperature.FromDegreesCelsius(celsiusLong);
+                return Temperature.FromDegreesCelsius(integer);
             }
 
-            if (reader.Value is double celsiusDouble)
+            if (reader.Value is double number)
             {
-                return Temperature.FromDegreesCelsius(celsiusDouble);
+                return Temperature.FromDegreesCelsius(number);
             }
 
-            return reader.Value is string stringValue && double.TryParse(stringValue, out var celsius)
-                ? Temperature.FromDegreesCelsius(celsius)
+            return reader.Value is string stringValue && double.TryParse(stringValue, out var value)
+                ? Temperature.FromDegreesCelsius(value)
                 : default;
         }
     }

@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	
+
 	<PropertyGroup>
 		<AssemblyTitle>MeteoSwissApi</AssemblyTitle>
 		<Description>.NET API for Swiss national weather provider MeteoSwiss</Description>
 		<VersionPrefix>1.0.0</VersionPrefix>
 		<Version>1.0.0</Version>
 		<Authors>Thomas Galliker</Authors>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<AssemblyName>MeteoSwissApi</AssemblyName>
 		<PackageId>MeteoSwissApi</PackageId>
 		<PackageTags>MeteoSwiss;Meteo;Swiss;Weather;Forecast;Temperature;Precipitation</PackageTags>
@@ -18,7 +18,7 @@
 		<SignAssembly>True</SignAssembly>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
-	
+
 	<PropertyGroup>
 		<ApplicationIcon />
 		<OutputType>Library</OutputType>
@@ -27,7 +27,14 @@
 		<Product>MeteoSwissApi</Product>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<RootNamespace>MeteoSwissApi</RootNamespace>
-		<PackageReleaseNotes>2.0.x
+		<PackageReleaseNotes>3.0.x
+- Add service to retrieve SwissMetNet weather stations
+- Add service to retrieve SLF weather stations
+- Add response caching
+- Add high-contrast svg icons
+- Add support for Microsoft.Extensions.DependencyInjection
+
+2.0.x
 - Replace Temperature type with UnitsNet Temperature
 
 1.3.x
@@ -45,19 +52,27 @@
 		</PackageReleaseNotes>
 		<Copyright>Copyright 2023</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<None Include="..\README.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
-	
+
 	<ItemGroup>
+		<PackageReference Include="CsvHelper" Version="[30.0.1,)" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="[6.0.0,)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[6.0.0,)" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="[6.0.0,)" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="[6.0.0,)" />
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="[6.0.0,)" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="[6.0.0,)" />
 		<PackageReference Include="Newtonsoft.Json" Version="[12.0.1,)" />
-		<PackageReference Include="UnitsNet" Version="[4.0.0,)" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="[7.0.0,)" />
+		<PackageReference Include="UnitsNet" Version="[5.29.0,)" />
 	</ItemGroup>
 
 	<PropertyGroup Label="MultilingualAppToolkit">
@@ -73,31 +88,93 @@
 	<ItemGroup>
 		<None Remove="MultilingualResources\MeteoSwissApi.de.xlf" />
 		<None Remove="MultilingualResources\MeteoSwissApi.en.xlf" />
+		<None Remove="MultilingualResources\MeteoSwissApi.fr.xlf" />
+		<None Remove="MultilingualResources\MeteoSwissApi.it.xlf" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Remove="Resources\Icons\**\*.svg" />
+		<EmbeddedResource Include="Resources\Icons\**\*.svg" />
 	</ItemGroup>
 	<ItemGroup>
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.de.xlf" />
 		<XliffResource Include="MultilingualResources\MeteoSwissApi.en.xlf" />
+		<XliffResource Include="MultilingualResources\MeteoSwissApi.fr.xlf" />
+		<XliffResource Include="MultilingualResources\MeteoSwissApi.it.xlf" />
 	</ItemGroup>
 	<ItemGroup>
-		<Compile Update="Resources\WarnLevels.Designer.cs">
+		<Compile Update="Resources\Strings\CardinalWindDirections.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>CardinalWindDirections.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\CardinalWindDirectionsAcronyms.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>CardinalWindDirectionsAcronyms.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\HumidityRanges.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>HumidityRanges.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\PressureRanges.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>PressureRanges.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\SlfStationTypes.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>SlfStationTypes.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Resources\Strings\WarnLevels.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>WarnLevels.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Resources\WarnTypes.Designer.cs">
+		<Compile Update="Resources\Strings\WarnTypes.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
 			<DependentUpon>WarnTypes.resx</DependentUpon>
 		</Compile>
+		<Compile Update="Resources\Strings\WeatherConditionCodes.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>WeatherConditionCodes.resx</DependentUpon>
+		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Update="Resources\WarnLevels.resx">
+		<EmbeddedResource Update="Resources\Strings\CardinalWindDirections.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>CardinalWindDirections.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\CardinalWindDirectionsAcronyms.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>CardinalWindDirectionsAcronyms.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\HumidityRanges.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>HumidityRanges.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\PressureRanges.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>PressureRanges.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\SlfStationTypes.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>SlfStationTypes.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\WarnLevels.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>WarnLevels.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Resources\WarnTypes.resx">
+		<EmbeddedResource Update="Resources\Strings\WarnTypes.resx">
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>WarnTypes.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Resources\Strings\WeatherConditionCodes.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>WeatherConditionCodes.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 </Project>

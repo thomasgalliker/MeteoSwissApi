@@ -16,8 +16,19 @@ namespace MeteoSwissApi.Tests.Models
         }
 
         [Theory]
-        [ClassData(typeof(WarnLevelTestData))]
+        [InlineData(0)]
+        [InlineData(-50)]
+        public void ShouldGetNoWarnLevel(int warnLevelValue)
+        {
+            // Act
+            var warnLevel = WarnLevel.FromValue(warnLevelValue);
 
+            // Assert
+            warnLevel.Should().Be(WarnLevel.NoWarnLevel);
+        }
+
+        [Theory]
+        [ClassData(typeof(WarnLevelTestData))]
         public void ShouldGetFromValue(int warnLevelValue, WarnLevel expectedWarnLevel)
         {
             // Act
@@ -40,8 +51,9 @@ namespace MeteoSwissApi.Tests.Models
         }
 
         [Theory]
-        [InlineData(0)]
         [InlineData(6)]
+        [InlineData(7)]
+        [InlineData(8)]
         public void ShouldThrowOutOfRangeException(int warnLevelValue)
         {
             // Act

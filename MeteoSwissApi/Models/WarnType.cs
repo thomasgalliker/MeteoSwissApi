@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using MeteoSwissApi.Resources;
+using MeteoSwissApi.Resources.Strings;
 
 namespace MeteoSwissApi.Models
 {

@@ -6,34 +6,102 @@ using System.Threading.Tasks;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Models.Converters;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace MeteoSwissApi
 {
     public class MeteoSwissWeatherService : IMeteoSwissWeatherService
     {
-        public const int PlzMinLength = 4;
-        public const int PlzPaddingLength = 6;
+        private static readonly Uri ApiEndpoint = new Uri("https://app-prod-ws.meteoswiss-app.ch", UriKind.Absolute);
 
-        private readonly ILogger<MeteoSwissWeatherService> logger;
+        internal const int PlzMinLength = 4;
+        internal const int PlzPaddingLength = 6;
+
+        private readonly ILogger logger;
         private readonly HttpClient httpClient;
         private readonly IWeatherIconMapping defaultWeatherIconMapping;
         private readonly JsonSerializerSettings serializerSettings;
-        private readonly Uri apiEndpoint;
         private readonly bool verboseLogging;
 
-        public MeteoSwissWeatherService(ILogger<MeteoSwissWeatherService> logger, IMeteoSwissWeatherServiceConfiguration openWeatherMapConfiguration)
-            : this(logger, new HttpClient(), openWeatherMapConfiguration)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        public MeteoSwissWeatherService()
+            : this(new NullLogger<MeteoSwissWeatherService>())
         {
         }
 
-        public MeteoSwissWeatherService(ILogger<MeteoSwissWeatherService> logger, HttpClient httpClient, IMeteoSwissWeatherServiceConfiguration openWeatherMapConfiguration)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        public MeteoSwissWeatherService(
+            ILogger<MeteoSwissWeatherService> logger)
+            : this(logger, new MeteoSwissApiOptions())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
+            IOptions<MeteoSwissApiOptions> options)
+          : this(options.Value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
+            MeteoSwissApiOptions options)
+          : this(new NullLogger<MeteoSwissWeatherService>(), options)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
+            ILogger<MeteoSwissWeatherService> logger,
+            IOptions<MeteoSwissApiOptions> options)
+            : this(logger, options.Value)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
+            ILogger<MeteoSwissWeatherService> logger,
+            MeteoSwissApiOptions options)
+            : this(logger, new HttpClient(), options)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
+        /// </summary>
+        /// <param name="logger">The logger instance.</param>
+        /// <param name="httpClient">The HttpClient instance.</param>
+        /// <param name="options">The service options.</param>
+        public MeteoSwissWeatherService(
+            ILogger<MeteoSwissWeatherService> logger,
+            HttpClient httpClient,
+            MeteoSwissApiOptions options)
         {
             this.logger = logger;
-            this.apiEndpoint = new Uri(openWeatherMapConfiguration.ApiEndpoint, UriKind.Absolute);
-            this.verboseLogging = openWeatherMapConfiguration.VerboseLogging;
+            this.verboseLogging = options.VerboseLogging;
             this.httpClient = httpClient;
-            this.httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(openWeatherMapConfiguration.Language));
+            this.httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(options.Language));
             this.defaultWeatherIconMapping = new DefaultWeatherIconMapping(this.httpClient);
             this.serializerSettings = new JsonSerializerSettings
             {
@@ -61,9 +129,9 @@ namespace MeteoSwissApi
 
             var plzPadded = PadPlz(plz);
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(ApiEndpoint)
             {
-                Path = "v1/plzDetail",
+                Path = "v2/plzDetail",
                 Query = $"plz={plzPadded}"
             };
 
@@ -102,9 +170,9 @@ namespace MeteoSwissApi
 
             var plzPadded = PadPlz(plz);
 
-            var builder = new UriBuilder(this.apiEndpoint)
+            var builder = new UriBuilder(ApiEndpoint)
             {
-                Path = "v1/forecast",
+                Path = "v2/forecast",
                 Query = $"plz={plzPadded}"
             };
 
@@ -124,6 +192,10 @@ namespace MeteoSwissApi
             var regionForecastResponse = JsonConvert.DeserializeObject<ForecastInfo>(responseJson, this.serializerSettings);
             return regionForecastResponse;
         }
+
+        // TODO: https://app-prod-ws.meteoswiss-app.ch/v2/vorortdetail?plz=633000,630000&ws=
+
+        // TODO: https://app-prod-ws.meteoswiss-app.ch/v1/stationOverview?station=CHZ
 
         private static string PadPlz(int plz)
         {

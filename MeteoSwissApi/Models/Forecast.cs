@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using MeteoSwissApi.Models.Converters;
 using Newtonsoft.Json;
 using UnitsNet;
@@ -8,15 +9,33 @@ namespace MeteoSwissApi.Models
 {
     public class Forecast
     {
+        private int iconDayV2;
+
         [JsonProperty("dayDate")]
         [JsonConverter(typeof(DateTimeStringJsonConverter))]
         public DateTime DayDate { get; set; }
 
+        [Obsolete("Use IconDayV2")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("iconDay")]
         public int IconDay { get; set; }
 
         [JsonProperty("iconDayV2")]
-        public int IconDayV2 { get; set; }
+        public int IconDayV2
+        {
+            get => this.iconDayV2;
+            set
+            {
+                this.iconDayV2 = value;
+                if (WeatherConditionCode.TryGetFromValue(value, out var weatherConditionCode))
+                {
+                    this.WeatherCondition = weatherConditionCode;
+                }
+            }
+        }
+
+        [JsonIgnore]
+        public WeatherConditionCode WeatherCondition { get; private set; }
 
         [JsonProperty("temperatureMax")]
         [JsonConverter(typeof(TemperatureJsonConverter))]
@@ -27,11 +46,12 @@ namespace MeteoSwissApi.Models
         public Temperature TemperatureMin { get; set; }
 
         [JsonProperty("precipitation")]
-        public double Precipitation { get; set; }
+        [JsonConverter(typeof(MillimeterLengthJsonConverter))]
+        public Length Precipitation { get; set; }
 
         public override string ToString()
         {
-            return $"{this.DayDate:d} ({this.TemperatureMin:N0}-{this.TemperatureMax})";
+            return $"{this.DayDate:d} ({this.TemperatureMin.Value:N0}-{this.TemperatureMax})";
         }
     }
 }
