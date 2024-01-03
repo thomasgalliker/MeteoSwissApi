@@ -6,7 +6,7 @@ namespace MeteoSwissApi
 {
     public class DefaultWeatherIconMapping : IWeatherIconMapping
     {
-        private const string ImageApiEndpoint = "https://www.meteoswiss.admin.ch/static/product/resources/weather-symbols/{0}.svg";
+        private const string ImageApiEndpoint = "https://www.meteoschweiz.admin.ch/static/resources/weather-symbols/{0}.svg";
 
         private readonly HttpClient httpClient;
 
