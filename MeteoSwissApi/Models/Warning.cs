@@ -26,7 +26,7 @@ namespace MeteoSwissApi.Models
         [JsonProperty("validFrom")]
         [JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime ValidFrom { get; set; }
-        
+
         [JsonProperty("validTo")]
         [JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime? ValidTo { get; set; }
@@ -45,7 +45,7 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return 
+            return
                 $"WarnType={this.WarnType}, WarnLevel={this.WarnType.ToString(this.WarnLevel)}, " +
                 $"Validity={this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
         }
