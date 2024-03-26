@@ -54,7 +54,7 @@ namespace MeteoSwissApi.Models.Csv
 
                 return null;
             });
-            
+
             this.Map(m => m.GlobalRadiation).Convert(row =>
             {
                 var columnValue = row.Row["sre000z0"];

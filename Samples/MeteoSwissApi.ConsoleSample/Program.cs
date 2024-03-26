@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Data.Common;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using MeteoSwissApi.Models;
 using MeteoSwissApi.Extensions;
-using Microsoft.Extensions.Configuration;
+using MeteoSwissApi.Models;
 using Microsoft.Extensions.Logging;
 using UnitsNet;
 

@@ -125,7 +125,7 @@ namespace MeteoSwissApi.Models
                     {
                         warnLevelTitle = WarnLevels.ResourceManager.GetString($"Level{warnLevel.Level}", (CultureInfo)provider);
                     }
-                   
+
                     return warnLevelTitle;
             }
 

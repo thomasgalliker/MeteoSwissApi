@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
-using MeteoSwissApi.Models;
 using MeteoSwissApi.Extensions;
+using MeteoSwissApi.Models;
 using UnitsNet;
 using UnitsNet.Units;
 using Xunit;
