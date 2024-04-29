@@ -50,7 +50,7 @@
 1.0.x
 - Initial release
 		</PackageReleaseNotes>
-		<Copyright>Copyright 2023</Copyright>
+		<Copyright>Copyright $([System.DateTime]::Now.ToString(`yyyy`)) © Thomas Galliker</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
