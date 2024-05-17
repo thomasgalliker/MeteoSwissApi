@@ -195,7 +195,7 @@ namespace MeteoSwissApi
 
 
             var timeseries = JsonConvert.DeserializeObject<SlfStationMeasurementsResponse>(responseJson, this.serializerSettings);
-            
+
             var slfStationMeasurementItems = timeseries.TemperatureAir
                 .Select(t =>
                 {

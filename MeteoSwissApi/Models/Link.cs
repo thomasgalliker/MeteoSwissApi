@@ -6,7 +6,7 @@ namespace MeteoSwissApi.Models
     {
         [JsonProperty("url")]
         public string Url { get; set; }
-        
+
         [JsonProperty("altUrl")]
         public string AlternativeUrl { get; set; }
 

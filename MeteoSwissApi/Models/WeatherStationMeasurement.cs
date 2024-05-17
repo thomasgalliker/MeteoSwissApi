@@ -29,19 +29,19 @@ namespace MeteoSwissApi.Models
         /// Sunshine duration; ten minutes total.
         /// </summary>
         public Duration? SunshineDuration { get; set; }
-        
+
         public Duration? GlobalRadiation { get; set; }
 
         /// <summary>
         /// Relative air humidity 2m above ground.
         /// </summary>
         public RelativeHumidity? RelativeAirHumidity { get; set; }
-        
+
         /// <summary>
         /// The wind direction.
         /// </summary>
         public Angle? WindDirection { get; set; }
-        
+
         /// <summary>
         /// The wind speed.
         /// </summary>
