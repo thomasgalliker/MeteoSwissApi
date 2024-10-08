@@ -15,10 +15,18 @@ namespace MeteoSwissApi.Models
             this.WeatherIcon3hV2 = new List<int>();
 
             this.WindDirection3h = new List<Angle>();
+            this.WindSpeed1h = new List<Speed>();
+            this.WindSpeed1hQ10 = new List<Speed>();
+            this.WindSpeed1hQ90 = new List<Speed>();
             this.WindSpeed3h = new List<Speed>();
+
+            this.GustSpeed1h = new List<Speed>();
+            this.GustSpeed1hQ10 = new List<Speed>();
+            this.GustSpeed1hQ90 = new List<Speed>();
 
             this.Sunrise = new List<DateTime>();
             this.Sunset = new List<DateTime>();
+            this.Sunshine1h = new List<Duration>();
 
             this.TemperatureMin1h = new List<Temperature>();
             this.TemperatureMax1h = new List<Temperature>();
@@ -30,6 +38,7 @@ namespace MeteoSwissApi.Models
             this.Precipitation1h = new List<Length>();
             this.PrecipitationMin1h = new List<Length>();
             this.PrecipitationMax1h = new List<Length>();
+            this.PrecipitationProbability3h = new List<Ratio>();
         }
 
         [JsonProperty("start")]
@@ -60,8 +69,26 @@ namespace MeteoSwissApi.Models
         [JsonProperty("windDirection3h", ItemConverterType = typeof(WindDirectionJsonConverter))]
         public IReadOnlyCollection<Angle> WindDirection3h { get; set; }
 
+        [JsonProperty("windSpeed1h", ItemConverterType = typeof(WindSpeedJsonConverter))]
+        public IReadOnlyCollection<Speed> WindSpeed1h { get; set; }
+        
+        [JsonProperty("windSpeed1hq10", ItemConverterType = typeof(WindSpeedJsonConverter))]
+        public IReadOnlyCollection<Speed> WindSpeed1hQ10 { get; set; }
+        
+        [JsonProperty("windSpeed1hq90", ItemConverterType = typeof(WindSpeedJsonConverter))]
+        public IReadOnlyCollection<Speed> WindSpeed1hQ90 { get; set; }
+        
         [JsonProperty("windSpeed3h", ItemConverterType = typeof(WindSpeedJsonConverter))]
         public IReadOnlyCollection<Speed> WindSpeed3h { get; set; }
+        
+        [JsonProperty("gustSpeed1h", ItemConverterType = typeof(WindSpeedJsonConverter))]
+        public IReadOnlyCollection<Speed> GustSpeed1h { get; set; }
+        
+        [JsonProperty("gustSpeed1hq10", ItemConverterType = typeof(WindSpeedJsonConverter))]
+        public IReadOnlyCollection<Speed> GustSpeed1hQ10 { get; set; }
+
+        [JsonProperty("gustSpeed1hq90", ItemConverterType = typeof(WindSpeedJsonConverter))]
+        public IReadOnlyCollection<Speed> GustSpeed1hQ90 { get; set; }
 
         [JsonProperty("sunrise", ItemConverterType = typeof(EpochDateTimeConverter))]
         public IReadOnlyCollection<DateTime> Sunrise { get; set; }
@@ -69,6 +96,9 @@ namespace MeteoSwissApi.Models
         [JsonProperty("sunset", ItemConverterType = typeof(EpochDateTimeConverter))]
         public IReadOnlyCollection<DateTime> Sunset { get; set; }
 
+        [JsonProperty("sunshine1h", ItemConverterType = typeof(MinuteDurationJsonConverter))]
+        public IReadOnlyCollection<Duration> Sunshine1h { get; set; }
+        
         [JsonProperty("precipitation10m", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
         public IReadOnlyCollection<Length> Precipitation10m { get; set; }
 
@@ -86,6 +116,9 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("precipitationMax1h", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
         public IReadOnlyCollection<Length> PrecipitationMax1h { get; set; }
+        
+        [JsonProperty("precipitationProbability3h", ItemConverterType = typeof(PercentRatioJsonConverter))]
+        public IReadOnlyCollection<Ratio> PrecipitationProbability3h { get; set; }
 
         public override string ToString()
         {

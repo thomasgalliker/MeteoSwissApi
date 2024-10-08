@@ -48,6 +48,14 @@ namespace MeteoSwissApi.Models
         [JsonProperty("precipitation")]
         [JsonConverter(typeof(MillimeterLengthJsonConverter))]
         public Length Precipitation { get; set; }
+        
+        [JsonProperty("precipitationMin")]
+        [JsonConverter(typeof(MillimeterLengthJsonConverter))]
+        public Length PrecipitationMin { get; set; }
+        
+        [JsonProperty("precipitationMax")]
+        [JsonConverter(typeof(MillimeterLengthJsonConverter))]
+        public Length PrecipitationMax { get; set; }
 
         public override string ToString()
         {
