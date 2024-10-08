@@ -50,7 +50,8 @@ namespace MeteoSwissApi.Tests
         public async Task ShouldGetCurrentWeatherAsync(int plz)
         {
             // Arrange
-            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
+            var meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
+            meteoSwissWeatherService.ThrowExceptionOnMissingJsonProperties = true;
 
             // Act
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
