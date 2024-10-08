@@ -24,6 +24,7 @@ namespace MeteoSwissApi
         private readonly IWeatherIconMapping defaultWeatherIconMapping;
         private readonly JsonSerializerSettings serializerSettings;
         private readonly bool verboseLogging;
+        private bool throwExceptionOnMissingJsonProperties;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
@@ -106,9 +107,18 @@ namespace MeteoSwissApi
             this.serializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
             };
 
             this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
+        }
+
+        internal bool ThrowExceptionOnMissingJsonProperties
+        {
+            get => this.serializerSettings.MissingMemberHandling == MissingMemberHandling.Error;
+            set => this.serializerSettings.MissingMemberHandling = value
+                ? MissingMemberHandling.Error
+                : MissingMemberHandling.Ignore;
         }
 
         public async Task<WeatherInfo> GetCurrentWeatherAsync(int plz)
