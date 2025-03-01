@@ -9,25 +9,32 @@
 		<TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
 		<AssemblyName>MeteoSwissApi</AssemblyName>
 		<PackageId>MeteoSwissApi</PackageId>
-		<PackageTags>MeteoSwiss;Meteo;Swiss;Weather;Forecast;Temperature;Precipitation</PackageTags>
-		<PackageIconUrl>https://raw.githubusercontent.com/thomasgalliker/MeteoSwissApi/develop/Images/logo.png</PackageIconUrl>
+		<PackageTags>MeteoSwiss;Meteo;Swiss;Weather;Forecast;Temperature;Precipitation;Climate</PackageTags>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageProjectUrl>https://github.com/thomasgalliker/MeteoSwissApi</PackageProjectUrl>
 		<PackageLicenseUrl>http://opensource.org/licenses/Apache-2.0</PackageLicenseUrl>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/thomasgalliker/MeteoSwissApi</RepositoryUrl>
 		<SignAssembly>True</SignAssembly>
 		<LangVersion>latest</LangVersion>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<ApplicationIcon />
 		<OutputType>Library</OutputType>
 		<StartupObject />
 		<Company>superdev GmbH</Company>
 		<Product>MeteoSwissApi</Product>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<RootNamespace>MeteoSwissApi</RootNamespace>
-		<PackageReleaseNotes>3.1
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedAllSources>true</EmbedAllSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <Copyright>Copyright $([System.DateTime]::Now.ToString(`yyyy`)) © Thomas Galliker</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<PackageReleaseNotes>3.2
+- Add model for climate information (KlimaGraph) to WeatherInfo.
+
+3.1
 - Extend models Forecast and GraphDetail with new properties
 
 3.0
@@ -53,17 +60,12 @@
 1.0
 - Initial release
 		</PackageReleaseNotes>
-		<Copyright>Copyright $([System.DateTime]::Now.ToString(`yyyy`)) © Thomas Galliker</Copyright>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<None Include="..\README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md" Pack="True" PackagePath="\" />
+    <None Include="..\Images\logo.png" Pack="True" PackagePath="\" />
+  </ItemGroup>
 
 	<ItemGroup>
 		<PackageReference Include="CsvHelper" Version="[30.0.1,)" />
@@ -73,7 +75,7 @@
 		<PackageReference Include="Microsoft.Extensions.Options" Version="[6.0.0,)" />
 		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="[6.0.0,)" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="[6.0.0,)" />
-		<PackageReference Include="Newtonsoft.Json" Version="[12.0.1,)" />
+		<PackageReference Include="Newtonsoft.Json" Version="[13.0.1,)" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="[7.0.0,)" />
 		<PackageReference Include="UnitsNet" Version="[5.29.0,)" />
 	</ItemGroup>
