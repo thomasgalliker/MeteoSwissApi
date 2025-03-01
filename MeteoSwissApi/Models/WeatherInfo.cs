@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
 {
+    [JsonObject(MemberSerialization.OptIn)]
     public class WeatherInfo
     {
         public WeatherInfo()
@@ -26,6 +27,9 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("graph")]
         public GraphDetail Graph { get; set; }
+
+        [JsonProperty("klimaGraph")]
+        public KlimaGraph KlimaGraph { get; set; }
 
         public override string ToString()
         {
