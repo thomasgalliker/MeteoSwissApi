@@ -106,9 +106,18 @@ namespace MeteoSwissApi
             this.serializerSettings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore,
             };
 
             this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
+        }
+
+        internal bool ThrowExceptionOnMissingJsonProperties
+        {
+            get => this.serializerSettings.MissingMemberHandling == MissingMemberHandling.Error;
+            set => this.serializerSettings.MissingMemberHandling = value
+                ? MissingMemberHandling.Error
+                : MissingMemberHandling.Ignore;
         }
 
         public async Task<WeatherInfo> GetCurrentWeatherAsync(int plz)
