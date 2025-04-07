@@ -73,7 +73,7 @@ steps:
     PackageVersion: '$(Build.BuildNumber)'
     LogLevel: 'verbose'
     FailOnWarning: false
-    DisableTelemetry: false'
+    DisableTelemetry: true
     
 - task: UseDotNet@2
   displayName: 'Use .NET 9.x'
