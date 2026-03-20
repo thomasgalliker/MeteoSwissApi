@@ -180,32 +180,42 @@ namespace MeteoSwissApi
             return slfStationMeasurementItems;
         }
 
-        private static readonly (string QueryParameter, Action<SlfProperties, SlfStationMeasurement> AssignmentAction)[] ValueMappings =
+        private static readonly (string QueryParameter, Action<SlfProperties, SlfStationMeasurement, DateTime> AssignmentAction)[] ValueMappings =
         {
-            ("HEIGHT_NEW_SNOW_1D", (SlfProperties p, SlfStationMeasurement m) =>
-                m.NewSnowHeight1d = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+            ("HEIGHT_NEW_SNOW_1D", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
+                m.NewSnowHeight1d = new SlfStationDateLength { Date = timestamp, Value = Length.FromCentimeters(RequireValue(p.Value, nameof(p.Value)))}),
 
-            ("HEIGHT_NEW_SNOW_3D", (SlfProperties p, SlfStationMeasurement m) =>
-                m.NewSnowHeight3d = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+            ("HEIGHT_NEW_SNOW_3D", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
+                m.NewSnowHeight3d = new SlfStationDateLength { Date = timestamp, Value = Length.FromCentimeters(RequireValue(p.Value, nameof(p.Value)))}),
 
-            ("HEIGHT_NEW_SNOW_7D", (SlfProperties p, SlfStationMeasurement m) =>
-                m.NewSnowHeight7d = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+            ("HEIGHT_NEW_SNOW_7D", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
+                m.NewSnowHeight7d = new SlfStationDateLength { Date = timestamp, Value = Length.FromCentimeters(RequireValue(p.Value, nameof(p.Value)))}),
 
-            ("SNOW_HEIGHT", (SlfProperties p, SlfStationMeasurement m) =>
-                m.SnowHeight = new SlfStationDateLength { Date = p.Timestamp.Value, Value = Length.FromCentimeters(p.Value.Value)}),
+            ("SNOW_HEIGHT", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
+                m.SnowHeight = new SlfStationDateLength { Date = timestamp, Value = Length.FromCentimeters(RequireValue(p.Value, nameof(p.Value)))}),
 
-            ("TEMPERATURE_AIR", (SlfProperties p, SlfStationMeasurement m) =>
-                m.AirTemperature = new SlfStationDateTemperature { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
+            ("TEMPERATURE_AIR", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
+                m.AirTemperature = new SlfStationDateTemperature { Date = timestamp, Value = Temperature.FromDegreesCelsius(RequireValue(p.Value, nameof(p.Value)))}),
 
-            ("TEMPERATURE_SNOW_SURFACE", (SlfProperties p, SlfStationMeasurement m) =>
-                m.SurfaceTemperature = new SlfStationDateTemperature { Date = p.Timestamp.Value, Value = Temperature.FromDegreesCelsius(p.Value.Value)}),
+            ("TEMPERATURE_SNOW_SURFACE", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
+                m.SurfaceTemperature = new SlfStationDateTemperature { Date = timestamp, Value = Temperature.FromDegreesCelsius(RequireValue(p.Value, nameof(p.Value)))}),
 
-            ("WIND_MEAN", (SlfProperties p, SlfStationMeasurement m) =>
+            ("WIND_MEAN", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
             {
-                m.WindSpeedMean = new SlfStationDateSpeed { Date = p.Timestamp.Value, Value = Speed.FromKilometersPerHour(p.Velocity.Value) };
-                m.WindDirection = new SlfStationDateAngle { Date = p.Timestamp.Value, Value = Angle.FromDegrees(p.Direction.Value) };
+                m.WindSpeedMean = new SlfStationDateSpeed { Date = timestamp, Value = Speed.FromKilometersPerHour(RequireValue(p.Velocity, nameof(p.Velocity))) };
+                m.WindDirection = new SlfStationDateAngle { Date = timestamp, Value = Angle.FromDegrees(RequireValue(p.Direction, nameof(p.Direction))) };
             }),
         };
+
+        private static decimal RequireValue(decimal? value, string propertyName)
+        {
+            if (value is decimal decimalValue)
+            {
+                return decimalValue;
+            }
+
+            throw new InvalidDataException($"Required SLF property '{propertyName}' is missing.");
+        }
 
         public async Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsAsync()
         {
@@ -249,11 +259,11 @@ namespace MeteoSwissApi
                         Coordinates = feature.Geometry.Coordinates
                     };
 
-                    if (feature.Properties.Timestamp is not null)
+                    if (feature.Properties.Timestamp is DateTime timestamp)
                     {
                         if (feature.Properties.Value != null || feature.Properties.Velocity != null)
                         {
-                            stationDataTimepointParameter.AssignmentAction(feature.Properties, measurement);
+                            stationDataTimepointParameter.AssignmentAction(feature.Properties, measurement, timestamp);
                         }
                         else
                         {
