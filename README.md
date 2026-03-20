@@ -34,9 +34,6 @@ www.slf.ch
 ### Contribution
 Contributors welcome! If you find a bug or you want to propose a new feature, feel free to do so by opening a new issue on github.com.
 
-### License
-Check the terms and conditions of the Federal Office of Meteorology and Climatology MeteoSwiss before using this client library.
-
 ### Links
 - https://www.meteoswiss.admin.ch
 - https://www.meteoschweiz.admin.ch/wetter/gefahren/erlaeuterungen-der-gefahrenstufen.html
