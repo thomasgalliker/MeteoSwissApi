@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using FluentAssertions;
 using MeteoSwissApi.Tests.Logging;
 using MeteoSwissApi.Tests.Utils;
