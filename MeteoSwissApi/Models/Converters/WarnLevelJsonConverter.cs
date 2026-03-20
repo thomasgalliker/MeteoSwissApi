@@ -1,23 +1,24 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MeteoSwissApi.Models.Converters
 {
     internal class WarnLevelJsonConverter : JsonConverter<WarnLevel>
     {
-        public override void WriteJson(JsonWriter writer, WarnLevel value, JsonSerializer serializer)
+        public override WarnLevel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteValue(value.Level);
-        }
-
-        public override WarnLevel ReadJson(JsonReader reader, Type objectType, WarnLevel existingValue, bool hasExistingValue, JsonSerializer serializer)
-        {
-            if (reader.Value is long level)
+            if (reader.TokenType == JsonTokenType.Number)
             {
-                return (WarnLevel)level;
+                return (WarnLevel)reader.GetInt32();
             }
 
-            throw new NotSupportedException($"Cannot convert from {reader.Value} to {nameof(WarnLevel)}");
+            throw new NotSupportedException($"Cannot convert from {reader.TokenType} to {nameof(WarnLevel)}");
+        }
+
+        public override void Write(Utf8JsonWriter writer, WarnLevel value, JsonSerializerOptions options)
+        {
+            writer.WriteNumberValue(value.Level);
         }
     }
 }

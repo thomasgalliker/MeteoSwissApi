@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using MeteoSwissApi.Models.Converters;
-using Newtonsoft.Json;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
@@ -32,7 +31,8 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// Monthly absolute temperature values, last 24 months.
         /// </summary>
-        [JsonProperty("abs", ItemConverterType = typeof(TemperatureJsonConverter))]
+        [JsonProperty("abs")]
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
         public Temperature[] Absolute { get; set; }
 
         /// <summary>
@@ -42,13 +42,15 @@ namespace MeteoSwissApi.Models
         /// Climate normals help contextualize current weather conditions.
         /// They represent a 30-year average of temperature for the corresponding month.
         /// </remarks>
-        [JsonProperty("norm", ItemConverterType = typeof(TemperatureJsonConverter))]
+        [JsonProperty("norm")]
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
         public Temperature[] Normal { get; set; }
 
         /// <summary>
         /// Monthly temperature deviations, last 24 months.
         /// </summary>
-        [JsonProperty("abweichung", ItemConverterType = typeof(TemperatureJsonConverter))]
+        [JsonProperty("abweichung")]
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
         public Temperature[] Deviation { get; set; }
     }
 
@@ -57,7 +59,8 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// Monthly absolute sunshine duration values, last 24 months.
         /// </summary>
-        [JsonProperty("abs", ItemConverterType = typeof(HourDurationJsonConverter))]
+        [JsonProperty("abs")]
+        [JsonConverter(typeof(HourDurationArrayJsonConverter))]
         public Duration[] Absolute { get; set; }
 
         /// <summary>
@@ -67,13 +70,15 @@ namespace MeteoSwissApi.Models
         /// Climate normals help contextualize current weather conditions.
         /// They represent a 30-year average of sunshine duration for the corresponding month.
         /// </remarks>
-        [JsonProperty("norm", ItemConverterType = typeof(HourDurationJsonConverter))]
+        [JsonProperty("norm")]
+        [JsonConverter(typeof(HourDurationArrayJsonConverter))]
         public Duration[] Normal { get; set; }
 
         /// <summary>
         /// Monthly sunshine duration deviations, last 24 months.
         /// </summary>
-        [JsonProperty("abweichung", ItemConverterType = typeof(DecimalFractionRatioJsonConverter))]
+        [JsonProperty("abweichung")]
+        [JsonConverter(typeof(DecimalFractionRatioArrayJsonConverter))]
         public Ratio[] Deviation { get; set; }
     }
 
@@ -82,7 +87,8 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// Monthly absolute precipitation values, last 24 months.
         /// </summary>
-        [JsonProperty("abs", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("abs")]
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
         public Length[] Absolute { get; set; }
 
         /// <summary>
@@ -92,13 +98,16 @@ namespace MeteoSwissApi.Models
         /// Climate normals help contextualize current weather conditions.
         /// They represent a 30-year average of precipitation for the corresponding month.
         /// </remarks>
-        [JsonProperty("norm", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("norm")]
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
         public Length[] Normal { get; set; }
 
         /// <summary>
         /// Monthly precipitation deviations, last 24 months.
         /// </summary>
-        [JsonProperty("abweichung", ItemConverterType = typeof(DecimalFractionRatioJsonConverter))]
+        [JsonProperty("abweichung")]
+        [JsonConverter(typeof(DecimalFractionRatioArrayJsonConverter))]
         public Ratio[] Deviation { get; set; }
     }
 }
+

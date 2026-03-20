@@ -1,31 +1,32 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models.Converters
 {
     internal class WindDirectionJsonConverter : JsonConverter<Angle>
     {
-        public override void WriteJson(JsonWriter writer, Angle value, JsonSerializer serializer)
+        public override Angle Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteValue($"{value.Value}");
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                return Angle.FromDegrees(reader.GetDouble());
+            }
+
+            if (reader.TokenType == JsonTokenType.String
+                && double.TryParse(reader.GetString(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var value))
+            {
+                return Angle.FromDegrees(value);
+            }
+
+            return default;
         }
 
-        public override Angle ReadJson(JsonReader reader, Type objectType, Angle existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, Angle value, JsonSerializerOptions options)
         {
-            if (reader.Value is long integer)
-            {
-                return Angle.FromDegrees(integer);
-            }
-
-            if (reader.Value is double number)
-            {
-                return Angle.FromDegrees(number);
-            }
-
-            return reader.Value is string stringValue && double.TryParse(stringValue, out var value)
-                ? Angle.FromDegrees(value)
-                : default;
+            writer.WriteStringValue(value.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

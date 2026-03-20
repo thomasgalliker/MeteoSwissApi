@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json;
+using MeteoSwissApi.Serialization;
 
 namespace MeteoSwissApi.Extensions
 {
@@ -11,7 +12,9 @@ namespace MeteoSwissApi.Extensions
                 return null;
             }
 
-            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
+            var options = JsonSerialization.CreateOptions();
+            var json = JsonSerializer.Serialize(obj, options);
+            return JsonSerializer.Deserialize<T>(json, options);
         }
     }
 }

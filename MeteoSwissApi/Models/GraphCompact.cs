@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using MeteoSwissApi.Models.Converters;
-using Newtonsoft.Json;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
@@ -25,31 +24,40 @@ namespace MeteoSwissApi.Models
         [JsonConverter(typeof(EpochDateTimeConverter))]
         public DateTime Start { get; set; }
 
-        [JsonProperty("temperatureMin1h", ItemConverterType = typeof(TemperatureJsonConverter))]
+        [JsonProperty("temperatureMin1h")]
+        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
         public IReadOnlyCollection<Temperature> TemperatureMin1h { get; set; }
 
-        [JsonProperty("temperatureMax1h", ItemConverterType = typeof(TemperatureJsonConverter))]
+        [JsonProperty("temperatureMax1h")]
+        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
         public IReadOnlyCollection<Temperature> TemperatureMax1h { get; set; }
 
-        [JsonProperty("temperatureMean1h", ItemConverterType = typeof(TemperatureJsonConverter))]
+        [JsonProperty("temperatureMean1h")]
+        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
         public IReadOnlyCollection<Temperature> TemperatureMean1h { get; set; }
 
-        [JsonProperty("precipitation10m", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("precipitation10m")]
+        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
         public IReadOnlyCollection<Length> Precipitation10m { get; set; }
 
-        [JsonProperty("precipitationMin10m", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("precipitationMin10m")]
+        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
         public IReadOnlyCollection<Length> PrecipitationMin10m { get; set; }
 
-        [JsonProperty("precipitationMax10m", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("precipitationMax10m")]
+        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
         public IReadOnlyCollection<Length> PrecipitationMax10m { get; set; }
 
-        [JsonProperty("precipitationMin1h", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("precipitationMin1h")]
+        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
         public IReadOnlyCollection<Length> PrecipitationMin1h { get; set; }
 
-        [JsonProperty("precipitationMax1h", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("precipitationMax1h")]
+        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
         public IReadOnlyCollection<Length> PrecipitationMax1h { get; set; }
 
-        [JsonProperty("precipitationMean1h", ItemConverterType = typeof(MillimeterLengthJsonConverter))]
+        [JsonProperty("precipitationMean1h")]
+        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
         public IReadOnlyCollection<Length> PrecipitationMean1h { get; set; }
 
         public override string ToString()
@@ -58,3 +66,4 @@ namespace MeteoSwissApi.Models
         }
     }
 }
+

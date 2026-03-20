@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MeteoSwissApi.Models
 {
-    [JsonObject(MemberSerialization.OptIn)]
     public class WeatherInfo
     {
         public WeatherInfo()
@@ -37,3 +35,4 @@ namespace MeteoSwissApi.Models
         }
     }
 }
+

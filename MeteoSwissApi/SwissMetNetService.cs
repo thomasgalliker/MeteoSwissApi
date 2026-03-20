@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,13 +6,11 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using MeteoSwissApi.Models;
-using MeteoSwissApi.Models.Converters;
 using MeteoSwissApi.Utils;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace MeteoSwissApi
 {
@@ -23,7 +21,6 @@ namespace MeteoSwissApi
         private readonly ILogger<SwissMetNetService> logger;
         private readonly MeteoSwissApiOptions options;
         private readonly HttpClient httpClient;
-        private readonly JsonSerializerSettings serializerSettings;
         private readonly IMemoryCache memoryCache;
 
         private static readonly Encoding Windows1252Encoding = Encoding.GetEncoding("Windows-1252");
@@ -31,49 +28,29 @@ namespace MeteoSwissApi
         private const string WeatherStationsCacheKey = "weatherStations";
         private const string LatestMeasurementsCacheKey = "latestMeasurements";
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
         public SwissMetNetService()
             : this(new NullLogger<SwissMetNetService>())
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger)
             : this(logger, new MeteoSwissApiOptions())
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
         public SwissMetNetService(
             IOptions<MeteoSwissApiOptions> options)
           : this(options.Value)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
-        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             MeteoSwissApiOptions options)
           : this(new NullLogger<SwissMetNetService>(), options)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger,
             IOptions<MeteoSwissApiOptions> options)
@@ -81,11 +58,6 @@ namespace MeteoSwissApi
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger,
             MeteoSwissApiOptions options)
@@ -93,12 +65,6 @@ namespace MeteoSwissApi
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwissMetNetService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="httpClient">The HttpClient instance.</param>
-        /// <param name="options">The service options.</param>
         public SwissMetNetService(
             ILogger<SwissMetNetService> logger,
             HttpClient httpClient,
@@ -112,19 +78,11 @@ namespace MeteoSwissApi
                 NoCache = true
             };
 
-            this.serializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-            };
-
-            this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
-
             this.memoryCache = new MemoryCache(new MemoryCacheOptions { });
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
-        /// <inheritdoc />
         public async Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync(TimeSpan? cacheExpiration = null)
         {
             if (this.memoryCache.TryGetValue<IEnumerable<WeatherStation>>(WeatherStationsCacheKey, out var cache))
@@ -185,7 +143,6 @@ namespace MeteoSwissApi
             return weatherStation;
         }
 
-        /// <inheritdoc />
         public async Task<IEnumerable<WeatherStationMeasurement>> GetLatestMeasurementsAsync(TimeSpan? cacheExpiration = null)
         {
             if (this.memoryCache.TryGetValue<IEnumerable<WeatherStationMeasurement>>(LatestMeasurementsCacheKey, out var measurementsCache))

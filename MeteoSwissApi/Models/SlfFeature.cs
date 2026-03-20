@@ -1,4 +1,3 @@
-﻿using Newtonsoft.Json;
 
 namespace MeteoSwissApi.Models
 {
@@ -11,3 +10,4 @@ namespace MeteoSwissApi.Models
         public SlfProperties Properties { get; set; }
     }
 }
+

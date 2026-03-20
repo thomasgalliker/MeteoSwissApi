@@ -1,31 +1,32 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models.Converters
 {
     internal class TemperatureJsonConverter : JsonConverter<Temperature>
     {
-        public override void WriteJson(JsonWriter writer, Temperature value, JsonSerializer serializer)
+        public override Temperature Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteValue($"{value.Value}");
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                return Temperature.FromDegreesCelsius(reader.GetDouble());
+            }
+
+            if (reader.TokenType == JsonTokenType.String
+                && double.TryParse(reader.GetString(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var value))
+            {
+                return Temperature.FromDegreesCelsius(value);
+            }
+
+            return default;
         }
 
-        public override Temperature ReadJson(JsonReader reader, Type objectType, Temperature existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, Temperature value, JsonSerializerOptions options)
         {
-            if (reader.Value is long integer)
-            {
-                return Temperature.FromDegreesCelsius(integer);
-            }
-
-            if (reader.Value is double number)
-            {
-                return Temperature.FromDegreesCelsius(number);
-            }
-
-            return reader.Value is string stringValue && double.TryParse(stringValue, out var value)
-                ? Temperature.FromDegreesCelsius(value)
-                : default;
+            writer.WriteStringValue(value.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

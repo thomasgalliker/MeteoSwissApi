@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace MeteoSwissApi.Models
 {
@@ -18,3 +17,4 @@ namespace MeteoSwissApi.Models
         public List<SlfStationDateAngle> WindDirectionMean { get; set; }
     }
 }
+

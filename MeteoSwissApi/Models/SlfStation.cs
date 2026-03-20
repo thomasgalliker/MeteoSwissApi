@@ -1,5 +1,4 @@
-﻿using MeteoSwissApi.Models.Converters;
-using Newtonsoft.Json;
+using MeteoSwissApi.Models.Converters;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
@@ -34,3 +33,4 @@ namespace MeteoSwissApi.Models
         }
     }
 }
+

@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using MeteoSwissApi.Extensions;
 using MeteoSwissApi.Models;
-using MeteoSwissApi.Models.Converters;
+using MeteoSwissApi.Serialization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using UnitsNet;
 
 namespace MeteoSwissApi
@@ -25,53 +25,31 @@ namespace MeteoSwissApi
 
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
-        private readonly JsonSerializerSettings serializerSettings;
         private readonly bool verboseLogging;
 
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
         public SlfDataService()
             : this(new NullLogger<SlfDataService>())
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger)
             : this(logger, new MeteoSwissApiOptions())
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
-        /// <param name="options">The service options.</param>
         public SlfDataService(
             IOptions<MeteoSwissApiOptions> options)
           : this(options.Value)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
         public SlfDataService(
             MeteoSwissApiOptions options)
           : this(new NullLogger<SlfDataService>(), options)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="options">The service options.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger,
             IOptions<MeteoSwissApiOptions> options)
@@ -79,11 +57,6 @@ namespace MeteoSwissApi
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="options">The service options.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger,
             MeteoSwissApiOptions options)
@@ -91,12 +64,6 @@ namespace MeteoSwissApi
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlfDataService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="httpClient">The HttpClient instance.</param>
-        /// <param name="options">The service options.</param>
         public SlfDataService(
             ILogger<SlfDataService> logger,
             HttpClient httpClient,
@@ -105,15 +72,8 @@ namespace MeteoSwissApi
             this.logger = logger;
             this.verboseLogging = options.VerboseLogging;
             this.httpClient = httpClient;
-            this.serializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-            };
-
-            this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
         }
 
-        /// <inheritdoc />
         public async Task<SlfStationInfo> GetStationInfoAsync(string network, string code)
         {
             this.logger.LogDebug($"GetStationInfoAsync");
@@ -136,11 +96,10 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetStationInfoAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var stationInfo = JsonConvert.DeserializeObject<SlfStationInfo>(responseJson, this.serializerSettings);
+            var stationInfo = JsonSerializer.Deserialize<SlfStationInfo>(responseJson, JsonSerialization.CreateOptions());
             return stationInfo;
         }
 
-        /// <inheritdoc />
         public async Task<SlfStationMeasurement> GetLatestMeasurementByStationCodeAsync(string network, string code)
         {
             this.logger.LogDebug($"GetLatestMeasurementByStationCodeAsync");
@@ -163,14 +122,13 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetLatestMeasurementByStationCodeAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var measurement = JsonConvert.DeserializeObject<SlfStationMeasurement>(responseJson, this.serializerSettings);
+            var measurement = JsonSerializer.Deserialize<SlfStationMeasurement>(responseJson, JsonSerialization.CreateOptions());
 
             var stationinfo = await this.GetStationInfoAsync(network, code);
             measurement.Station = stationinfo;
             return measurement;
         }
 
-        /// <inheritdoc />
         public async Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string code)
         {
             this.logger.LogDebug($"GetMeasurementsByStationCodeAsync");
@@ -193,8 +151,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetMeasurementsByStationCodeAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-
-            var timeseries = JsonConvert.DeserializeObject<SlfStationMeasurementsResponse>(responseJson, this.serializerSettings);
+            var timeseries = JsonSerializer.Deserialize<SlfStationMeasurementsResponse>(responseJson, JsonSerialization.CreateOptions());
 
             var slfStationMeasurementItems = timeseries.TemperatureAir
                 .Select(t =>
@@ -245,12 +202,11 @@ namespace MeteoSwissApi
 
             ("WIND_MEAN", (SlfProperties p, SlfStationMeasurement m) =>
             {
-                m.WindSpeedMean = new SlfStationDateSpeed{ Date = p.Timestamp.Value, Value = Speed.FromKilometersPerHour(p.Velocity.Value)};
-                m.WindDirection = new SlfStationDateAngle{ Date = p.Timestamp.Value, Value = Angle.FromDegrees(p.Direction.Value) };
+                m.WindSpeedMean = new SlfStationDateSpeed { Date = p.Timestamp.Value, Value = Speed.FromKilometersPerHour(p.Velocity.Value) };
+                m.WindDirection = new SlfStationDateAngle { Date = p.Timestamp.Value, Value = Angle.FromDegrees(p.Direction.Value) };
             }),
         };
 
-        /// <inheritdoc />
         public async Task<IEnumerable<SlfStationMeasurement>> GetLatestMeasurementsAsync()
         {
             this.logger.LogDebug($"GetLatestMeasurementsAsync");
@@ -337,7 +293,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetLatestMeasurementsAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var slfStationMeasurementResponse = JsonConvert.DeserializeObject<SlfStationMeasurementResponse>(responseJson, this.serializerSettings);
+            var slfStationMeasurementResponse = JsonSerializer.Deserialize<SlfStationMeasurementResponse>(responseJson, JsonSerialization.CreateOptions());
             return slfStationMeasurementResponse;
         }
 

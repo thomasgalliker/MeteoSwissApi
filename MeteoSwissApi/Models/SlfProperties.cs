@@ -1,5 +1,4 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
 
 namespace MeteoSwissApi.Models
 {
@@ -18,3 +17,4 @@ namespace MeteoSwissApi.Models
         public DateTime? Timestamp { get; set; }
     }
 }
+

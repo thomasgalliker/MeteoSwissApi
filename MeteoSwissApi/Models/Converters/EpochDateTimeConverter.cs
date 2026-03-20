@@ -1,6 +1,6 @@
-﻿using System;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MeteoSwissApi.Models.Converters
 {
@@ -8,7 +8,7 @@ namespace MeteoSwissApi.Models.Converters
     /// Converts integer/long dates starting from 1970-01-01 (Epoch) to DateTime.
     /// Helpful source: https://www.epochconverter.com
     /// </summary>
-    public class EpochDateTimeConverter : DateTimeConverterBase
+    public class EpochDateTimeConverter : JsonConverter<DateTime>
     {
         private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
@@ -23,23 +23,19 @@ namespace MeteoSwissApi.Models.Converters
             return (long)(utcDateTime - Epoch).TotalMilliseconds;
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var utcDateTime = (DateTime)value;
-            var ms = Convert(utcDateTime);
-            writer.WriteValue(ms);
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.Value == null)
+            if (reader.TokenType == JsonTokenType.Null)
             {
-                return null;
+                return default;
             }
 
-            var ms = System.Convert.ToInt64(reader.Value);
-            var dateTime = Convert(ms);
-            return dateTime;
+            return Convert(reader.GetInt64());
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            writer.WriteNumberValue(Convert(value));
         }
     }
 }

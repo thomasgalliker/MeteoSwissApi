@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Newtonsoft.Json;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
@@ -50,3 +49,4 @@ namespace MeteoSwissApi.Models
         public GeoCoordinate Location { get; private set; }
     }
 }
+
