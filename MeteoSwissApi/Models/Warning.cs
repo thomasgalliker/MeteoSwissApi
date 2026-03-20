@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using MeteoSwissApi.Models.Converters;
 
 namespace MeteoSwissApi.Models
@@ -8,7 +7,7 @@ namespace MeteoSwissApi.Models
     {
         public Warning()
         {
-            this.Links = new List<Link>();
+            this.Links = Array.Empty<Link>();
         }
 
         [JsonProperty("warnType")]
@@ -20,7 +19,7 @@ namespace MeteoSwissApi.Models
         public WarnLevel WarnLevel { get; set; }
 
         [JsonProperty("text")]
-        public string Text { get; set; }
+        public string Text { get; set; } = null!;
 
         [JsonProperty("validFrom")]
         [JsonConverter(typeof(EpochDateTimeConverter))]
@@ -31,16 +30,16 @@ namespace MeteoSwissApi.Models
         public DateTime? ValidTo { get; set; }
 
         [JsonProperty("ordering")]
-        public string Ordering { get; set; }
+        public string Ordering { get; set; } = null!;
 
         [JsonProperty("htmlText")]
-        public string HtmlText { get; set; }
+        public string HtmlText { get; set; } = null!;
 
         [JsonProperty("outlook")]
         public bool Outlook { get; set; }
 
         [JsonProperty("links")]
-        public IReadOnlyCollection<Link> Links { get; set; }
+        public Link[] Links { get; set; }
 
         public override string ToString()
         {

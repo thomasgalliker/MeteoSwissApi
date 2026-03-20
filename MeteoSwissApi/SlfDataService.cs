@@ -96,7 +96,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetStationInfoAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var stationInfo = JsonSerializer.Deserialize<SlfStationInfo>(responseJson, JsonSerialization.CreateOptions());
+            var stationInfo = JsonSerializer.Deserialize<SlfStationInfo>(responseJson, JsonSerialization.CreateOptions())!;
             return stationInfo;
         }
 
@@ -122,7 +122,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetLatestMeasurementByStationCodeAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var measurement = JsonSerializer.Deserialize<SlfStationMeasurement>(responseJson, JsonSerialization.CreateOptions());
+            var measurement = JsonSerializer.Deserialize<SlfStationMeasurement>(responseJson, JsonSerialization.CreateOptions())!;
 
             var stationinfo = await this.GetStationInfoAsync(network, code);
             measurement.Station = stationinfo;
@@ -151,7 +151,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetMeasurementsByStationCodeAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var timeseries = JsonSerializer.Deserialize<SlfStationMeasurementsResponse>(responseJson, JsonSerialization.CreateOptions());
+            var timeseries = JsonSerializer.Deserialize<SlfStationMeasurementsResponse>(responseJson, JsonSerialization.CreateOptions())!;
 
             var slfStationMeasurementItems = timeseries.TemperatureAir
                 .Select(t =>
@@ -293,7 +293,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetLatestMeasurementsAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var slfStationMeasurementResponse = JsonSerializer.Deserialize<SlfStationMeasurementResponse>(responseJson, JsonSerialization.CreateOptions());
+            var slfStationMeasurementResponse = JsonSerializer.Deserialize<SlfStationMeasurementResponse>(responseJson, JsonSerialization.CreateOptions())!;
             return slfStationMeasurementResponse;
         }
 

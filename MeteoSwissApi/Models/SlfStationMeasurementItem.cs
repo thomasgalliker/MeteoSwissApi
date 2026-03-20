@@ -11,6 +11,6 @@ namespace MeteoSwissApi.Models
 
         public Temperature TemperatureAir { get; set; }
 
-        public SlfWindInfo Wind { get; set; }
+        public SlfWindInfo Wind { get; set; } = new SlfWindInfo();
     }
 }

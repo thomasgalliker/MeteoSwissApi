@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using MeteoSwissApi.Models.Converters;
 using UnitsNet;
 
@@ -9,15 +8,15 @@ namespace MeteoSwissApi.Models
     {
         public GraphCompact()
         {
-            this.TemperatureMin1h = new List<Temperature>();
-            this.TemperatureMax1h = new List<Temperature>();
-            this.TemperatureMean1h = new List<Temperature>();
-            this.Precipitation10m = new List<Length>();
-            this.PrecipitationMin10m = new List<Length>();
-            this.PrecipitationMax10m = new List<Length>();
-            this.PrecipitationMin1h = new List<Length>();
-            this.PrecipitationMax1h = new List<Length>();
-            this.PrecipitationMean1h = new List<Length>();
+            this.TemperatureMin1h = Array.Empty<Temperature>();
+            this.TemperatureMax1h = Array.Empty<Temperature>();
+            this.TemperatureMean1h = Array.Empty<Temperature>();
+            this.Precipitation10m = Array.Empty<Length>();
+            this.PrecipitationMin10m = Array.Empty<Length>();
+            this.PrecipitationMax10m = Array.Empty<Length>();
+            this.PrecipitationMin1h = Array.Empty<Length>();
+            this.PrecipitationMax1h = Array.Empty<Length>();
+            this.PrecipitationMean1h = Array.Empty<Length>();
         }
 
         [JsonProperty("start")]
@@ -25,40 +24,40 @@ namespace MeteoSwissApi.Models
         public DateTime Start { get; set; }
 
         [JsonProperty("temperatureMin1h")]
-        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
-        public IReadOnlyCollection<Temperature> TemperatureMin1h { get; set; }
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
+        public Temperature[] TemperatureMin1h { get; set; }
 
         [JsonProperty("temperatureMax1h")]
-        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
-        public IReadOnlyCollection<Temperature> TemperatureMax1h { get; set; }
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
+        public Temperature[] TemperatureMax1h { get; set; }
 
         [JsonProperty("temperatureMean1h")]
-        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
-        public IReadOnlyCollection<Temperature> TemperatureMean1h { get; set; }
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
+        public Temperature[] TemperatureMean1h { get; set; }
 
         [JsonProperty("precipitation10m")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> Precipitation10m { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] Precipitation10m { get; set; }
 
         [JsonProperty("precipitationMin10m")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMin10m { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMin10m { get; set; }
 
         [JsonProperty("precipitationMax10m")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMax10m { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMax10m { get; set; }
 
         [JsonProperty("precipitationMin1h")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMin1h { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMin1h { get; set; }
 
         [JsonProperty("precipitationMax1h")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMax1h { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMax1h { get; set; }
 
         [JsonProperty("precipitationMean1h")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMean1h { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMean1h { get; set; }
 
         public override string ToString()
         {

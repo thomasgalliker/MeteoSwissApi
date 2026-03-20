@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using MeteoSwissApi.Models.Converters;
 using UnitsNet;
@@ -10,34 +9,35 @@ namespace MeteoSwissApi.Models
     {
         public GraphDetail()
         {
-            this.WeatherIcon3h = new List<int>();
-            this.WeatherIcon3hV2 = new List<int>();
+            this.WeatherIcon3h = Array.Empty<int>();
+            this.WeatherIcon3hV2 = Array.Empty<int>();
 
-            this.WindDirection3h = new List<Angle>();
-            this.WindSpeed1h = new List<Speed>();
-            this.WindSpeed1hQ10 = new List<Speed>();
-            this.WindSpeed1hQ90 = new List<Speed>();
-            this.WindSpeed3h = new List<Speed>();
+            this.WindDirection3h = Array.Empty<Angle>();
 
-            this.GustSpeed1h = new List<Speed>();
-            this.GustSpeed1hQ10 = new List<Speed>();
-            this.GustSpeed1hQ90 = new List<Speed>();
+            this.WindSpeed1h = Array.Empty<Speed>();
+            this.WindSpeed1hQ10 = Array.Empty<Speed>();
+            this.WindSpeed1hQ90 = Array.Empty<Speed>();
+            this.WindSpeed3h = Array.Empty<Speed>();
 
-            this.Sunrise = new List<DateTime>();
-            this.Sunset = new List<DateTime>();
-            this.Sunshine1h = new List<Duration>();
+            this.GustSpeed1h = Array.Empty<Speed>();
+            this.GustSpeed1hQ10 = Array.Empty<Speed>();
+            this.GustSpeed1hQ90 = Array.Empty<Speed>();
 
-            this.TemperatureMin1h = new List<Temperature>();
-            this.TemperatureMax1h = new List<Temperature>();
-            this.TemperatureMean1h = new List<Temperature>();
+            this.Sunrise = Array.Empty<DateTime>();
+            this.Sunset = Array.Empty<DateTime>();
+            this.Sunshine1h = Array.Empty<Duration>();
 
-            this.Precipitation10m = new List<Length>();
-            this.PrecipitationMin10m = new List<Length>();
-            this.PrecipitationMax10m = new List<Length>();
-            this.Precipitation1h = new List<Length>();
-            this.PrecipitationMin1h = new List<Length>();
-            this.PrecipitationMax1h = new List<Length>();
-            this.PrecipitationProbability3h = new List<Ratio>();
+            this.TemperatureMin1h = Array.Empty<Temperature>();
+            this.TemperatureMax1h = Array.Empty<Temperature>();
+            this.TemperatureMean1h = Array.Empty<Temperature>();
+
+            this.Precipitation10m = Array.Empty<Length>();
+            this.PrecipitationMin10m = Array.Empty<Length>();
+            this.PrecipitationMax10m = Array.Empty<Length>();
+            this.Precipitation1h = Array.Empty<Length>();
+            this.PrecipitationMin1h = Array.Empty<Length>();
+            this.PrecipitationMax1h = Array.Empty<Length>();
+            this.PrecipitationProbability3h = Array.Empty<Ratio>();
         }
 
         [JsonProperty("start")]
@@ -49,96 +49,96 @@ namespace MeteoSwissApi.Models
         public DateTime StartLowResolution { get; set; }
 
         [JsonProperty("temperatureMin1h")]
-        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
-        public IReadOnlyCollection<Temperature> TemperatureMin1h { get; set; }
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
+        public Temperature[] TemperatureMin1h { get; set; }
 
         [JsonProperty("temperatureMax1h")]
-        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
-        public IReadOnlyCollection<Temperature> TemperatureMax1h { get; set; }
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
+        public Temperature[] TemperatureMax1h { get; set; }
 
         [JsonProperty("temperatureMean1h")]
-        [JsonConverter(typeof(TemperatureCollectionJsonConverter))]
-        public IReadOnlyCollection<Temperature> TemperatureMean1h { get; set; }
+        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
+        public Temperature[] TemperatureMean1h { get; set; }
 
         [Obsolete("Use WeatherIcon3hV2")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("weatherIcon3h")]
-        public IReadOnlyCollection<int> WeatherIcon3h { get; set; }
+        public int[] WeatherIcon3h { get; set; }
 
         [JsonProperty("weatherIcon3hV2")]
-        public IReadOnlyCollection<int> WeatherIcon3hV2 { get; set; }
+        public int[] WeatherIcon3hV2 { get; set; }
 
         [JsonProperty("windDirection3h")]
-        [JsonConverter(typeof(WindDirectionCollectionJsonConverter))]
-        public IReadOnlyCollection<Angle> WindDirection3h { get; set; }
+        [JsonConverter(typeof(WindDirectionArrayJsonConverter))]
+        public Angle[] WindDirection3h { get; set; }
 
         [JsonProperty("windSpeed1h")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> WindSpeed1h { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] WindSpeed1h { get; set; }
         
         [JsonProperty("windSpeed1hq10")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> WindSpeed1hQ10 { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] WindSpeed1hQ10 { get; set; }
         
         [JsonProperty("windSpeed1hq90")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> WindSpeed1hQ90 { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] WindSpeed1hQ90 { get; set; }
         
         [JsonProperty("windSpeed3h")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> WindSpeed3h { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] WindSpeed3h { get; set; }
         
         [JsonProperty("gustSpeed1h")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> GustSpeed1h { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] GustSpeed1h { get; set; }
         
         [JsonProperty("gustSpeed1hq10")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> GustSpeed1hQ10 { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] GustSpeed1hQ10 { get; set; }
 
         [JsonProperty("gustSpeed1hq90")]
-        [JsonConverter(typeof(WindSpeedCollectionJsonConverter))]
-        public IReadOnlyCollection<Speed> GustSpeed1hQ90 { get; set; }
+        [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
+        public Speed[] GustSpeed1hQ90 { get; set; }
 
         [JsonProperty("sunrise")]
-        [JsonConverter(typeof(EpochDateTimeCollectionJsonConverter))]
-        public IReadOnlyCollection<DateTime> Sunrise { get; set; }
+        [JsonConverter(typeof(EpochDateTimeArrayJsonConverter))]
+        public DateTime[] Sunrise { get; set; }
 
         [JsonProperty("sunset")]
-        [JsonConverter(typeof(EpochDateTimeCollectionJsonConverter))]
-        public IReadOnlyCollection<DateTime> Sunset { get; set; }
+        [JsonConverter(typeof(EpochDateTimeArrayJsonConverter))]
+        public DateTime[] Sunset { get; set; }
 
         [JsonProperty("sunshine1h")]
-        [JsonConverter(typeof(MinuteDurationCollectionJsonConverter))]
-        public IReadOnlyCollection<Duration> Sunshine1h { get; set; }
+        [JsonConverter(typeof(MinuteDurationArrayJsonConverter))]
+        public Duration[] Sunshine1h { get; set; }
         
         [JsonProperty("precipitation10m")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> Precipitation10m { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] Precipitation10m { get; set; }
 
         [JsonProperty("precipitationMin10m")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMin10m { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMin10m { get; set; }
 
         [JsonProperty("precipitationMax10m")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMax10m { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMax10m { get; set; }
 
         [JsonProperty("precipitation1h")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> Precipitation1h { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] Precipitation1h { get; set; }
 
         [JsonProperty("precipitationMin1h")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMin1h { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMin1h { get; set; }
 
         [JsonProperty("precipitationMax1h")]
-        [JsonConverter(typeof(MillimeterLengthCollectionJsonConverter))]
-        public IReadOnlyCollection<Length> PrecipitationMax1h { get; set; }
+        [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
+        public Length[] PrecipitationMax1h { get; set; }
         
         [JsonProperty("precipitationProbability3h")]
-        [JsonConverter(typeof(PercentRatioCollectionJsonConverter))]
-        public IReadOnlyCollection<Ratio> PrecipitationProbability3h { get; set; }
+        [JsonConverter(typeof(PercentRatioArrayJsonConverter))]
+        public Ratio[] PrecipitationProbability3h { get; set; }
 
         public override string ToString()
         {

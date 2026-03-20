@@ -85,7 +85,7 @@ namespace MeteoSwissApi
 
         public async Task<IEnumerable<WeatherStation>> GetWeatherStationsAsync(TimeSpan? cacheExpiration = null)
         {
-            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStation>>(WeatherStationsCacheKey, out var cache))
+            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStation>>(WeatherStationsCacheKey, out var cache) && cache != null)
             {
                 this.logger.LogDebug($"GetWeatherStationsAsync (from cache)");
                 return cache;
@@ -145,7 +145,7 @@ namespace MeteoSwissApi
 
         public async Task<IEnumerable<WeatherStationMeasurement>> GetLatestMeasurementsAsync(TimeSpan? cacheExpiration = null)
         {
-            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStationMeasurement>>(LatestMeasurementsCacheKey, out var measurementsCache))
+            if (this.memoryCache.TryGetValue<IEnumerable<WeatherStationMeasurement>>(LatestMeasurementsCacheKey, out var measurementsCache) && measurementsCache != null)
             {
                 this.logger.LogDebug($"GetLatestMeasurementsAsync (from cache)");
                 return measurementsCache;

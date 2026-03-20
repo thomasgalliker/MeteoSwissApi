@@ -15,7 +15,7 @@ namespace MeteoSwissApi.Utils
     {
         private static readonly Encoding DefaultEncoding = Encoding.UTF8;
 
-        public static IEnumerable<T> Import<T>(string content, Encoding encoding = null, string delimiter = ";")
+        public static IEnumerable<T> Import<T>(string content, Encoding? encoding = null, string delimiter = ";")
         {
             if (string.IsNullOrEmpty(content))
             {

@@ -1,14 +1,16 @@
-using System.Collections.Generic;
-
 namespace MeteoSwissApi.Models
 {
     internal class SlfStationMeasurementResponse
     {
+        public SlfStationMeasurementResponse()
+        {
+            this.Features = Array.Empty<SlfFeature>();
+        }
+
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string Type { get; set; } = null!;
 
         [JsonProperty("features")]
-        public IReadOnlyCollection<SlfFeature> Features { get; } = new List<SlfFeature>();
+        public SlfFeature[] Features { get; set; }
     }
 }
-

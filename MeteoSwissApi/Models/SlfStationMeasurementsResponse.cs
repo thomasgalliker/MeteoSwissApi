@@ -1,20 +1,25 @@
-using System.Collections.Generic;
-
 namespace MeteoSwissApi.Models
 {
     internal class SlfStationMeasurementsResponse
     {
+        public SlfStationMeasurementsResponse()
+        {
+            this.TemperatureAir = Array.Empty<SlfStationDateTemperature>();
+            this.WindVelocityMax = Array.Empty<SlfStationDateSpeed>();
+            this.WindVelocityMean = Array.Empty<SlfStationDateSpeed>();
+            this.WindDirectionMean = Array.Empty<SlfStationDateAngle>();
+        }
+
         [JsonProperty("temperatureAir")]
-        public List<SlfStationDateTemperature> TemperatureAir { get; set; }
+        public SlfStationDateTemperature[] TemperatureAir { get; set; }
 
         [JsonProperty("windVelocityMax")]
-        public List<SlfStationDateSpeed> WindVelocityMax { get; set; }
+        public SlfStationDateSpeed[] WindVelocityMax { get; set; }
 
         [JsonProperty("windVelocityMean")]
-        public List<SlfStationDateSpeed> WindVelocityMean { get; set; }
+        public SlfStationDateSpeed[] WindVelocityMean { get; set; }
 
         [JsonProperty("windDirectionMean")]
-        public List<SlfStationDateAngle> WindDirectionMean { get; set; }
+        public SlfStationDateAngle[] WindDirectionMean { get; set; }
     }
 }
-

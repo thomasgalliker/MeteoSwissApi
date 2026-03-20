@@ -1,9 +1,5 @@
-using System;
-using System.IO;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Threading.Tasks;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Serialization;
 using Microsoft.Extensions.Logging;
@@ -117,10 +113,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetCurrentWeatherAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(
-                responseJson,
-                JsonSerialization.CreateOptions(this.throwExceptionOnMissingJsonProperties));
-
+            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(responseJson, JsonSerialization.CreateOptions(this.throwExceptionOnMissingJsonProperties))!;
             return weatherInfo;
         }
 
@@ -161,10 +154,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetForecastAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var regionForecastResponse = JsonSerializer.Deserialize<ForecastInfo>(
-                responseJson,
-                JsonSerialization.CreateOptions(this.throwExceptionOnMissingJsonProperties));
-
+            var regionForecastResponse = JsonSerializer.Deserialize<ForecastInfo>(responseJson, JsonSerialization.CreateOptions(this.throwExceptionOnMissingJsonProperties))!;
             return regionForecastResponse;
         }
 
@@ -173,7 +163,7 @@ namespace MeteoSwissApi
             return $"{plz}".PadRight(6, '0');
         }
 
-        public async Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping weatherIconMapping = null)
+        public async Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping? weatherIconMapping = null)
         {
             if (weatherIconMapping == null)
             {

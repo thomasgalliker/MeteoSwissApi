@@ -45,7 +45,8 @@ namespace MeteoSwissApi.Utils
                 throw new MultipleResourcesFoundException(resourceFileName, resourcePaths);
             }
 
-            return assembly.GetManifestResourceStream(resourcePaths.Single());
+            return assembly.GetManifestResourceStream(resourcePaths.Single())
+                ?? throw new InvalidOperationException($"Embedded resource '{resourceFileName}' could not be loaded.");
         }
 
         public IEnumerable<Stream> GetEmbeddedResourceStreams(Assembly assembly, string resourceFileName)
@@ -55,7 +56,11 @@ namespace MeteoSwissApi.Utils
             var resourcePaths = resourceNames.Where(x => x.Contains(resourceFileName)).ToArray();
             foreach (var resourcePath in resourcePaths)
             {
-                yield return assembly.GetManifestResourceStream(resourcePath);
+                var stream = assembly.GetManifestResourceStream(resourcePath);
+                if (stream != null)
+                {
+                    yield return stream;
+                }
             }
         }
 
@@ -84,7 +89,7 @@ namespace MeteoSwissApi.Utils
             }
         }
 
-        public string GetEmbeddedResourceString(Assembly assembly, string resourceFileName, Encoding encoding = null)
+        public string GetEmbeddedResourceString(Assembly assembly, string resourceFileName, Encoding? encoding = null)
         {
             var stream = this.GetEmbeddedResourceStream(assembly, resourceFileName);
 
@@ -96,7 +101,7 @@ namespace MeteoSwissApi.Utils
             }
         }
 
-        public IEnumerable<string> GetEmbeddedResourceStrings(Assembly assembly, string resourceFileName, Encoding encoding = null)
+        public IEnumerable<string> GetEmbeddedResourceStrings(Assembly assembly, string resourceFileName, Encoding? encoding = null)
         {
             var streams = this.GetEmbeddedResourceStreams(assembly, resourceFileName);
 

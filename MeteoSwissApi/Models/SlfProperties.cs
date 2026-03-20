@@ -1,5 +1,3 @@
-using System;
-
 namespace MeteoSwissApi.Models
 {
     internal class SlfProperties : SlfStation
@@ -17,4 +15,3 @@ namespace MeteoSwissApi.Models
         public DateTime? Timestamp { get; set; }
     }
 }
-

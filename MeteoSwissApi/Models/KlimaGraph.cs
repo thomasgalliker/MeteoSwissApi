@@ -14,13 +14,13 @@ namespace MeteoSwissApi.Models
         public DateTime Start { get; set; }
 
         [JsonProperty("temperatureGraphValues")]
-        public TemperatureGraphValues TemperatureGraphValues { get; set; }
+        public TemperatureGraphValues TemperatureGraphValues { get; set; } = new TemperatureGraphValues();
 
         [JsonProperty("sunshineGraphValues")]
-        public SunshineGraphValues SunshineGraphValues { get; set; }
+        public SunshineGraphValues SunshineGraphValues { get; set; } = new SunshineGraphValues();
 
         [JsonProperty("precipitationGraphValues")]
-        public PrecipitationGraphValues PrecipitationGraphValues { get; set; }
+        public PrecipitationGraphValues PrecipitationGraphValues { get; set; } = new PrecipitationGraphValues();
     }
 
     /// <summary>
@@ -28,6 +28,13 @@ namespace MeteoSwissApi.Models
     /// </summary>
     public class TemperatureGraphValues
     {
+        public TemperatureGraphValues()
+        {
+            this.Absolute = Array.Empty<Temperature>();
+            this.Normal = Array.Empty<Temperature>();
+            this.Deviation = Array.Empty<Temperature>();
+        }
+
         /// <summary>
         /// Monthly absolute temperature values, last 24 months.
         /// </summary>
@@ -56,6 +63,13 @@ namespace MeteoSwissApi.Models
 
     public class SunshineGraphValues
     {
+        public SunshineGraphValues()
+        {
+            this.Absolute = Array.Empty<Duration>();
+            this.Normal = Array.Empty<Duration>();
+            this.Deviation = Array.Empty<Ratio>();
+        }
+
         /// <summary>
         /// Monthly absolute sunshine duration values, last 24 months.
         /// </summary>
@@ -84,6 +98,13 @@ namespace MeteoSwissApi.Models
 
     public class PrecipitationGraphValues
     {
+        public PrecipitationGraphValues()
+        {
+            this.Absolute = Array.Empty<Length>();
+            this.Normal = Array.Empty<Length>();
+            this.Deviation = Array.Empty<Ratio>();
+        }
+
         /// <summary>
         /// Monthly absolute precipitation values, last 24 months.
         /// </summary>
@@ -110,4 +131,3 @@ namespace MeteoSwissApi.Models
         public Ratio[] Deviation { get; set; }
     }
 }
-
