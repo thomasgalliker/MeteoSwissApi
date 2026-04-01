@@ -1,5 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using UnitsNet;
 using UnitsNet.Units;
 
@@ -14,26 +16,25 @@ namespace MeteoSwissApi.Models.Converters
             this.lengthUnit = lengthUnit;
         }
 
-        public override void WriteJson(JsonWriter writer, Length value, JsonSerializer serializer)
+        public override Length Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteValue($"{value.Value}");
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                return Length.From(reader.GetDouble(), this.lengthUnit);
+            }
+
+            if (reader.TokenType == JsonTokenType.String
+                && double.TryParse(reader.GetString(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var value))
+            {
+                return Length.From(value, this.lengthUnit);
+            }
+
+            return default;
         }
 
-        public override Length ReadJson(JsonReader reader, Type objectType, Length existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, Length value, JsonSerializerOptions options)
         {
-            if (reader.Value is long integer)
-            {
-                return Length.From(integer, this.lengthUnit);
-            }
-
-            if (reader.Value is double number)
-            {
-                return Length.From(number, this.lengthUnit);
-            }
-
-            return reader.Value is string stringValue && double.TryParse(stringValue, out var value)
-                ? Length.From(value, this.lengthUnit)
-                : default;
+            writer.WriteStringValue(value.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

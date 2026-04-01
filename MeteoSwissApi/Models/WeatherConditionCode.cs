@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using MeteoSwissApi.Resources.Strings;
 
 namespace MeteoSwissApi.Models
@@ -251,15 +248,17 @@ namespace MeteoSwissApi.Models
 
         public static bool TryGetFromValue(int value, out WeatherConditionCode outpar)
         {
-            var weatherConditionCode = All.Cast<WeatherConditionCode?>().SingleOrDefault(x => x.Value == value);
-            if (weatherConditionCode == null)
+            foreach (var weatherConditionCode in All)
             {
-                outpar = Unknown;
-                return false;
+                if (weatherConditionCode.Value == value)
+                {
+                    outpar = weatherConditionCode;
+                    return true;
+                }
             }
 
-            outpar = weatherConditionCode.Value;
-            return true;
+            outpar = Unknown;
+            return false;
         }
 
         public static WeatherConditionCode FromValue(int value)
@@ -272,7 +271,7 @@ namespace MeteoSwissApi.Models
                     $"Valid values must be between {All.Min(x => x.Value)} and {All.Max(x => x.Value)}");
             }
 
-            return weatherConditionCode.Value;
+            return weatherConditionCode;
         }
 
         public int CompareTo(object obj)
@@ -313,12 +312,12 @@ namespace MeteoSwissApi.Models
             return this.ToString(null, null);
         }
 
-        public string ToString(string format)
+        public string ToString(string? format)
         {
             return this.ToString(format, null);
         }
 
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string? format, IFormatProvider? provider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -332,7 +331,7 @@ namespace MeteoSwissApi.Models
             {
                 case "G":
                     var translation = WeatherConditionCodes.ResourceManager.GetString(valueString, (CultureInfo)provider);
-                    return translation;
+                    return translation ?? valueString;
                 default:
                     return valueString;
             }

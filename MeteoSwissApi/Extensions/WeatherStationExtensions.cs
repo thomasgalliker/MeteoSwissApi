@@ -17,8 +17,9 @@ namespace MeteoSwissApi.Extensions
         public static IEnumerable<(WeatherStation WeatherStation, Length Distance)> Nearby(this IEnumerable<WeatherStation> weatherStations, GeoCoordinate location, Length maxRadius)
         {
             var weatherStationsWithDistance = weatherStations
-                .Where(s => s.Location != null)
-                .Select(s => (WeatherStation: s, Distance: s.Location.GetDistanceTo(location)))
+                .Select(s => new { WeatherStation = s, Location = s.Location })
+                .Where(x => x.Location is not null)
+                .Select(x => (x.WeatherStation, Distance: x.Location!.GetDistanceTo(location)))
                 .Where(d => d.Distance <= maxRadius)
                 .OrderBy(d => d.Distance)
                 .ToList();

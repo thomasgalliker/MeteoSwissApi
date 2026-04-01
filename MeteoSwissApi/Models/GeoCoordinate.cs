@@ -202,14 +202,14 @@ namespace MeteoSwissApi.Models
             return this.Latitude.GetHashCode() ^ this.Longitude.GetHashCode();
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (obj is not GeoCoordinate)
+            if (obj is not GeoCoordinate other)
             {
                 return base.Equals(obj);
             }
 
-            return this.Equals(obj as GeoCoordinate);
+            return this.Equals(other);
         }
         public override string ToString()
         {
@@ -224,7 +224,7 @@ namespace MeteoSwissApi.Models
             }
         }
 
-        public bool Equals(GeoCoordinate other)
+        public bool Equals(GeoCoordinate? other)
         {
             if (other is null)
             {
@@ -233,7 +233,7 @@ namespace MeteoSwissApi.Models
             return this.Latitude.Equals(other.Latitude) && this.Longitude.Equals(other.Longitude);
         }
 
-        public static bool operator ==(GeoCoordinate left, GeoCoordinate right)
+        public static bool operator ==(GeoCoordinate? left, GeoCoordinate? right)
         {
             if (left is null)
             {
@@ -242,7 +242,7 @@ namespace MeteoSwissApi.Models
             return left.Equals(right);
         }
 
-        public static bool operator !=(GeoCoordinate left, GeoCoordinate right)
+        public static bool operator !=(GeoCoordinate? left, GeoCoordinate? right)
         {
             return !(left == right);
         }

@@ -1,0 +1,31 @@
+4.0
+- Replace Newtonsoft.Json with System.Text.Json for JSON serialization.
+
+3.2
+- Add model for climate information (KlimaGraph) to WeatherInfo.
+
+3.1
+- Extend models Forecast and GraphDetail with new properties
+
+3.0
+- Add service to retrieve SwissMetNet weather stations
+- Add service to retrieve SLF weather stations
+- Add response caching
+- Add high-contrast svg icons
+- Add support for Microsoft.Extensions.DependencyInjection
+
+2.0
+- Replace Temperature type with UnitsNet Temperature
+
+1.3
+- Maintenance updates
+
+1.2
+- Maintenance updates
+
+1.1
+- Add new method GetForecastAsync
+- Handle properties WarnType and WarnLevel with custom types
+
+1.0
+- Initial release

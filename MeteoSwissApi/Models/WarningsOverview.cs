@@ -1,5 +1,4 @@
-﻿using MeteoSwissApi.Models.Converters;
-using Newtonsoft.Json;
+using MeteoSwissApi.Models.Converters;
 
 namespace MeteoSwissApi.Models
 {

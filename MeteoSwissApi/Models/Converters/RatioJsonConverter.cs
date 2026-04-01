@@ -1,5 +1,7 @@
-﻿using System;
-using Newtonsoft.Json;
+using System;
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using UnitsNet;
 using UnitsNet.Units;
 
@@ -14,26 +16,25 @@ namespace MeteoSwissApi.Models.Converters
             this.ratioUnit = ratioUnit;
         }
 
-        public override void WriteJson(JsonWriter writer, Ratio value, JsonSerializer serializer)
+        public override Ratio Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            writer.WriteValue($"{value.Value}");
+            if (reader.TokenType == JsonTokenType.Number)
+            {
+                return Ratio.From(reader.GetDouble(), this.ratioUnit);
+            }
+
+            if (reader.TokenType == JsonTokenType.String
+                && double.TryParse(reader.GetString(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var value))
+            {
+                return Ratio.From(value, this.ratioUnit);
+            }
+
+            return default;
         }
 
-        public override Ratio ReadJson(JsonReader reader, Type objectType, Ratio existingValue, bool hasExistingValue, JsonSerializer serializer)
+        public override void Write(Utf8JsonWriter writer, Ratio value, JsonSerializerOptions options)
         {
-            if (reader.Value is long integer)
-            {
-                return Ratio.From(integer, this.ratioUnit);
-            }
-
-            if (reader.Value is double number)
-            {
-                return Ratio.From(number, this.ratioUnit);
-            }
-
-            return reader.Value is string stringValue && double.TryParse(stringValue, out var value)
-                ? Ratio.From(value, this.ratioUnit)
-                : default;
+            writer.WriteStringValue(value.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }

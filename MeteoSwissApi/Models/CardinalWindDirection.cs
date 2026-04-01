@@ -82,7 +82,7 @@ namespace MeteoSwissApi.Models
         /// </remarks>
         /// <param name="provider">An object that supplies culture-specific formatting information.</param>
         /// <returns>A string representation of value of the current CardinalWindDirection object as specified by format.</returns>
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string? format, IFormatProvider? provider)
         {
             var culture = provider as CultureInfo ?? CultureInfo.CurrentCulture;
 
@@ -98,14 +98,14 @@ namespace MeteoSwissApi.Models
             {
                 case 'a':
                 case 'A':
-                    return CardinalWindDirectionsAcronyms.ResourceManager.GetString(this.resourceId, culture);
+                    return CardinalWindDirectionsAcronyms.ResourceManager.GetString(this.resourceId, culture) ?? this.resourceId;
                 case 'u':
                 case 'U':
                     return this.resourceId;
                 case 'g':
                 case 'G':
                 default:
-                    return CardinalWindDirections.ResourceManager.GetString(this.resourceId, culture);
+                    return CardinalWindDirections.ResourceManager.GetString(this.resourceId, culture) ?? this.resourceId;
             }
         }
     }

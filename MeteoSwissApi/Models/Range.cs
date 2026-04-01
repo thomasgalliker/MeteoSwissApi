@@ -15,9 +15,9 @@ namespace MeteoSwissApi.Models
         private readonly bool minInclusive;
         private readonly bool maxInclusive;
 
-        public T Min { get; set; }
+        public T Min { get; set; } = default!;
 
-        public T Max { get; set; }
+        public T Max { get; set; } = default!;
 
         public Range()
         {

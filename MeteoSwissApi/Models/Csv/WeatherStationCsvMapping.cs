@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using CsvHelper.Configuration;
 using UnitsNet;
 
@@ -56,9 +55,9 @@ namespace MeteoSwissApi.Models.Csv
             this.Map(m => m.DataOwners).Convert(row =>
             {
                 var dataOwnersString = row.Row["Data Owner"];
-                if (!string.IsNullOrEmpty(dataOwnersString))
+                if (dataOwnersString is string s)
                 {
-                    return dataOwnersString.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    return s.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
                 }
                 else
                 {

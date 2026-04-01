@@ -43,12 +43,12 @@ namespace MeteoSwissApi.Models
             return this.ToString(null, null);
         }
 
-        public string ToString(string format)
+        public string ToString(string? format)
         {
             return this.ToString(format, null);
         }
 
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string? format, IFormatProvider? provider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -61,7 +61,7 @@ namespace MeteoSwissApi.Models
             {
                 case "G":
                     var translation = SlfStationTypes.ResourceManager.GetString(this.value, (CultureInfo)provider);
-                    return translation;
+                    return translation ?? this.value;
                 default:
                     return this.value;
             }

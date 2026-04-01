@@ -1,7 +1,6 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using MeteoSwissApi.Models.Converters;
-using Newtonsoft.Json;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models

@@ -1,34 +1,32 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-
 namespace MeteoSwissApi.Models
 {
     public class ForecastInfo
     {
         public ForecastInfo()
         {
-            this.Forecast = new List<Forecast>();
-            this.WarningsOverview = new List<WarningsOverview>();
+            this.Forecast = Array.Empty<Forecast>();
+            this.WarningsOverview = Array.Empty<WarningsOverview>();
         }
 
         [JsonProperty("plz")]
         public int Plz { get; set; }
 
         [JsonProperty("currentWeather")]
-        public CurrentWeather CurrentWeather { get; set; }
+        public CurrentWeather CurrentWeather { get; set; } = null!;
 
         [JsonProperty("regionForecast")]
-        public IReadOnlyCollection<Forecast> Forecast { get; set; }
+        public Forecast[] Forecast { get; set; }
 
         [JsonProperty("graph")]
-        public GraphCompact Graph { get; set; }
+        public GraphCompact Graph { get; set; } = null!;
 
         [JsonProperty("warningsOverview")]
-        public IReadOnlyCollection<WarningsOverview> WarningsOverview { get; set; }
+        public WarningsOverview[] WarningsOverview { get; set; }
 
         public override string ToString()
         {
-            return $"Plz={this.Plz}, Forecast={{{this.Forecast.Count}}}";
+            return $"Plz={this.Plz}, Forecast={{{this.Forecast.Length}}}";
         }
     }
 }
+

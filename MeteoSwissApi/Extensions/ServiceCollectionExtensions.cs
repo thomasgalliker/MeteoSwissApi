@@ -17,9 +17,7 @@ namespace Microsoft.Extensions.DependencyInjection
             return serviceCollection;
         }
 
-        public static IServiceCollection AddMeteoSwissApi(
-            this IServiceCollection services,
-            Action<MeteoSwissApiOptions> options = null)
+        public static IServiceCollection AddMeteoSwissApi(this IServiceCollection services, Action<MeteoSwissApiOptions>? options = null)
         {
             // Configuration
             if (options != null)

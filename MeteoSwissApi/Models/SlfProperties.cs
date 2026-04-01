@@ -1,6 +1,3 @@
-﻿using System;
-using Newtonsoft.Json;
-
 namespace MeteoSwissApi.Models
 {
     internal class SlfProperties : SlfStation

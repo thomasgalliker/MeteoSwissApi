@@ -62,12 +62,12 @@ namespace MeteoSwissApi.Models
             return this.ToString(null, null);
         }
 
-        public string ToString(string format)
+        public string ToString(string? format)
         {
             return this.ToString(format, null);
         }
 
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string? format, IFormatProvider? provider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -83,7 +83,7 @@ namespace MeteoSwissApi.Models
                 case "G":
                 default:
                     var str = WarnLevels.ResourceManager.GetString($"Level{this.Level}", (CultureInfo)provider);
-                    return str;
+                    return str ?? $"Level{this.Level}";
             }
         }
     }

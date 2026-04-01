@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
@@ -8,7 +7,7 @@ namespace MeteoSwissApi.Models
     public class WeatherStationMeasurement
     {
         /// <inheritdoc cref="WeatherStation.StationCode"/>
-        public string StationCode { get; set; }
+        public string StationCode { get; set; } = null!;
 
         /// <summary>
         /// Time of measurement.

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Net.Http;
-using MeteoSwissApi.Tests.Utils;
+﻿using MeteoSwissApi.Tests.Utils;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -18,7 +16,7 @@ namespace MeteoSwissApi.Tests
         }
 
         [Fact]
-        public async void ShouldDownloadAllExistingIcons()
+        public async Task ShouldDownloadAllExistingIcons()
         {
             // Arrange
             var range = Enumerable.Range(1, 200).ToArray();

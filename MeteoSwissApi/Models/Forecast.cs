@@ -1,9 +1,7 @@
-﻿using System;
+using System;
 using System.ComponentModel;
 using MeteoSwissApi.Models.Converters;
-using Newtonsoft.Json;
 using UnitsNet;
-using WeatherDisplay.Model.Wiewarm.Converters;
 
 namespace MeteoSwissApi.Models
 {
