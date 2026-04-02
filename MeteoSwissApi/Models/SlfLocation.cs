@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Newtonsoft.Json;
 using UnitsNet;
 
 namespace MeteoSwissApi.Models
@@ -12,7 +11,7 @@ namespace MeteoSwissApi.Models
         private List<double> coordinates = new List<double>();
 
         [JsonProperty("type")]
-        public string Type { get; set; }
+        public string Type { get; set; } = null!;
 
         [JsonProperty("coordinates")]
         internal List<double> Coordinates
@@ -20,13 +19,10 @@ namespace MeteoSwissApi.Models
             get => this.coordinates;
             set
             {
+                value ??= new List<double>();
+
                 if (this.coordinates != value)
                 {
-                    if (value == null)
-                    {
-                        this.Location = null;
-                    }
-
                     this.coordinates = value;
 
                     if (value.Count >= 2)
@@ -43,10 +39,14 @@ namespace MeteoSwissApi.Models
 
                         this.Location = location;
                     }
+                    else
+                    {
+                        this.Location = null;
+                    }
                 }
             }
         }
 
-        public GeoCoordinate Location { get; private set; }
+        public GeoCoordinate? Location { get; private set; }
     }
 }

@@ -4,9 +4,9 @@ namespace MeteoSwissApi.Models
 {
     internal static class EnumUtils
     {
-        internal static string GetDescription<T>(T enumValue, string @default = null)
+        internal static string? GetDescription<T>(T enumValue, string? @default = null)
         {
-            var fi = enumValue.GetType().GetField(enumValue.ToString());
+            var fi = enumValue?.GetType().GetField(enumValue.ToString());
             if (fi != null)
             {
                 var attrs = fi.GetCustomAttributes(typeof(DescriptionAttribute), true);

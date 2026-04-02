@@ -1,14 +1,10 @@
-using System;
-using System.IO;
-using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
+using System.Text.Json;
 using MeteoSwissApi.Models;
-using MeteoSwissApi.Models.Converters;
+using MeteoSwissApi.Serialization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace MeteoSwissApi
 {
@@ -22,52 +18,32 @@ namespace MeteoSwissApi
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
         private readonly IWeatherIconMapping defaultWeatherIconMapping;
-        private readonly JsonSerializerSettings serializerSettings;
         private readonly bool verboseLogging;
+        private bool throwExceptionOnMissingJsonProperties;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
         public MeteoSwissWeatherService()
             : this(new NullLogger<MeteoSwissWeatherService>())
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
         public MeteoSwissWeatherService(
             ILogger<MeteoSwissWeatherService> logger)
             : this(logger, new MeteoSwissApiOptions())
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
-        /// <param name="options">The service options.</param>
         public MeteoSwissWeatherService(
             IOptions<MeteoSwissApiOptions> options)
           : this(options.Value)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
-        /// <param name="options">The service options.</param>
         public MeteoSwissWeatherService(
             MeteoSwissApiOptions options)
           : this(new NullLogger<MeteoSwissWeatherService>(), options)
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="options">The service options.</param>
         public MeteoSwissWeatherService(
             ILogger<MeteoSwissWeatherService> logger,
             IOptions<MeteoSwissApiOptions> options)
@@ -75,11 +51,6 @@ namespace MeteoSwissApi
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="options">The service options.</param>
         public MeteoSwissWeatherService(
             ILogger<MeteoSwissWeatherService> logger,
             MeteoSwissApiOptions options)
@@ -87,12 +58,6 @@ namespace MeteoSwissApi
         {
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MeteoSwissWeatherService"/> class.
-        /// </summary>
-        /// <param name="logger">The logger instance.</param>
-        /// <param name="httpClient">The HttpClient instance.</param>
-        /// <param name="options">The service options.</param>
         public MeteoSwissWeatherService(
             ILogger<MeteoSwissWeatherService> logger,
             HttpClient httpClient,
@@ -103,21 +68,12 @@ namespace MeteoSwissApi
             this.httpClient = httpClient;
             this.httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(options.Language));
             this.defaultWeatherIconMapping = new DefaultWeatherIconMapping(this.httpClient);
-            this.serializerSettings = new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-            };
-
-            this.serializerSettings.Converters.Add(new TemperatureJsonConverter());
         }
 
         internal bool ThrowExceptionOnMissingJsonProperties
         {
-            get => this.serializerSettings.MissingMemberHandling == MissingMemberHandling.Error;
-            set => this.serializerSettings.MissingMemberHandling = value
-                ? MissingMemberHandling.Error
-                : MissingMemberHandling.Ignore;
+            get => this.throwExceptionOnMissingJsonProperties;
+            set => this.throwExceptionOnMissingJsonProperties = value;
         }
 
         public async Task<WeatherInfo> GetCurrentWeatherAsync(int plz)
@@ -157,7 +113,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetCurrentWeatherAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var weatherInfo = JsonConvert.DeserializeObject<WeatherInfo>(responseJson, this.serializerSettings);
+            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(responseJson, JsonSerialization.CreateOptions(this.throwExceptionOnMissingJsonProperties))!;
             return weatherInfo;
         }
 
@@ -198,20 +154,16 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetForecastAsync returned content:{Environment.NewLine}{responseJson}");
             }
 
-            var regionForecastResponse = JsonConvert.DeserializeObject<ForecastInfo>(responseJson, this.serializerSettings);
+            var regionForecastResponse = JsonSerializer.Deserialize<ForecastInfo>(responseJson, JsonSerialization.CreateOptions(this.throwExceptionOnMissingJsonProperties))!;
             return regionForecastResponse;
         }
-
-        // TODO: https://app-prod-ws.meteoswiss-app.ch/v2/vorortdetail?plz=633000,630000&ws=
-
-        // TODO: https://app-prod-ws.meteoswiss-app.ch/v1/stationOverview?station=CHZ
 
         private static string PadPlz(int plz)
         {
             return $"{plz}".PadRight(6, '0');
         }
 
-        public async Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping weatherIconMapping = null)
+        public async Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping? weatherIconMapping = null)
         {
             if (weatherIconMapping == null)
             {

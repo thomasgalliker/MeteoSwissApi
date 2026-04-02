@@ -50,13 +50,15 @@ namespace MeteoSwissApi.Models
 
         public static WarnType FromValue(int value)
         {
-            var warnType = All.Cast<WarnType?>().SingleOrDefault(x => x.Value == value);
-            if (warnType == null)
+            foreach (var warnType in All)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), $"Value must be between {All.Min(x => x.Value)} and {All.Max(x => x.Value)}");
+                if (warnType.Value == value)
+                {
+                    return warnType;
+                }
             }
 
-            return warnType.Value;
+            throw new ArgumentOutOfRangeException(nameof(value), $"Value must be between {All.Min(x => x.Value)} and {All.Max(x => x.Value)}");
         }
 
         public int CompareTo(object obj)
@@ -102,12 +104,12 @@ namespace MeteoSwissApi.Models
             return this.ToString(null, warnLevel, null);
         }
 
-        public string ToString(WarnLevel warnLevel, IFormatProvider provider)
+        public string ToString(WarnLevel warnLevel, IFormatProvider? provider)
         {
             return this.ToString(null, warnLevel, provider);
         }
 
-        public string ToString(string format, WarnLevel warnLevel, IFormatProvider provider)
+        public string ToString(string? format, WarnLevel warnLevel, IFormatProvider? provider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -126,17 +128,17 @@ namespace MeteoSwissApi.Models
                         warnLevelTitle = WarnLevels.ResourceManager.GetString($"Level{warnLevel.Level}", (CultureInfo)provider);
                     }
 
-                    return warnLevelTitle;
+                    return warnLevelTitle ?? $"Level{warnLevel.Level}";
             }
 
         }
 
-        public string ToString(string format)
+        public string ToString(string? format)
         {
             return this.ToString(format, null);
         }
 
-        public string ToString(string format, IFormatProvider provider)
+        public string ToString(string? format, IFormatProvider? provider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -149,10 +151,10 @@ namespace MeteoSwissApi.Models
             {
                 case "G":
                     var translation = WarnTypes.ResourceManager.GetString(this.resourceId, (CultureInfo)provider);
-                    return translation;
+                    return translation ?? this.resourceId;
                 case "D":
                     var description = WarnTypes.ResourceManager.GetString($"{this.resourceId}_Description", (CultureInfo)provider);
-                    return description;
+                    return description ?? this.resourceId;
                 default:
                     return this.resourceId;
             }

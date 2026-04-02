@@ -1,13 +1,13 @@
 ####################################################################
-# VSTS Build Configuration, Version 1.4
+# Azure DevOps Build Configuration
 #
-# (c)2022 superdev GmbH
+# (c)2026 superdev GmbH
 ####################################################################
 
 name: $[format('{0}', variables['buildName'])]
 
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'windows-latest'
 
 trigger:
   branches:
@@ -20,7 +20,7 @@ trigger:
   paths:
     exclude:
     - Docs/*
-
+    
 schedules:
 - cron: "0 0 1 * *"
   displayName: At 00:00 on day-of-month 1
@@ -30,11 +30,10 @@ schedules:
   always: true
 
 variables:
-  solution: 'MeteoSwissApi.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
-  majorVersion: 3
-  minorVersion: 2
+  majorVersion: 4
+  minorVersion: 0
   patchVersion: $[counter(format('{0}.{1}', variables.majorVersion, variables.minorVersion), 0)]
   ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
     # Versioning: 1.0.0
@@ -73,13 +72,13 @@ steps:
     PackageVersion: '$(Build.BuildNumber)'
     LogLevel: 'verbose'
     FailOnWarning: false
-    DisableTelemetry: false'
-    
+    DisableTelemetry: true
+
 - task: UseDotNet@2
-  displayName: 'Use .NET 9.x'
+  displayName: 'Use .NET 10.0.x'
   inputs:
-    version: 9.x
-    
+    version: 10.0.x
+
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 6.x'
   inputs:
@@ -89,14 +88,18 @@ steps:
   displayName: 'NuGet restore'
   inputs:
     command: restore
-    projects: '$(solution)'
+    projects: |
+      MeteoSwissApi/**/*.csproj
+      **/*.Tests.csproj
 
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
   inputs:
-    projects: '$(solution)'
+    projects: |
+      MeteoSwissApi/**/*.csproj
+      **/*.Tests.csproj
     arguments: '--no-restore --configuration $(buildConfiguration)'
-    
+
 - task: DotNetCoreCLI@2
   displayName: 'Run UnitTests'
   inputs:
@@ -125,12 +128,10 @@ steps:
   displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
   inputs:
     SourceFolder: '$(system.defaultworkingdirectory)'
-
     Contents: |
-      **\bin\$(BuildConfiguration)\**
       **\bin\*.nupkg
       **\bin\*.snupkg
-
+      **\ReleaseNotes.txt
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
      
 - task: PublishCodeCoverageResults@2

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using UnitsNet;
+﻿using UnitsNet;
 
 namespace MeteoSwissApi.Models
 {
@@ -12,17 +10,17 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// The name of the place where the weather station is positioned.
         /// </summary>
-        public string Place { get; set; }
+        public string Place { get; set; } = null!;
 
         /// <summary>
         /// Internal station code, also referred to as 'Abbreviation'.
         /// </summary>
-        public string StationCode { get; set; }
+        public string StationCode { get; set; } = null!;
 
         /// <summary>
         /// WIGOS station identifier.
         /// </summary>
-        public string WigosId { get; set; }
+        public string WigosId { get; set; } = null!;
 
         public WeatherStationType StationType { get; set; }
 
@@ -38,17 +36,17 @@ namespace MeteoSwissApi.Models
         /// <summary>
         /// Geolocation of the weather station.
         /// </summary>
-        public GeoCoordinate Location { get; set; }
+        public GeoCoordinate? Location { get; set; }
 
         /// <summary>
         /// Owner(s) of the data provided by the weather station.
         /// </summary>
-        public IReadOnlyCollection<string> DataOwners { get; set; } = Array.Empty<string>();
+        public string[] DataOwners { get; set; } = Array.Empty<string>();
 
         /// <summary>
         /// Political canton.
         /// </summary>
-        public string Canton { get; set; }
+        public string Canton { get; set; } = null!;
 
         public override string ToString()
         {

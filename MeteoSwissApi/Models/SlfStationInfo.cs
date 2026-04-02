@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
-using Newtonsoft.Json;
-
 namespace MeteoSwissApi.Models
 {
     public class SlfStationInfo : SlfStation
     {
+        public SlfStationInfo()
+        {
+            this.NearestStations = Array.Empty<NearestStation>();
+        }
+
         [JsonProperty("winterplotAvailable")]
         public bool WinterplotAvailable { get; set; }
 
         [JsonProperty("nearestStations")]
-        public List<NearestStation> NearestStations { get; } = new List<NearestStation>();
+        public NearestStation[] NearestStations { get; set; }
     }
 
 

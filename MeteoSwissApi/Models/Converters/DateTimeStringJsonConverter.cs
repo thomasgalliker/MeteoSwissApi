@@ -1,29 +1,27 @@
-﻿using System;
+using System;
 using System.Globalization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
-namespace WeatherDisplay.Model.Wiewarm.Converters
+namespace MeteoSwissApi.Models.Converters
 {
-    internal class DateTimeStringJsonConverter : DateTimeConverterBase
+    internal class DateTimeStringJsonConverter : JsonConverter<DateTime>
     {
         private const string DateFormat = "yyyy-MM-dd";
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            var dateTime = (DateTime)value;
-            writer.WriteValue(dateTime.ToString(DateFormat, CultureInfo.InvariantCulture));
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (reader.Value is string stringValue)
+            if (reader.TokenType == JsonTokenType.String)
             {
-                var dateTime = DateTime.ParseExact(stringValue, DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
-                return dateTime;
+                return DateTime.ParseExact(reader.GetString(), DateFormat, CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal);
             }
 
-            return default(DateTime);
+            return default;
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString(DateFormat, CultureInfo.InvariantCulture));
         }
     }
 }

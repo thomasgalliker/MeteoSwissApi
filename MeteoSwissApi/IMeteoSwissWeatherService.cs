@@ -10,6 +10,6 @@ namespace MeteoSwissApi
 
         Task<ForecastInfo> GetForecastAsync(int plz);
 
-        Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping weatherIconMapping = null);
+        Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping? weatherIconMapping = null);
     }
 }
