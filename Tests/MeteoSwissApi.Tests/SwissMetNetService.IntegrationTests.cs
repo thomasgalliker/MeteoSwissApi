@@ -1,11 +1,3 @@
-using AwesomeAssertions;
-using MeteoSwissApi.Models;
-using MeteoSwissApi.Tests.Logging;
-using Microsoft.Extensions.Logging;
-using UnitsNet;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace MeteoSwissApi.Tests
 {
     public class SwissMetNetServiceIntegrationTests

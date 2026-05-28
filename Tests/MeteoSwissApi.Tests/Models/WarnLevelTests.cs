@@ -1,8 +1,3 @@
-using AwesomeAssertions;
-using MeteoSwissApi.Models;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace MeteoSwissApi.Tests.Models
 {
     public class WarnLevelTests

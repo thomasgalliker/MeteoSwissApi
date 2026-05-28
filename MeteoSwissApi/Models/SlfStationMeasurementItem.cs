@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using UnitsNet;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     [DebuggerDisplay("{this.Date}")]
     public class SlfStationMeasurementItem

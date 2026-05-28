@@ -1,8 +1,4 @@
-﻿using AwesomeAssertions;
-using MeteoSwissApi.Tests.Utils;
-using Xunit;
-
-namespace MeteoSwissApi.Tests
+﻿namespace MeteoSwissApi.Tests
 {
     public class HighContrastWeatherIconMappingTests
     {

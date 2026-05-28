@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Globalization;
-using MeteoSwissApi.Resources.Strings;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     [DebuggerDisplay("{this.value}")]
     public struct SlfStationType : IFormattable

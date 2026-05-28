@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using CsvHelper.Configuration;
-using UnitsNet;
-
-namespace MeteoSwissApi.Models.Csv
+﻿namespace MeteoSwissApi.Models.Csv
 {
     internal class WeatherStationCsvMapping : ClassMap<WeatherStation>
     {

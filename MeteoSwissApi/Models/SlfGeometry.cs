@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace MeteoSwissApi.Models
 {
     internal class SlfGeometry

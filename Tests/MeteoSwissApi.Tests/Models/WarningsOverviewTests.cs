@@ -1,8 +1,4 @@
-﻿using System.Globalization;
-using MeteoSwissApi.Models;
-using Xunit;
-
-namespace MeteoSwissApi.Tests.Models
+﻿namespace MeteoSwissApi.Tests.Models
 {
     public class WarningsOverviewTests
     {

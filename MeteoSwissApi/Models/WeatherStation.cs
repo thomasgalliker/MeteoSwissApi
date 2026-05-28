@@ -1,6 +1,4 @@
-﻿using UnitsNet;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     /// <summary>
     /// SwissMetNet weather station.

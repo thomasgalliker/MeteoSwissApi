@@ -1,11 +1,4 @@
-﻿using AwesomeAssertions;
-using MeteoSwissApi.Extensions;
-using MeteoSwissApi.Models;
-using UnitsNet;
-using UnitsNet.Units;
-using Xunit;
-
-namespace MeteoSwissApi.Tests.Extensions
+﻿namespace MeteoSwissApi.Tests.Extensions
 {
     public class AngleExtensionsTests
     {

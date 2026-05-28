@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using UnitsNet;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     [DebuggerDisplay("Station {this.StationCode}, {this.Date}, {this.AirTemperature}")]
     public class WeatherStationMeasurement

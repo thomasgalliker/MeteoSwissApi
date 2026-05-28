@@ -1,8 +1,4 @@
-﻿using System;
-using System.Globalization;
-using UnitsNet;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     /// <summary>
     /// Abstraction of a geolocation.

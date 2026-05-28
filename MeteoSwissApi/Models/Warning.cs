@@ -1,6 +1,3 @@
-using System;
-using MeteoSwissApi.Models.Converters;
-
 namespace MeteoSwissApi.Models
 {
     public class Warning

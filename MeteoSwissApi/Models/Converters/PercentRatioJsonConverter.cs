@@ -1,6 +1,4 @@
-﻿using UnitsNet.Units;
-
-namespace MeteoSwissApi.Models.Converters
+﻿namespace MeteoSwissApi.Models.Converters
 {
     internal class PercentRatioJsonConverter : RatioJsonConverter
     {

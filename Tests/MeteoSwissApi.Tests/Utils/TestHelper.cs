@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Xunit.Abstractions;
-
-namespace MeteoSwissApi.Tests.Utils
+﻿namespace MeteoSwissApi.Tests.Utils
 {
     internal class TestHelper
     {

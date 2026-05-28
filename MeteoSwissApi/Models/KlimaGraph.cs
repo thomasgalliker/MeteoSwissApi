@@ -1,7 +1,3 @@
-using System;
-using MeteoSwissApi.Models.Converters;
-using UnitsNet;
-
 namespace MeteoSwissApi.Models
 {
     public class KlimaGraph

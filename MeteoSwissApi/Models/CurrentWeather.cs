@@ -1,8 +1,3 @@
-using System;
-using System.ComponentModel;
-using MeteoSwissApi.Models.Converters;
-using UnitsNet;
-
 namespace MeteoSwissApi.Models
 {
     public class CurrentWeather

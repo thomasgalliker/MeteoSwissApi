@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MeteoSwissApi.Models.Converters;
 
 namespace MeteoSwissApi.Serialization
 {

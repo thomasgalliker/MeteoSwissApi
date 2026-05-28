@@ -1,8 +1,4 @@
-﻿using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
-
-namespace MeteoSwissApi
+﻿namespace MeteoSwissApi
 {
     public class DefaultWeatherIconMapping : IWeatherIconMapping
     {
