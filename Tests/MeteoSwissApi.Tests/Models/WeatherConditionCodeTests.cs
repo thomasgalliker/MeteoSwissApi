@@ -1,5 +1,5 @@
 using System.Globalization;
-using FluentAssertions;
+using AwesomeAssertions;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Tests.Utils;
 using Xunit;

@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using MeteoSwissApi.Models;
 using Xunit;
 using Xunit.Abstractions;

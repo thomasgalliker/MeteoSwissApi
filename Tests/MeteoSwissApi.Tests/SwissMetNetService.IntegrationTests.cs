@@ -1,4 +1,4 @@
-using FluentAssertions;
+using AwesomeAssertions;
 using MeteoSwissApi.Models;
 using MeteoSwissApi.Tests.Logging;
 using Microsoft.Extensions.Logging;

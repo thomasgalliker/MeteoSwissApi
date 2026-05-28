@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using MeteoSwissApi.Extensions;
 using MeteoSwissApi.Models;
 using UnitsNet;
