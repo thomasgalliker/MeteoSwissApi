@@ -32,6 +32,9 @@ namespace MeteoSwissApi.Models
         [JsonProperty("ordering")]
         public string Ordering { get; set; } = null!;
 
+        [JsonProperty("regionId")]
+        public int RegionId { get; set; }
+
         [JsonProperty("htmlText")]
         public string HtmlText { get; set; } = null!;
 
