@@ -1,7 +1,8 @@
 ﻿namespace MeteoSwissApi.Models
 {
+    [JsonConverter(typeof(SlfStationTypeJsonConverter))]
     [DebuggerDisplay("{this.value}")]
-    public struct SlfStationType : IFormattable
+    public readonly struct SlfStationType : IFormattable
     {
         public const string SnowFlat = "SNOW_FLAT";
         public const string SnowSlope = "SNOW_SLOPE";
@@ -11,25 +12,25 @@
         public const string Pluvio = "PLUVIO";
 
         public static readonly SlfStationType[] All =
-        {
+        [
             new SlfStationType(SnowFlat),
             new SlfStationType(SnowSlope),
             new SlfStationType(Wind),
             new SlfStationType(Special),
             new SlfStationType(FlowCapt),
-            new SlfStationType(Pluvio),
-        };
+            new SlfStationType(Pluvio)
+        ];
 
-        private readonly string value;
+        private readonly string? value;
 
         public SlfStationType(string value)
         {
             this.value = value;
         }
 
-        public string Value => this.value;
+        public string? Value => this.value;
 
-        public static implicit operator string(SlfStationType u) => u.value;
+        public static implicit operator string?(SlfStationType u) => u.value;
 
         public static implicit operator SlfStationType(string n) => new SlfStationType(n);
 
@@ -55,10 +56,15 @@
             switch (format)
             {
                 case "G":
+                    if (this.value == null)
+                    {
+                        return string.Empty;
+                    }
+
                     var translation = SlfStationTypes.ResourceManager.GetString(this.value, (CultureInfo)provider);
                     return translation ?? this.value;
                 default:
-                    return this.value;
+                    return this.value ?? string.Empty;
             }
         }
     }

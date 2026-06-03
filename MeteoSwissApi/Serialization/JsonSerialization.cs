@@ -17,6 +17,7 @@ namespace MeteoSwissApi.Serialization
             };
 
             options.Converters.Add(new TemperatureJsonConverter());
+            options.Converters.Add(new SlfStationTypeJsonConverter());
             return options;
         }
     }

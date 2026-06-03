@@ -1,5 +1,6 @@
 4.1
 - Add RegionId to Warning model.
+- Fix problem with SlfStationType serialization.
 
 4.0
 - Replace Newtonsoft.Json with System.Text.Json for JSON serialization.

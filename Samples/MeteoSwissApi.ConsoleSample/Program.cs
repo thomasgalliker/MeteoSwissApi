@@ -122,8 +122,11 @@ namespace MeteoSwissApi.ConsoleSample
 
 
             Console.WriteLine();
-            Console.WriteLine("Press any key to close this window...");
-            Console.ReadKey();
+            if (!Console.IsInputRedirected)
+            {
+                Console.WriteLine("Press any key to close this window...");
+                Console.ReadKey();
+            }
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
