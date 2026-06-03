@@ -14,8 +14,6 @@ trigger:
     include:
     - main
     - develop
-    - feature/*
-    - bugfix/*
 
   paths:
     exclude:
@@ -117,6 +115,7 @@ steps:
     
 - task: DotNetCoreCLI@2
   displayName: 'Pack MeteoSwissApi'
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   inputs:
     command: pack
     packagesToPack: MeteoSwissApi/MeteoSwissApi.csproj
