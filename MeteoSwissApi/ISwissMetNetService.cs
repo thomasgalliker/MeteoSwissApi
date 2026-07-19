@@ -18,7 +18,7 @@
         /// <param name="cacheExpiration">
         /// Set a sliding cache expiration. It is recommended to use rather large TimeSpans here, e.g. <c>TimeSpan.FromDays(30)</c>.
         /// </param>
-        Task<WeatherStation> GetWeatherStationAsync(string stationCode, TimeSpan? cacheExpiration = null);
+        Task<WeatherStation?> GetWeatherStationAsync(string stationCode, TimeSpan? cacheExpiration = null);
 
         /// <summary>
         /// Gets the list of actual measurement values from all weather stations.
@@ -35,6 +35,6 @@
         /// <param name="cacheExpiration">
         /// Set a sliding cache expiration. A good value is <c>TimeSpan.FromMinutes(20)</c>.</param>
         /// <returns>List of measurement values.</returns>
-        Task<WeatherStationMeasurement> GetLatestMeasurementAsync(string stationCode, TimeSpan? cacheExpiration = null);
+        Task<WeatherStationMeasurement?> GetLatestMeasurementAsync(string stationCode, TimeSpan? cacheExpiration = null);
     }
 }

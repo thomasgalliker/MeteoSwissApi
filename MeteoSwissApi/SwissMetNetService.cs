@@ -69,7 +69,7 @@ namespace MeteoSwissApi
                 NoCache = true
             };
 
-            this.memoryCache = new MemoryCache(new MemoryCacheOptions { });
+            this.memoryCache = new MemoryCache(new MemoryCacheOptions());
 
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
@@ -105,7 +105,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetWeatherStationsAsync returned content:{Environment.NewLine}{csvContent}");
             }
 
-            var weatherStations = CsvImporter.Import<WeatherStation>(csvContent);
+            var weatherStations = CsvImporter.Import<WeatherStation>(csvContent).ToArray();
 
             cacheExpiration ??= this.options.SwissMetNet.CacheExpiration;
             if (cacheExpiration is TimeSpan cacheExpirationTimeSpan && weatherStations.Any())
@@ -120,7 +120,7 @@ namespace MeteoSwissApi
             return weatherStations;
         }
 
-        public async Task<WeatherStation> GetWeatherStationAsync(string stationCode, TimeSpan? cacheExpiration = null)
+        public async Task<WeatherStation?> GetWeatherStationAsync(string stationCode, TimeSpan? cacheExpiration = null)
         {
             if (stationCode == null)
             {
@@ -128,8 +128,7 @@ namespace MeteoSwissApi
             }
 
             var weatherStation = (await this.GetWeatherStationsAsync(cacheExpiration))
-                .Where(m => string.Equals(m.StationCode, stationCode, StringComparison.InvariantCultureIgnoreCase))
-                .FirstOrDefault();
+                .FirstOrDefault(m => string.Equals(m.StationCode, stationCode, StringComparison.InvariantCultureIgnoreCase));
 
             return weatherStation;
         }
@@ -165,7 +164,7 @@ namespace MeteoSwissApi
                 this.logger.LogDebug($"GetLatestMeasurementsAsync returned content:{Environment.NewLine}{csvContent}");
             }
 
-            var measurements = CsvImporter.Import<WeatherStationMeasurement>(csvContent);
+            var measurements = CsvImporter.Import<WeatherStationMeasurement>(csvContent).ToArray();
 
             cacheExpiration ??= this.options.SwissMetNet.CacheExpiration;
             if (cacheExpiration is TimeSpan cacheExpirationTimeSpan && measurements.Any())
@@ -186,7 +185,7 @@ namespace MeteoSwissApi
             return measurements;
         }
 
-        public async Task<WeatherStationMeasurement> GetLatestMeasurementAsync(string stationCode, TimeSpan? cacheExpiration = null)
+        public async Task<WeatherStationMeasurement?> GetLatestMeasurementAsync(string stationCode, TimeSpan? cacheExpiration = null)
         {
             if (stationCode == null)
             {
@@ -194,8 +193,7 @@ namespace MeteoSwissApi
             }
 
             var weatherStationMeasurement = (await this.GetLatestMeasurementsAsync(cacheExpiration))
-                .Where(m => string.Equals(m.StationCode, stationCode, StringComparison.InvariantCultureIgnoreCase))
-                .SingleOrDefault();
+                .SingleOrDefault(m => string.Equals(m.StationCode, stationCode, StringComparison.InvariantCultureIgnoreCase));
 
             return weatherStationMeasurement;
         }
