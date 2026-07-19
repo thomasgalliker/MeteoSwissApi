@@ -1,7 +1,4 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-
-namespace MeteoSwissApi
+﻿namespace MeteoSwissApi
 {
     public interface IWeatherIconMapping
     {

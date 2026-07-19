@@ -55,32 +55,9 @@
     <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.5" />
     <PackageReference Include="UnitsNet" Version="5.75.0" />
   </ItemGroup>
-
-  <PropertyGroup Label="MultilingualAppToolkit">
-    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-    <MultilingualFallbackLanguage>sv</MultilingualFallbackLanguage>
-    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
-  </PropertyGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
-  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
-    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
-  </Target>
-  <ItemGroup>
-    <None Remove="MultilingualResources\MeteoSwissApi.de.xlf" />
-    <None Remove="MultilingualResources\MeteoSwissApi.en.xlf" />
-    <None Remove="MultilingualResources\MeteoSwissApi.fr.xlf" />
-    <None Remove="MultilingualResources\MeteoSwissApi.it.xlf" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\Icons\**\*.svg" />
     <EmbeddedResource Include="Resources\Icons\**\*.svg" />
-  </ItemGroup>
-  <ItemGroup>
-    <XliffResource Include="MultilingualResources\MeteoSwissApi.de.xlf" />
-    <XliffResource Include="MultilingualResources\MeteoSwissApi.en.xlf" />
-    <XliffResource Include="MultilingualResources\MeteoSwissApi.fr.xlf" />
-    <XliffResource Include="MultilingualResources\MeteoSwissApi.it.xlf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Strings\CardinalWindDirections.Designer.cs">

@@ -1,6 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
-using MeteoSwissApi.Serialization;
 
 namespace MeteoSwissApi.Extensions
 {

@@ -1,9 +1,5 @@
-using System;
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using UnitsNet;
-using UnitsNet.Units;
 
 namespace MeteoSwissApi.Models.Converters
 {

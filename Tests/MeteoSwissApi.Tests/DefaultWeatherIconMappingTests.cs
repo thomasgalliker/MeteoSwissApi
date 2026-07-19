@@ -1,8 +1,4 @@
-﻿using MeteoSwissApi.Tests.Utils;
-using Xunit;
-using Xunit.Abstractions;
-
-namespace MeteoSwissApi.Tests
+﻿namespace MeteoSwissApi.Tests
 {
     public class DefaultWeatherIconMappingTests
     {

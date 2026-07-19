@@ -1,11 +1,3 @@
-using FluentAssertions;
-using MeteoSwissApi.Models;
-using MeteoSwissApi.Tests.Logging;
-using Microsoft.Extensions.Logging;
-using UnitsNet;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace MeteoSwissApi.Tests
 {
     public class SwissMetNetServiceIntegrationTests
@@ -38,12 +30,10 @@ namespace MeteoSwissApi.Tests
         public async Task ShouldGetWeatherStationsAsync()
         {
             // Arrange
-            TimeSpan? cacheExpiration = null;
-
             ISwissMetNetService swissMetNetService = new SwissMetNetService(this.logger, this.options);
 
             // Act
-            var weatherStations = await swissMetNetService.GetWeatherStationsAsync(cacheExpiration);
+            var weatherStations = await swissMetNetService.GetWeatherStationsAsync(cacheExpiration: null);
 
             // Assert
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherStations, this.dumpOptions));
@@ -56,12 +46,11 @@ namespace MeteoSwissApi.Tests
         {
             // Arrange
             const string stationCode = "CHZ";
-            TimeSpan? cacheExpiration = null;
 
             ISwissMetNetService swissMetNetService = new SwissMetNetService(this.logger, this.options);
 
             // Act
-            var weatherStation = await swissMetNetService.GetWeatherStationAsync(stationCode, cacheExpiration);
+            var weatherStation = await swissMetNetService.GetWeatherStationAsync(stationCode, cacheExpiration: null);
 
             // Assert
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherStation, this.dumpOptions));
@@ -84,12 +73,10 @@ namespace MeteoSwissApi.Tests
         public async Task ShouldGetLatestMeasurementsAsync()
         {
             // Arrange
-            TimeSpan? cacheExpiration = null;
-
             ISwissMetNetService swissMetNetService = new SwissMetNetService(this.logger, this.options);
 
             // Act
-            var measurements = await swissMetNetService.GetLatestMeasurementsAsync(cacheExpiration);
+            var measurements = await swissMetNetService.GetLatestMeasurementsAsync(cacheExpiration: null);
 
             // Assert
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(measurements, this.dumpOptions));
@@ -102,12 +89,11 @@ namespace MeteoSwissApi.Tests
         {
             // Arrange
             const string stationCode = "CHZ";
-            TimeSpan? cacheExpiration = null;
 
             ISwissMetNetService swissMetNetService = new SwissMetNetService(this.logger, this.options);
 
             // Act
-            var measurement = await swissMetNetService.GetLatestMeasurementAsync(stationCode, cacheExpiration);
+            var measurement = await swissMetNetService.GetLatestMeasurementAsync(stationCode, cacheExpiration: null);
 
             // Assert
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(measurement, this.dumpOptions));

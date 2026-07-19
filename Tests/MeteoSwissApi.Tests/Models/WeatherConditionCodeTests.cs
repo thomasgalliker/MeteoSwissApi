@@ -1,9 +1,3 @@
-using System.Globalization;
-using FluentAssertions;
-using MeteoSwissApi.Models;
-using MeteoSwissApi.Tests.Utils;
-using Xunit;
-
 namespace MeteoSwissApi.Tests.Models
 {
     public class WeatherConditionCodeTests

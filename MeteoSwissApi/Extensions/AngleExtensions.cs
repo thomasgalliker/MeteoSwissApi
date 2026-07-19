@@ -1,7 +1,4 @@
-﻿using MeteoSwissApi.Models;
-using UnitsNet;
-
-namespace MeteoSwissApi.Extensions
+﻿namespace MeteoSwissApi.Extensions
 {
     /// <summary>
     /// Provides conversion methods from wind direction to cardinal wind directions.

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MeteoSwissApi
+﻿namespace MeteoSwissApi
 {
     public class SwissMetNetOptions
     {

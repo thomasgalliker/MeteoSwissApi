@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using MeteoSwissApi.Resources.Strings;
-using UnitsNet;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     public class HumidityRange : Range<RelativeHumidity>, IFormattable
     {

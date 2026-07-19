@@ -1,7 +1,4 @@
-﻿using MeteoSwissApi.Models;
-using UnitsNet;
-
-namespace MeteoSwissApi.Extensions
+﻿namespace MeteoSwissApi.Extensions
 {
     public static class PressureExtensions
     {

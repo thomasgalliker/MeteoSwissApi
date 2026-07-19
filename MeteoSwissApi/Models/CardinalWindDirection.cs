@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using MeteoSwissApi.Resources.Strings;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     /// <summary>
     /// Cardinal wind direction splits a 360° circle into 16 slices of 22.5° each.

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using MeteoSwissApi.Resources.Strings;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     public readonly struct WarnLevel : IFormattable
     {

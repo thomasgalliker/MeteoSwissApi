@@ -1,9 +1,3 @@
-using FluentAssertions;
-using MeteoSwissApi.Models;
-using UnitsNet;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace MeteoSwissApi.Tests.Models
 {
     public class PressureRangeTests

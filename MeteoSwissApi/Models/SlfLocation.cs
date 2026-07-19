@@ -1,8 +1,3 @@
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using UnitsNet;
-
 namespace MeteoSwissApi.Models
 {
     [DebuggerDisplay("{this.Location}")]

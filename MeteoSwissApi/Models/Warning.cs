@@ -1,6 +1,3 @@
-using System;
-using MeteoSwissApi.Models.Converters;
-
 namespace MeteoSwissApi.Models
 {
     public class Warning
@@ -31,6 +28,9 @@ namespace MeteoSwissApi.Models
 
         [JsonProperty("ordering")]
         public string Ordering { get; set; } = null!;
+
+        [JsonProperty("regionId")]
+        public int RegionId { get; set; }
 
         [JsonProperty("htmlText")]
         public string HtmlText { get; set; } = null!;

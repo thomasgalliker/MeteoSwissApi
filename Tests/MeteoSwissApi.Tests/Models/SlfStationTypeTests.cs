@@ -1,7 +1,4 @@
-using FluentAssertions;
-using MeteoSwissApi.Models;
-using Xunit;
-using Xunit.Abstractions;
+using System.Text.Json;
 
 namespace MeteoSwissApi.Tests.Models
 {
@@ -27,7 +24,7 @@ namespace MeteoSwissApi.Tests.Models
             stringOutput.Should().NotBeNullOrEmpty();
         }
 
-        public class ToStringTestData : TheoryData<SlfStationType>
+        private class ToStringTestData : TheoryData<SlfStationType>
         {
             public ToStringTestData()
             {
@@ -36,6 +33,47 @@ namespace MeteoSwissApi.Tests.Models
                     this.Add(warnTypeRange);
                 }
             }
+        }
+
+        [Fact]
+        public void ShouldDeserializeFromJsonString()
+        {
+            // Arrange
+            const string json = "\"WIND\"";
+
+            // Act
+            var slfStationType = JsonSerializer.Deserialize<SlfStationType>(json);
+
+            // Assert
+            slfStationType.Value.Should().Be(SlfStationType.Wind);
+        }
+
+        [Fact]
+        public void ShouldSerializeToJsonString()
+        {
+            // Arrange
+            var slfStationType = new SlfStationType(SlfStationType.SnowFlat);
+
+            // Act
+            var json = JsonSerializer.Serialize(slfStationType);
+
+            // Assert
+            json.Should().Be("\"SNOW_FLAT\"");
+        }
+
+        [Fact]
+        public void ShouldRoundTripDefaultValue()
+        {
+            // Arrange
+            var slfStationType = default(SlfStationType);
+
+            // Act
+            var json = JsonSerializer.Serialize(slfStationType);
+            var deserialized = JsonSerializer.Deserialize<SlfStationType>(json);
+
+            // Assert
+            json.Should().Be("null");
+            deserialized.Value.Should().BeNull();
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using MeteoSwissApi.Resources.Strings;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     [Serializable]
     public struct WarnType : IComparable, IComparable<WarnType>, IComparable<int>, IEquatable<WarnType>, IFormattable

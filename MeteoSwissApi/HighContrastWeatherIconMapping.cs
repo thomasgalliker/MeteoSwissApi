@@ -1,9 +1,4 @@
-﻿using System.IO;
-using System.Reflection;
-using System.Threading.Tasks;
-using MeteoSwissApi.Utils;
-
-namespace MeteoSwissApi
+﻿namespace MeteoSwissApi
 {
     public class HighContrastWeatherIconMapping : IWeatherIconMapping
     {

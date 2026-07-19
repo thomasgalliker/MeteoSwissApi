@@ -39,4 +39,3 @@ Contributors welcome! If you find a bug or you want to propose a new feature, fe
 - https://www.meteoschweiz.admin.ch/wetter/gefahren/erlaeuterungen-der-gefahrenstufen.html
 - https://github.com/deMynchi/ioBroker.meteoswiss/blob/779a93c0bf767c2227dc55e455e308744964eb99/src/main.ts
 - https://cdn.jsdelivr.net/npm/meteo-icons/icons/
-- 

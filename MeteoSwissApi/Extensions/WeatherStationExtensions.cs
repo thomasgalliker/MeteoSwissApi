@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MeteoSwissApi.Models;
-using UnitsNet;
-
-namespace MeteoSwissApi.Extensions
+﻿namespace MeteoSwissApi.Extensions
 {
     public static class WeatherStationExtensions
     {

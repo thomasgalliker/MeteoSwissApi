@@ -1,11 +1,3 @@
-using FluentAssertions;
-using MeteoSwissApi.Tests.Logging;
-using MeteoSwissApi.Tests.Utils;
-using Microsoft.Extensions.Logging;
-using UnitsNet;
-using Xunit;
-using Xunit.Abstractions;
-
 namespace MeteoSwissApi.Tests
 {
     public class MeteoSwissWeatherServiceIntegrationTests
@@ -43,6 +35,7 @@ namespace MeteoSwissApi.Tests
         [InlineData(633000)]
         [InlineData(690000)]
         [InlineData(601000)]
+        [InlineData(601002)]
         [InlineData(671700)]
         [InlineData(195000)]
         [InlineData(774200)]
@@ -59,6 +52,14 @@ namespace MeteoSwissApi.Tests
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherInfo, this.dumpOptions));
 
             weatherInfo.Should().NotBeNull();
+            weatherInfo.CurrentWeather.Should().NotBeNull();
+
+            if (weatherInfo.CurrentWeather.Temperature is Temperature temperature)
+            {
+                // Temperature is null when MeteoSwiss reports the 'no data' sentinel (32767);
+                // otherwise it must be a physically plausible value.
+                temperature.DegreesCelsius.Should().BeInRange(-100, 100);
+            }
         }
 
         [Theory]
@@ -66,6 +67,7 @@ namespace MeteoSwissApi.Tests
         [InlineData(633000)]
         [InlineData(690000)]
         [InlineData(601000)]
+        [InlineData(601002)]
         [InlineData(671700)]
         [InlineData(195000)]
         [InlineData(774200)]

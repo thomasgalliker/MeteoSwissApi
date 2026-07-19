@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using UnitsNet;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     [DebuggerDisplay("Mean: {this.VelocityMean}, Max: {this.VelocityMax}, Direction: {this.Direction}")]
     public class SlfWindInfo

@@ -1,8 +1,4 @@
-﻿using System.Diagnostics;
-using Microsoft.Extensions.Logging;
-using Xunit.Abstractions;
-
-namespace MeteoSwissApi.Tests.Logging
+﻿namespace MeteoSwissApi.Tests.Logging
 {
     public class TestOutputHelperLogger<T> : ILogger<T>
     {

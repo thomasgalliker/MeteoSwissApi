@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using MeteoSwissApi.Models.Converters;
 
 namespace MeteoSwissApi.Serialization
 {
@@ -18,6 +17,7 @@ namespace MeteoSwissApi.Serialization
             };
 
             options.Converters.Add(new TemperatureJsonConverter());
+            options.Converters.Add(new SlfStationTypeJsonConverter());
             return options;
         }
     }

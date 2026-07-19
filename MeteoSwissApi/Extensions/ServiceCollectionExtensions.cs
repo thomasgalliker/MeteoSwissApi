@@ -1,5 +1,4 @@
-﻿using System;
-using MeteoSwissApi;
+﻿using MeteoSwissApi;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection

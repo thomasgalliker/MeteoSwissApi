@@ -1,17 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Text.Json;
-using System.Threading.Tasks;
 using MeteoSwissApi.Extensions;
-using MeteoSwissApi.Models;
-using MeteoSwissApi.Serialization;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Options;
-using UnitsNet;
 
 namespace MeteoSwissApi
 {

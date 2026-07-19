@@ -1,7 +1,4 @@
-﻿using System.Globalization;
-using MeteoSwissApi.Resources.Strings;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     [Serializable]
     public struct WeatherConditionCode : IComparable, IComparable<WeatherConditionCode>, IComparable<int>, IEquatable<WeatherConditionCode>, IFormattable

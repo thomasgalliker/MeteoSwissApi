@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MeteoSwissApi.Models;
-
-namespace MeteoSwissApi
+﻿namespace MeteoSwissApi
 {
     public interface ISwissMetNetService
     {

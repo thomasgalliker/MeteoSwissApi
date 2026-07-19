@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     /// <summary>
     /// Data range type.

@@ -1,9 +1,4 @@
-﻿using FluentAssertions;
-using MeteoSwissApi.Models;
-using UnitsNet;
-using Xunit;
-
-namespace MeteoSwissApi.Tests.Models
+﻿namespace MeteoSwissApi.Tests.Models
 {
     public class GeoCoordinateTests
     {

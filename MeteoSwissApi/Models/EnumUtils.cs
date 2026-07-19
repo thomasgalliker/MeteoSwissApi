@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace MeteoSwissApi.Models
+﻿namespace MeteoSwissApi.Models
 {
     internal static class EnumUtils
     {
