@@ -9,8 +9,10 @@ namespace MeteoSwissApi
     {
         private static readonly Uri ApiEndpoint = new Uri("https://app-prod-ws.meteoswiss-app.ch", UriKind.Absolute);
 
-        internal const int PlzMinLength = 4;
-        internal const int PlzPaddingLength = 6;
+        private const string ApiVersion = "v3";
+
+        private const int PlzMinLength = 4;
+        private const int PlzPaddingLength = 6;
 
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
@@ -93,7 +95,7 @@ namespace MeteoSwissApi
 
             var builder = new UriBuilder(ApiEndpoint)
             {
-                Path = "v2/plzDetail",
+                Path = $"{ApiVersion}/plzDetail",
                 Query = $"plz={plzPadded}"
             };
 
@@ -134,7 +136,7 @@ namespace MeteoSwissApi
 
             var builder = new UriBuilder(ApiEndpoint)
             {
-                Path = "v2/forecast",
+                Path = $"{ApiVersion}/forecast",
                 Query = $"plz={plzPadded}"
             };
 

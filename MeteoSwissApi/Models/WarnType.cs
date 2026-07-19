@@ -15,6 +15,7 @@
         public static readonly WarnType Earthquakes = new WarnType(nameof(Earthquakes), 9);
         public static readonly WarnType ForestFire = new WarnType(nameof(ForestFire), 10);
         public static readonly WarnType Floods = new WarnType(nameof(Floods), 11);
+        public static readonly WarnType Drought = new WarnType(nameof(Drought), 12);
 
         public static readonly IEnumerable<WarnType> All = new List<WarnType>
         {
@@ -30,6 +31,7 @@
             Earthquakes,
             ForestFire,
             Floods,
+            Drought,
         };
 
         private readonly string resourceId;

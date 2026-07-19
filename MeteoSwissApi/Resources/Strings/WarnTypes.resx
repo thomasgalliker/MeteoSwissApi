@@ -120,6 +120,9 @@
   <data name="Avalanches" xml:space="preserve">
     <value>Avalanches</value>
   </data>
+  <data name="Drought" xml:space="preserve">
+    <value>Drought</value>
+  </data>
   <data name="Earthquakes" xml:space="preserve">
     <value>Earthquakes</value>
   </data>

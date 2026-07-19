@@ -15,6 +15,9 @@
   <data name="Avalanches" xml:space="preserve">
     <value>Lawinen</value>
   </data>
+  <data name="Drought" xml:space="preserve">
+    <value>Trockenheit</value>
+  </data>
   <data name="Earthquakes" xml:space="preserve">
     <value>Erdbeben</value>
   </data>
