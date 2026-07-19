@@ -11,7 +11,8 @@ namespace MeteoSwissApi.Models
         [Obsolete("Use IconV2")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("icon")]
-        public int Icon { get; set; }
+        [JsonConverter(typeof(NullableIconJsonConverter))]
+        public int? Icon { get; set; }
 
         [JsonProperty("iconV2")]
         public int IconV2
@@ -31,8 +32,8 @@ namespace MeteoSwissApi.Models
         public WeatherConditionCode WeatherCondition { get; private set; }
 
         [JsonProperty("temperature")]
-        [JsonConverter(typeof(TemperatureJsonConverter))]
-        public Temperature Temperature { get; set; }
+        [JsonConverter(typeof(NullableTemperatureJsonConverter))]
+        public Temperature? Temperature { get; set; }
 
         public override string ToString()
         {

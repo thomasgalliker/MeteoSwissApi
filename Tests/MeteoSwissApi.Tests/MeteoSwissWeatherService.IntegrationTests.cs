@@ -52,6 +52,14 @@ namespace MeteoSwissApi.Tests
             this.testOutputHelper.WriteLine(ObjectDumper.Dump(weatherInfo, this.dumpOptions));
 
             weatherInfo.Should().NotBeNull();
+            weatherInfo.CurrentWeather.Should().NotBeNull();
+
+            if (weatherInfo.CurrentWeather.Temperature is Temperature temperature)
+            {
+                // Temperature is null when MeteoSwiss reports the 'no data' sentinel (32767);
+                // otherwise it must be a physically plausible value.
+                temperature.DegreesCelsius.Should().BeInRange(-100, 100);
+            }
         }
 
         [Theory]
