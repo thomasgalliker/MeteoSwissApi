@@ -143,25 +143,40 @@ namespace MeteoSwissApi
 
             var timeseries = JsonSerializer.Deserialize<SlfStationMeasurementsResponse>(responseJson, JsonSerialization.CreateOptions())!;
 
+            var windVelocityMeanByDate = ToDateLookup(timeseries.WindVelocityMean, w => w.Date);
+            var windVelocityMaxByDate = ToDateLookup(timeseries.WindVelocityMax, w => w.Date);
+            var windDirectionMeanByDate = ToDateLookup(timeseries.WindDirectionMean, w => w.Date);
+
+            // The snow series are optional: SLF reports new snow height on a coarser (daily) grid
+            // than the other measurements, so most timestamps carry no value and stay null.
+            var snowHeightByDate = ToDateLookup(timeseries.SnowHeight, s => s.Date);
+            var newSnowHeightByDate = ToDateLookup(timeseries.HeightNewSnow, s => s.Date);
+            var surfaceTemperatureByDate = ToDateLookup(timeseries.TemperatureSnowSurface, s => s.Date);
+
             var slfStationMeasurementItems = timeseries.TemperatureAir
                 .Select(t =>
                 {
-                    var windVelocityMean = timeseries.WindVelocityMean.Single(w => w.Date == t.Date);
-                    var windVelocityMax = timeseries.WindVelocityMax.Single(w => w.Date == t.Date);
-                    var windDirectionMean = timeseries.WindDirectionMean.Single(w => w.Date == t.Date);
-
                     var slfWindInfo = new SlfWindInfo
                     {
-                        VelocityMax = windVelocityMax.Value,
-                        VelocityMean = windVelocityMean.Value,
-                        Direction = windDirectionMean.Value,
+                        VelocityMax = windVelocityMaxByDate[t.Date].Value,
+                        VelocityMean = windVelocityMeanByDate[t.Date].Value,
+                        Direction = windDirectionMeanByDate[t.Date].Value,
                     };
 
                     return new SlfStationMeasurementItem
                     {
                         Date = t.Date,
                         TemperatureAir = t.Value,
-                        Wind = slfWindInfo
+                        Wind = slfWindInfo,
+                        SnowHeight = snowHeightByDate.TryGetValue(t.Date, out var snowHeight)
+                            ? snowHeight.Value
+                            : null,
+                        NewSnowHeight = newSnowHeightByDate.TryGetValue(t.Date, out var newSnowHeight)
+                            ? newSnowHeight.Value
+                            : null,
+                        SurfaceTemperature = surfaceTemperatureByDate.TryGetValue(t.Date, out var surfaceTemperature)
+                            ? surfaceTemperature.Value
+                            : null,
                     };
                 })
                 .OrderBy(t => t.Date)
@@ -196,6 +211,18 @@ namespace MeteoSwissApi
                 m.WindDirection = new SlfStationDateAngle { Date = timestamp, Value = Angle.FromDegrees(RequireValue(p.Direction, nameof(p.Direction))) };
             }),
         };
+
+        private static Dictionary<DateTime, TItem> ToDateLookup<TItem>(IEnumerable<TItem> items, Func<TItem, DateTime> dateSelector)
+        {
+            var lookup = new Dictionary<DateTime, TItem>();
+
+            foreach (var item in items)
+            {
+                lookup[dateSelector(item)] = item;
+            }
+
+            return lookup;
+        }
 
         private static decimal RequireValue(decimal? value, string propertyName)
         {

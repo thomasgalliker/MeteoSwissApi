@@ -21,9 +21,14 @@ namespace MeteoSwissApi.Tests
                 DumpStyle = DumpStyle.CSharp,
                 SetPropertiesOnly = true
             };
-
             this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"Temperature.FromDegreesCelsius({t.Value})");
             this.dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(t => $"Length.FromMeters({t.Value})");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Duration>(t => $"{t.Value} (Duration)");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Irradiance>(t => $"{t.Value} (Irradiance)");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<RelativeHumidity>(t => $"{t.Value} (RelativeHumidity)");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Angle>(t => $"{t.Value} (Angle)");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Speed>(t => $"{t.Value} (Speed)");
+            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Pressure>(t => $"{t.Value} (Pressure)");
         }
 
         [Fact]

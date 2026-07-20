@@ -52,10 +52,10 @@
 
             this.Map(m => m.GlobalRadiation).Convert(row =>
             {
-                var columnValue = row.Row["sre000z0"];
-                if (decimal.TryParse(columnValue, out var duration))
+                var columnValue = row.Row["gre000z0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
                 {
-                    return Duration.FromMinutes(duration);
+                    return Irradiance.FromWattsPerSquareMeter(decimalValue);
                 }
 
                 return null;
@@ -119,6 +119,116 @@
                 if (decimal.TryParse(columnValue, out var decimalValue))
                 {
                     return Pressure.FromHectopascals(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.DewPointTemperature).Convert(row =>
+            {
+                var columnValue = row.Row["tde200s0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Temperature.FromDegreesCelsius(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.GustPeak).Convert(row =>
+            {
+                var columnValue = row.Row["fu3010z1"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Speed.FromKilometersPerHour(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.GeopotentialHeight850).Convert(row =>
+            {
+                var columnValue = row.Row["ppz850s0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Length.FromMeters(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.GeopotentialHeight700).Convert(row =>
+            {
+                var columnValue = row.Row["ppz700s0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Length.FromMeters(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.WindDirectionVectorial).Convert(row =>
+            {
+                var columnValue = row.Row["dv1towz0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Angle.FromDegrees(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.WindSpeedTower).Convert(row =>
+            {
+                var columnValue = row.Row["fu3towz0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Speed.FromKilometersPerHour(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.GustPeakTower).Convert(row =>
+            {
+                var columnValue = row.Row["fu3towz1"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Speed.FromKilometersPerHour(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.AirTemperatureTower).Convert(row =>
+            {
+                var columnValue = row.Row["ta1tows0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Temperature.FromDegreesCelsius(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.RelativeAirHumidityTower).Convert(row =>
+            {
+                var columnValue = row.Row["uretows0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return RelativeHumidity.FromPercent(decimalValue);
+                }
+
+                return null;
+            });
+
+            this.Map(m => m.DewPointTower).Convert(row =>
+            {
+                var columnValue = row.Row["tdetows0"];
+                if (decimal.TryParse(columnValue, out var decimalValue))
+                {
+                    return Temperature.FromDegreesCelsius(decimalValue);
                 }
 
                 return null;

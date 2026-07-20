@@ -1,4 +1,12 @@
+5.0
+- Update MeteoSwiss API endpoints from v2 to v3.
+- Add new warn type Drought to WarnType.
+
 4.1
+- Map the invalid data sentinel (32767) to null in CurrentWeather: properties Temperature and Icon are now nullable.
+- Add missing translations for HumidityRanges and PressureRanges.
+- Sync station measurement models with full API data.
+- Map missing SwissMetNet columns and SLF week snow measurements.
 - Add RegionId to Warning model.
 - Fix problem with SlfStationType serialization.
 
