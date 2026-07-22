@@ -17,6 +17,7 @@ namespace MeteoSwissApi
         private readonly ILogger logger;
         private readonly HttpClient httpClient;
         private readonly IWeatherIconMapping defaultWeatherIconMapping;
+        private readonly IWarningIconMapping defaultWarningIconMapping;
         private readonly bool verboseLogging;
         private bool throwExceptionOnMissingJsonProperties;
 
@@ -67,6 +68,7 @@ namespace MeteoSwissApi
             this.httpClient = httpClient;
             this.httpClient.DefaultRequestHeaders.AcceptLanguage.Add(new StringWithQualityHeaderValue(options.Language));
             this.defaultWeatherIconMapping = new DefaultWeatherIconMapping(this.httpClient);
+            this.defaultWarningIconMapping = new DefaultWarningIconMapping(this.httpClient);
         }
 
         internal bool ThrowExceptionOnMissingJsonProperties
@@ -177,6 +179,16 @@ namespace MeteoSwissApi
             this.logger.LogDebug($"GetWeatherIconAsync: iconId={iconId}, weatherIconMapping={weatherIconMapping.GetType().Name}");
 
             var imageStream = await weatherIconMapping.GetIconAsync(iconId);
+            return imageStream;
+        }
+
+        public async Task<Stream> GetWarningIconAsync(WarnLevel warnLevel, IWarningIconMapping? warningIconMapping = null)
+        {
+            warningIconMapping ??= this.defaultWarningIconMapping;
+
+            this.logger.LogDebug($"GetWarningIconAsync: warnLevel={warnLevel.Level}, warningIconMapping={warningIconMapping.GetType().Name}");
+
+            var imageStream = await warningIconMapping.GetIconAsync(warnLevel);
             return imageStream;
         }
     }

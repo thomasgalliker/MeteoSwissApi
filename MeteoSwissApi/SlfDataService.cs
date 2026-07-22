@@ -119,13 +119,13 @@ namespace MeteoSwissApi
             return measurement;
         }
 
-        public async Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string code)
+        public async Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string stationCode)
         {
             this.logger.LogDebug($"GetMeasurementsByStationCodeAsync");
 
             var builder = new UriBuilder(SlfApiEndpoint)
             {
-                Path = $"public/station-data/timeseries/week/current/{network}/{code}",
+                Path = $"public/station-data/timeseries/week/current/{network}/{stationCode}",
             };
 
             var uri = builder.ToString();

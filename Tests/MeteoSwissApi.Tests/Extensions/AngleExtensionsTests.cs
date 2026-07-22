@@ -1,5 +1,6 @@
 ﻿namespace MeteoSwissApi.Tests.Extensions
 {
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class AngleExtensionsTests
     {
         [Theory]

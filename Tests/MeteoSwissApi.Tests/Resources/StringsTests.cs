@@ -3,6 +3,7 @@ using System.Resources.Checks;
 
 namespace MeteoSwissApi.Tests.Resources
 {
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class StringsTests
     {
         private readonly ITestOutputHelper testOutputHelper;

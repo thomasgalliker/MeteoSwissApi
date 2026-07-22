@@ -10,6 +10,7 @@ namespace MeteoSwissApi.Tests.Serialization
     /// new shape — deserialization throws and these tests fail, catching model/response drift
     /// without hitting the network. The fixtures live in <c>Resources/ApiResponses</c>.
     /// </summary>
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class MeteoSwissApiResponseDeserializationTests
     {
         [Fact]

@@ -1,5 +1,6 @@
 namespace MeteoSwissApi.Tests
 {
+    [Trait(Traits.Category, Traits.IntegrationTests)]
     public class SlfDataServiceIntegrationTests
     {
         private readonly ILogger<SlfDataService> logger;

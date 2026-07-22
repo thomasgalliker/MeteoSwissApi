@@ -1,5 +1,6 @@
 ﻿namespace MeteoSwissApi.Tests
 {
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class HighContrastWeatherIconMappingTests
     {
         [Fact]
@@ -40,6 +41,26 @@
                 expected: 0,
                 because: $"Following high-contrast icons are missing: " +
                 $"[{string.Join(", ", iconsWithExceptions)}]");
+        }
+
+        [Fact]
+        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfNoDataIconIdIsRequested()
+        {
+            // Arrange
+            const int iconId = 32767; // 'No data' sentinel value returned by the MeteoSwiss API
+
+            var highContrastWeatherIconMapping = new HighContrastWeatherIconMapping();
+
+            // Act
+            var stream = await highContrastWeatherIconMapping.GetIconAsync(iconId);
+
+            // Assert
+            stream.Should().NotBeNull();
+
+            using var streamReader = new StreamReader(stream);
+            var content = streamReader.ReadToEnd();
+            content.Should().Contain("width=\"1px\"");
+            content.Should().Contain("height=\"1px\"");
         }
     }
 }

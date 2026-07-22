@@ -4,6 +4,7 @@ using MeteoSwissApi.Serialization;
 
 namespace MeteoSwissApi.Tests.Models.Converters
 {
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class NullableIconJsonConverterTests
     {
         [Fact]

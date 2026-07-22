@@ -1,5 +1,6 @@
 ﻿namespace MeteoSwissApi.Tests.Models
 {
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class WarningsOverviewTests
     {
         [Fact]

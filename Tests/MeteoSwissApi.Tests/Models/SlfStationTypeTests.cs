@@ -2,6 +2,7 @@ using System.Text.Json;
 
 namespace MeteoSwissApi.Tests.Models
 {
+    [Trait(Traits.Category, Traits.UnitTests)]
     public class SlfStationTypeTests
     {
         private readonly ITestOutputHelper testOutputHelper;

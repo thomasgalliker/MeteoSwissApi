@@ -1,13 +1,13 @@
-﻿namespace MeteoSwissApi.Tests
+namespace MeteoSwissApi.Tests
 {
     [Trait(Traits.Category, Traits.IntegrationTests)]
-    public class DefaultWeatherIconMappingTests
+    public class DefaultWarningIconMappingTests
     {
         private const string IconFileExtension = "svg";
 
         private readonly TestHelper testHelper;
 
-        public DefaultWeatherIconMappingTests(ITestOutputHelper testOutputHelper)
+        public DefaultWarningIconMappingTests(ITestOutputHelper testOutputHelper)
         {
             this.testHelper = new TestHelper(testOutputHelper);
         }
@@ -16,37 +16,39 @@
         public async Task ShouldDownloadAllExistingIcons()
         {
             // Arrange
-            var range = Enumerable.Range(1, 200).ToArray();
+            var range = Enumerable.Range(2, 4).ToArray();
 
             var httpClient = new HttpClient();
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
+            var warningIconMapping = new DefaultWarningIconMapping(httpClient);
 
             // Act
-            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, weatherIconMapping.GetIconAsync);
+            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, warnLevel => warningIconMapping.GetIconAsync(warnLevel));
 
             // Assert
-            foreach (var (iconId, stream) in downloadedIcons)
+            downloadedIcons.Should().HaveCount(range.Length);
+
+            foreach (var (IconId, Stream) in downloadedIcons)
             {
                 this.testHelper.WriteFile(
-                    stream,
-                    fileName: $"meteoswiss_icon_{iconId:000}",
+                    Stream,
+                    fileName: $"meteoswiss_warning_icon_{IconId}",
                     fileExtension: IconFileExtension);
             }
         }
 
-        [Fact]
-        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfNoDataIconIdIsRequested()
+        [Theory]
+        [InlineData(0)] // WarnLevel.NoWarnLevel
+        [InlineData(1)] // WarnLevel.Level1 has no warning icon
+        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfWarnLevelHasNoIcon(int warnLevel)
         {
             // Arrange
-            const int iconId = 32767; // 'No data' sentinel value returned by the MeteoSwiss API
-
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
 
             var httpClient = new HttpClient(httpMessageHandlerMock.Object);
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
+            var warningIconMapping = new DefaultWarningIconMapping(httpClient);
 
             // Act
-            var stream = await weatherIconMapping.GetIconAsync(iconId);
+            var stream = await warningIconMapping.GetIconAsync(warnLevel);
 
             // Assert
             stream.Should().NotBeNull();
@@ -60,20 +62,22 @@
                 .Verify("SendAsync", Times.Never(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
         }
 
-        [Fact]
-        public async Task ShouldGetIconAsync_Throws_IfServerReturnsError()
+        [Theory]
+        [InlineData(HttpStatusCode.NotFound)]
+        [InlineData(HttpStatusCode.InternalServerError)]
+        public async Task ShouldGetIconAsync_Throws_IfServerReturnsError(HttpStatusCode httpStatusCode)
         {
             // Arrange
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
             httpMessageHandlerMock.Protected()
                 .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.InternalServerError));
+                .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
 
             var httpClient = new HttpClient(httpMessageHandlerMock.Object);
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
+            var warningIconMapping = new DefaultWarningIconMapping(httpClient);
 
             // Act
-            Func<Task> action = () => weatherIconMapping.GetIconAsync(1);
+            Func<Task> action = () => warningIconMapping.GetIconAsync(WarnLevel.Level3);
 
             // Assert
             await action.Should().ThrowAsync<HttpRequestException>();

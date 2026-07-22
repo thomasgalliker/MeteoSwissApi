@@ -1,5 +1,6 @@
 namespace MeteoSwissApi.Tests
 {
+    [Trait(Traits.Category, Traits.IntegrationTests)]
     public class MeteoSwissWeatherServiceIntegrationTests
     {
         private const string IconFileExtension = "svg";
@@ -128,6 +129,42 @@ namespace MeteoSwissApi.Tests
             // Assert
             iconStream.Should().NotBeNull();
             this.testHelper.WriteFile(iconStream, fileExtension: IconFileExtension);
+        }
+
+        [Theory]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        [InlineData(5)]
+        public async Task ShouldGetWarningIconAsync(int warnLevel)
+        {
+            // Arrange
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
+
+            // Act
+            var iconStream = await meteoSwissWeatherService.GetWarningIconAsync(warnLevel);
+
+            // Assert
+            iconStream.Should().NotBeNull();
+            this.testHelper.WriteFile(iconStream, fileName: $"{nameof(this.ShouldGetWarningIconAsync)}_{warnLevel}", fileExtension: IconFileExtension);
+        }
+
+        [Fact]
+        public async Task ShouldGetWarningIconAsync_ReturnsTransparentIcon_IfWarnLevelHasNoIcon()
+        {
+            // Arrange
+            IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
+
+            // Act
+            var iconStream = await meteoSwissWeatherService.GetWarningIconAsync(WarnLevel.Level1);
+
+            // Assert
+            iconStream.Should().NotBeNull();
+
+            using var streamReader = new StreamReader(iconStream);
+            var content = await streamReader.ReadToEndAsync();
+            content.Should().Contain("width=\"1px\"");
+            content.Should().Contain("height=\"1px\"");
         }
     }
 }

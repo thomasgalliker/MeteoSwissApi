@@ -28,7 +28,7 @@
         /// <param name="network">The code of the measurement network.</param>
         /// <param name="stationCode">The station code.</param>
         /// <returns>The measurements of the selected weather station.</returns>
-        Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string code);
+        Task<IEnumerable<SlfStationMeasurementItem>> GetMeasurementsByStationCodeAsync(string network, string stationCode);
 
         /// <summary>
         /// Returns a bitmap stream with a teaser image of the map
