@@ -128,14 +128,6 @@ steps:
       /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/CodeCoverage/
       /p:MergeWith=$(Build.SourcesDirectory)/TestResults/CodeCoverage/coverage.json
 
-- task: reportgenerator@5
-  displayName: 'Create Code Coverage Report'
-  inputs:
-    reports: '$(Build.SourcesDirectory)/TestResults/CodeCoverage/*cobertura*.xml'
-    targetdir: '$(Build.SourcesDirectory)/CodeCoverage'
-    reporttypes: 'Cobertura'
-    assemblyfilters: '-xunit*'
-    
 - task: DotNetCoreCLI@2
   displayName: 'Pack MeteoSwissApi'
   condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
@@ -159,9 +151,7 @@ steps:
 - task: PublishCodeCoverageResults@2
   displayName: 'Publish code coverage'
   inputs:
-    codeCoverageTool: Cobertura
-    summaryFileLocation: '$(Build.SourcesDirectory)/CodeCoverage/Cobertura.xml'
-    reportDirectory: '$(Build.SourcesDirectory)/CodeCoverage'
+    summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/CodeCoverage/coverage.cobertura.xml'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
