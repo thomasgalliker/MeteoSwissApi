@@ -166,10 +166,7 @@ namespace MeteoSwissApi
 
         public async Task<Stream> GetWeatherIconAsync(int iconId, IWeatherIconMapping? weatherIconMapping = null)
         {
-            if (weatherIconMapping == null)
-            {
-                weatherIconMapping = this.defaultWeatherIconMapping;
-            }
+            weatherIconMapping ??= this.defaultWeatherIconMapping;
 
             if (weatherIconMapping == null)
             {
@@ -185,6 +182,11 @@ namespace MeteoSwissApi
         public async Task<Stream> GetWarningIconAsync(WarnLevel warnLevel, IWarningIconMapping? warningIconMapping = null)
         {
             warningIconMapping ??= this.defaultWarningIconMapping;
+
+            if (warningIconMapping == null)
+            {
+                throw new ArgumentNullException(nameof(warningIconMapping), $"Parameter {nameof(warningIconMapping)} must not be null.");
+            }
 
             this.logger.LogDebug($"GetWarningIconAsync: warnLevel={warnLevel.Level}, warningIconMapping={warningIconMapping.GetType().Name}");
 

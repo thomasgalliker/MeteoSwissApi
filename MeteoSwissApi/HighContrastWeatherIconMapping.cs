@@ -22,7 +22,8 @@ namespace MeteoSwissApi
                 return Task.FromResult(EmbeddedIcons.GetTransparentIcon());
             }
 
-            var stream = ResourceLoader.Current.GetEmbeddedResourceStream(Assembly, string.Format(EmbeddedResourcePath, iconId));
+            var resourceFileName = string.Format(EmbeddedResourcePath, iconId);
+            var stream = ResourceLoader.Current.GetEmbeddedResourceStream(Assembly, resourceFileName);
             return Task.FromResult(stream);
         }
     }
