@@ -100,7 +100,6 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Run Unit Tests'
-  condition: and(succeeded(), ne(${{ parameters.skipTests }}, true))
   inputs:
     command: test
     projects: '**/*.Tests.csproj'
@@ -116,7 +115,6 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Run Integration Tests'
-  condition: and(succeeded(), ne(${{ parameters.skipTests }}, true))
   inputs:
     command: test
     projects: '**/*.Tests.csproj'
