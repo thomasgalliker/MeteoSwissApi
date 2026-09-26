@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Samples/">
+    <Project Path="Samples/MeteoSwissApi.ConsoleSample/MeteoSwissApi.ConsoleSample.csproj" />
+    <Project Path="Samples/MeteoSwissApi.ConsoleSampleDI/MeteoSwissApi.ConsoleSampleDI.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="azure-pipelines.yml" />
+    <File Path="README.md" />
+    <File Path="ReleaseNotes.txt" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/MeteoSwissApi.Tests/MeteoSwissApi.Tests.csproj" />
+  </Folder>
+  <Project Path="MeteoSwissApi/MeteoSwissApi.csproj" />
+</Solution>
