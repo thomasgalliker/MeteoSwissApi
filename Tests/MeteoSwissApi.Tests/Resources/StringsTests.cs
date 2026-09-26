@@ -51,7 +51,7 @@ namespace MeteoSwissApi.Tests.Resources
 
             while (directory is not null)
             {
-                if (File.Exists(Path.Combine(directory.FullName, "MeteoSwissApi.sln")))
+                if (File.Exists(Path.Combine(directory.FullName, "MeteoSwissApi.slnx")))
                 {
                     return directory.FullName;
                 }
