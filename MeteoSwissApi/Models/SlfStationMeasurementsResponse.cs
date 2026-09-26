@@ -5,9 +5,9 @@ namespace MeteoSwissApi.Models
         public SlfStationMeasurementsResponse()
         {
             this.TemperatureAir = Array.Empty<SlfStationDateTemperature>();
-            this.WindVelocityMax = Array.Empty<SlfStationDateSpeed>();
-            this.WindVelocityMean = Array.Empty<SlfStationDateSpeed>();
-            this.WindDirectionMean = Array.Empty<SlfStationDateAngle>();
+            this.WindVelocityMax = Array.Empty<SlfStationDateNullableSpeed>();
+            this.WindVelocityMean = Array.Empty<SlfStationDateNullableSpeed>();
+            this.WindDirectionMean = Array.Empty<SlfStationDateNullableAngle>();
             this.HeightNewSnow = Array.Empty<SlfStationDateLength>();
             this.SnowHeight = Array.Empty<SlfStationDateLength>();
             this.TemperatureSnowSurface = Array.Empty<SlfStationDateTemperature>();
@@ -30,12 +30,12 @@ namespace MeteoSwissApi.Models
         public SlfStationDateTemperature[] TemperatureSnowSurface { get; set; }
 
         [JsonProperty("windVelocityMax")]
-        public SlfStationDateSpeed[] WindVelocityMax { get; set; }
+        public SlfStationDateNullableSpeed[] WindVelocityMax { get; set; }
 
         [JsonProperty("windVelocityMean")]
-        public SlfStationDateSpeed[] WindVelocityMean { get; set; }
+        public SlfStationDateNullableSpeed[] WindVelocityMean { get; set; }
 
         [JsonProperty("windDirectionMean")]
-        public SlfStationDateAngle[] WindDirectionMean { get; set; }
+        public SlfStationDateNullableAngle[] WindDirectionMean { get; set; }
     }
 }

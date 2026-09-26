@@ -3,6 +3,7 @@
 - Add new warn type Drought to WarnType.
 - Add new method GetWarningIconAsync to download warning icons for warn levels 2 to 5.
 - Add warning icon mappings DefaultWarningIconMapping and HighContrastWarningIconMapping.
+- Map missing SLF wind values to null in SlfWindInfo: properties VelocityMax, VelocityMean and Direction are now nullable.
 
 4.1
 - Map the invalid data sentinel (32767) to null in CurrentWeather: properties Temperature and Icon are now nullable.

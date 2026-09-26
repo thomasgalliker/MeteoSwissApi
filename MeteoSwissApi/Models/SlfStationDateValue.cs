@@ -40,4 +40,26 @@ namespace MeteoSwissApi.Models
         [JsonConverter(typeof(DegreeAngleJsonConverter))]
         public override Angle Value { get; set; }
     }
+
+    /// <summary>
+    /// Timeseries variant of <see cref="SlfStationDateSpeed"/> which keeps a JSON <c>null</c> value as <c>null</c>
+    /// (System.Text.Json only forwards non-null tokens to <see cref="SpeedJsonConverter"/>).
+    /// </summary>
+    internal class SlfStationDateNullableSpeed : SlfStationDateValue<Speed?>
+    {
+        [JsonProperty("value")]
+        [JsonConverter(typeof(SpeedJsonConverter))]
+        public override Speed? Value { get; set; }
+    }
+
+    /// <summary>
+    /// Timeseries variant of <see cref="SlfStationDateAngle"/> which keeps a JSON <c>null</c> value as <c>null</c>
+    /// (System.Text.Json only forwards non-null tokens to <see cref="DegreeAngleJsonConverter"/>).
+    /// </summary>
+    internal class SlfStationDateNullableAngle : SlfStationDateValue<Angle?>
+    {
+        [JsonProperty("value")]
+        [JsonConverter(typeof(DegreeAngleJsonConverter))]
+        public override Angle? Value { get; set; }
+    }
 }

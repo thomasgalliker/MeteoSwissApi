@@ -158,9 +158,15 @@ namespace MeteoSwissApi
                 {
                     var slfWindInfo = new SlfWindInfo
                     {
-                        VelocityMax = windVelocityMaxByDate[t.Date].Value,
-                        VelocityMean = windVelocityMeanByDate[t.Date].Value,
-                        Direction = windDirectionMeanByDate[t.Date].Value,
+                        VelocityMax = windVelocityMaxByDate.TryGetValue(t.Date, out var velocityMax)
+                            ? velocityMax.Value
+                            : null,
+                        VelocityMean = windVelocityMeanByDate.TryGetValue(t.Date, out var velocityMean)
+                            ? velocityMean.Value
+                            : null,
+                        Direction = windDirectionMeanByDate.TryGetValue(t.Date, out var direction)
+                            ? direction.Value
+                            : null,
                     };
 
                     return new SlfStationMeasurementItem
@@ -207,8 +213,17 @@ namespace MeteoSwissApi
 
             ("WIND_MEAN", (SlfProperties p, SlfStationMeasurement m, DateTime timestamp) =>
             {
-                m.WindSpeedMean = new SlfStationDateSpeed { Date = timestamp, Value = Speed.FromKilometersPerHour(RequireValue(p.Velocity, nameof(p.Velocity))) };
-                m.WindDirection = new SlfStationDateAngle { Date = timestamp, Value = Angle.FromDegrees(RequireValue(p.Direction, nameof(p.Direction))) };
+                // SLF reports wind speed and direction independently: a station may deliver
+                // a velocity while its direction is null (or vice versa).
+                if (p.Velocity is decimal velocity)
+                {
+                    m.WindSpeedMean = new SlfStationDateSpeed { Date = timestamp, Value = Speed.FromKilometersPerHour(velocity) };
+                }
+
+                if (p.Direction is decimal direction)
+                {
+                    m.WindDirection = new SlfStationDateAngle { Date = timestamp, Value = Angle.FromDegrees(direction) };
+                }
             }),
         };
 
@@ -278,7 +293,7 @@ namespace MeteoSwissApi
 
                     if (feature.Properties.Timestamp is DateTime timestamp)
                     {
-                        if (feature.Properties.Value != null || feature.Properties.Velocity != null)
+                        if (feature.Properties.Value != null || feature.Properties.Velocity != null || feature.Properties.Direction != null)
                         {
                             stationDataTimepointParameter.AssignmentAction(feature.Properties, measurement, timestamp);
                         }
