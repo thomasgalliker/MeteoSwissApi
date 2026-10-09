@@ -18,7 +18,7 @@ namespace MeteoSwissApi.Tests.Models.Converters
         [InlineData("\"14.6\"", 14.6)]  // numeric string
         [InlineData("\"-0.1\"", -0.1)]
         [InlineData("32767", 32767)]    // the 'no data' sentinel is NOT special-cased here (unlike the nullable converter)
-        public void ShouldReadTemperature(string jsonValue, double expectedCelsius)
+        public void Read_NumberOrNumericString_ReturnsTemperatureInCelsius(string jsonValue, double expectedCelsius)
         {
             // Arrange
             var options = CreateOptions();
@@ -31,7 +31,7 @@ namespace MeteoSwissApi.Tests.Models.Converters
         }
 
         [Fact]
-        public void ShouldReadTemperature_FallsBackToDefault_ForUnsupportedToken()
+        public void Read_UnsupportedToken_ReturnsDefaultTemperature()
         {
             // Arrange
             var options = CreateOptions();
@@ -40,11 +40,11 @@ namespace MeteoSwissApi.Tests.Models.Converters
             var temperature = JsonSerializer.Deserialize<Temperature>("true", options);
 
             // Assert
-            temperature.Should().Be(default(Temperature));
+            temperature.Should().Be(default);
         }
 
         [Fact]
-        public void ShouldWriteTemperature_AsInvariantString()
+        public void Write_Temperature_WritesCelsiusAsNumber()
         {
             // Arrange
             var options = CreateOptions();
@@ -53,17 +53,30 @@ namespace MeteoSwissApi.Tests.Models.Converters
             var json = JsonSerializer.Serialize(Temperature.FromDegreesCelsius(14.6), options);
 
             // Assert
-            json.Should().Be("\"14.6\"");
+            json.Should().Be("14.6");
         }
 
         [Fact]
-        public void ShouldDeserializeForecast_ParsesMinAndMaxTemperature()
+        public void Write_TemperatureInKelvin_WritesCelsius()
+        {
+            // Arrange
+            var options = CreateOptions();
+
+            // Act
+            var json = JsonSerializer.Serialize(Temperature.FromKelvins(273.15), options);
+
+            // Assert
+            json.Should().Be("0");
+        }
+
+        [Fact]
+        public void Deserialize_Forecast_ParsesMinAndMaxTemperature()
         {
             // Arrange
             const string json = "{\"temperatureMax\":24.6,\"temperatureMin\":\"12.3\"}";
 
             // Act
-            var forecast = JsonSerializer.Deserialize<Forecast>(json, JsonSerialization.CreateOptions());
+            var forecast = JsonSerializer.Deserialize<Forecast>(json, JsonSerialization.Default);
 
             // Assert
             forecast.Should().NotBeNull();

@@ -1,6 +1,11 @@
-﻿namespace MeteoSwissApi.Models.Csv
+﻿using System.Linq.Expressions;
+
+namespace MeteoSwissApi.Models.Csv
 {
-    internal class WeatherStationMeasurementCsvMapping : ClassMap<WeatherStationMeasurement>
+    /// <summary>
+    /// Maps the columns of the SwissMetNet file VQHA80.csv. The column codes are documented on <see cref="WeatherStationMeasurement"/>.
+    /// </summary>
+    internal sealed class WeatherStationMeasurementCsvMapping : ClassMap<WeatherStationMeasurement>
     {
         internal WeatherStationMeasurementCsvMapping()
         {
@@ -17,285 +22,48 @@
                 return DateTime.MinValue;
             });
 
-            this.Map(m => m.AirTemperature).Convert(row =>
+            this.MapQuantity(m => m.AirTemperature, "tre200s0", v => Temperature.FromDegreesCelsius(v));
+            this.MapQuantity(m => m.Precipitation, "rre150z0", v => Length.FromMillimeters(v));
+            this.MapQuantity(m => m.SunshineDuration, "sre000z0", v => Duration.FromMinutes(v));
+            this.MapQuantity(m => m.GlobalRadiation, "gre000z0", v => Irradiance.FromWattsPerSquareMeter(v));
+            this.MapQuantity(m => m.RelativeAirHumidity, "ure200s0", v => RelativeHumidity.FromPercent(v));
+            this.MapQuantity(m => m.WindDirection, "dkl010z0", v => Angle.FromDegrees(v));
+            this.MapQuantity(m => m.WindSpeed, "fu3010z0", v => Speed.FromKilometersPerHour(v));
+            this.MapQuantity(m => m.PressureQFE, "prestas0", v => Pressure.FromHectopascals(v));
+            this.MapQuantity(m => m.PressureQFF, "pp0qffs0", v => Pressure.FromHectopascals(v));
+            this.MapQuantity(m => m.PressureQNH, "pp0qnhs0", v => Pressure.FromHectopascals(v));
+            this.MapQuantity(m => m.DewPointTemperature, "tde200s0", v => Temperature.FromDegreesCelsius(v));
+            this.MapQuantity(m => m.GustPeak, "fu3010z1", v => Speed.FromKilometersPerHour(v));
+            this.MapQuantity(m => m.GeopotentialHeight850, "ppz850s0", v => Length.FromMeters(v));
+            this.MapQuantity(m => m.GeopotentialHeight700, "ppz700s0", v => Length.FromMeters(v));
+            this.MapQuantity(m => m.WindDirectionVectorial, "dv1towz0", v => Angle.FromDegrees(v));
+            this.MapQuantity(m => m.WindSpeedTower, "fu3towz0", v => Speed.FromKilometersPerHour(v));
+            this.MapQuantity(m => m.GustPeakTower, "fu3towz1", v => Speed.FromKilometersPerHour(v));
+            this.MapQuantity(m => m.AirTemperatureTower, "ta1tows0", v => Temperature.FromDegreesCelsius(v));
+            this.MapQuantity(m => m.RelativeAirHumidityTower, "uretows0", v => RelativeHumidity.FromPercent(v));
+            this.MapQuantity(m => m.DewPointTower, "tdetows0", v => Temperature.FromDegreesCelsius(v));
+        }
+
+        /// <summary>
+        /// Maps a column to a nullable quantity. Values that cannot be parsed, such as the
+        /// placeholder "-" for a missing reading, are mapped to <c>null</c>.
+        /// </summary>
+        private void MapQuantity<TQuantity>(
+            Expression<Func<WeatherStationMeasurement, TQuantity?>> member,
+            string columnName,
+            Func<decimal, TQuantity> createQuantity)
+            where TQuantity : struct
+        {
+            this.Map(member).Convert(row =>
             {
-                var columnValue = row.Row["tre200s0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
+                var columnValue = row.Row[columnName];
+                if (CsvValueParser.TryParseDecimal(columnValue, out var decimalValue))
                 {
-                    return Temperature.FromDegreesCelsius(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.Precipitation).Convert(row =>
-            {
-                var columnValue = row.Row["rre150z0"];
-                if (decimal.TryParse(columnValue, out var length))
-                {
-                    return Length.FromMillimeters(length);
-                }
-
-                return Length.Zero;
-            });
-
-            this.Map(m => m.SunshineDuration).Convert(row =>
-            {
-                var columnValue = row.Row["sre000z0"];
-                if (decimal.TryParse(columnValue, out var duration))
-                {
-                    return Duration.FromMinutes(duration);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.GlobalRadiation).Convert(row =>
-            {
-                var columnValue = row.Row["gre000z0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Irradiance.FromWattsPerSquareMeter(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.RelativeAirHumidity).Convert(row =>
-            {
-                var columnValue = row.Row["ure200s0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return RelativeHumidity.FromPercent(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.WindDirection).Convert(row =>
-            {
-                var columnValue = row.Row["dkl010z0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Angle.FromDegrees(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.WindSpeed).Convert(row =>
-            {
-                var columnValue = row.Row["fu3010z0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Speed.FromKilometersPerHour(decimalValue);
-                }
-
-                return null;
-            });
-            this.Map(m => m.PressureQFE).Convert(row =>
-            {
-                var columnValue = row.Row["prestas0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Pressure.FromHectopascals(decimalValue);
-                }
-
-                return null;
-            });
-            this.Map(m => m.PressureQFF).Convert(row =>
-            {
-                var columnValue = row.Row["pp0qffs0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Pressure.FromHectopascals(decimalValue);
-                }
-
-                return null;
-            });
-            this.Map(m => m.PressureQNH).Convert(row =>
-            {
-                var columnValue = row.Row["pp0qnhs0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Pressure.FromHectopascals(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.DewPointTemperature).Convert(row =>
-            {
-                var columnValue = row.Row["tde200s0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Temperature.FromDegreesCelsius(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.GustPeak).Convert(row =>
-            {
-                var columnValue = row.Row["fu3010z1"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Speed.FromKilometersPerHour(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.GeopotentialHeight850).Convert(row =>
-            {
-                var columnValue = row.Row["ppz850s0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Length.FromMeters(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.GeopotentialHeight700).Convert(row =>
-            {
-                var columnValue = row.Row["ppz700s0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Length.FromMeters(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.WindDirectionVectorial).Convert(row =>
-            {
-                var columnValue = row.Row["dv1towz0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Angle.FromDegrees(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.WindSpeedTower).Convert(row =>
-            {
-                var columnValue = row.Row["fu3towz0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Speed.FromKilometersPerHour(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.GustPeakTower).Convert(row =>
-            {
-                var columnValue = row.Row["fu3towz1"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Speed.FromKilometersPerHour(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.AirTemperatureTower).Convert(row =>
-            {
-                var columnValue = row.Row["ta1tows0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Temperature.FromDegreesCelsius(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.RelativeAirHumidityTower).Convert(row =>
-            {
-                var columnValue = row.Row["uretows0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return RelativeHumidity.FromPercent(decimalValue);
-                }
-
-                return null;
-            });
-
-            this.Map(m => m.DewPointTower).Convert(row =>
-            {
-                var columnValue = row.Row["tdetows0"];
-                if (decimal.TryParse(columnValue, out var decimalValue))
-                {
-                    return Temperature.FromDegreesCelsius(decimalValue);
+                    return createQuantity(decimalValue);
                 }
 
                 return null;
             });
         }
     }
-
-
-    //        type StationData struct {
-
-    //    Station string      `csv:"Station/Location"`
-    //	DateTime DateTime    `csv:"Date"`
-    //	AirTemperature NullFloat64 `csv:"tre200s0"` // °C: Air temperature 2 m above ground; current value
-    //	Precipitation NullFloat64 `csv:"rre150z0"` // mm: Precipitation; current value
-    //	SunshineDuration NullFloat64 `csv:"sre000z0"` //min: Sunshine duration; ten minutes total
-    //	GlobalRadiation NullFloat64 `csv:"gre000z0"` // W/m²: Global radiation; ten minutes mean
-    //	RelativeAirHumidity NullFloat64 `csv:"ure200s0"` // %: Relative air humidity 2 m above ground; current value
-    //	DewPointTemperature NullFloat64 `csv:"tde200s0"` // °C: Dew point temperature 2 m above ground; current value
-    //	WindDirection NullFloat64 `csv:"dkl010z0"` // °: wind direction; ten minutes mean
-    //	WindSpeed NullFloat64 `csv:"fu3010z0"` // km/h: Wind speed; ten minutes mean
-    //	GustPeak NullFloat64 `csv:"fu3010z1"` // km/h: Gust peak (one second); maximum
-    //	PressureQFE NullFloat64 `csv:"prestas0"` // hPa: Pressure at station level (QFE); current value
-    //	PressureQFF NullFloat64 `csv:"pp0qffs0"` // hPa: Pressure reduced to sea level (QFF); current value
-    //	PressureQNH NullFloat64 `csv:"pp0qnhs0"` // hPa: Pressure reduced to sea level according to standard atmosphere (QNH); current value
-    //	GeopotentialHeight850 NullFloat64 `csv:"ppz850s0"` // gpm: geopotential height of the 850 hPa-surface; current value
-    //	GeopotentialHeight700 NullFloat64 `csv:"ppz700s0"` // gpm: geopotential height of the 700 hPa-surface; current value
-    //	WindDirectionVectorial NullFloat64 `csv:"dv1towz0"` // °: wind direction vectorial, average of 10 min; instrument 1
-    //	WindSpeedTower NullFloat64 `csv:"fu3towz0"` // km/h: Wind speed tower; ten minutes mean
-    //	GustPeakTower NullFloat64 `csv:"fu3towz1"` // km/h: Gust peak (one second) tower; maximum
-    //	AirTemperatureTool NullFloat64 `csv:"ta1tows0"` // °C: Air temperature tool 1
-    //	RelativeAirHumidityTower NullFloat64 `csv:"uretows0"` // %: Relative air humidity tower; current value
-    //	DewPointTower NullFloat64 `csv:"tdetows0"` // °C: Dew point tower
-    //}
-
-
-
-    //        Legend for VQHA80
-    //Station/Location;yyyyMMddHHmm;tre200s0;rre150z0;sre000z0;gre000z0;ure200s0;tde200s0;dkl010z0;fu3010z0;fu3010z1;prestas0;pp0qffs0;pp0qnhs0;ppz850s0;ppz700s0;dv1towz0;fu3towz0;fu3towz1;ta1tows0;uretows0;tdetows0
-
-    //Station/Location https://data.geo.admin.ch/ch.meteoschweiz.messnetz-automatisch/ch.meteoschweiz.messnetz-automatisch_en.csv
-
-    //Time in UTC : 00:40 UTC = 02:40 Summer Time
-    //                        = 01:40 Winter Time
-
-    //Missing readings        -
-
-    //Parameter Unit           Description
-    //tre200s0       °C Air temperature 2 m above ground; current value
-    //rre150z0 mm             Precipitation; ten minutes total
-    //sre000z0       min Sunshine duration; ten minutes total
-    //gre000z0       W/m²           Global radiation; ten minutes mean
-    //ure200s0       %              Relative air humidity 2 m above ground; current value
-    //tde200s0       °C Dew point 2 m above ground; current value
-    //dkl010z0       °              wind direction; ten minutes mean
-    //fu3010z0       km/h Wind speed; ten minutes mean
-    //fu3010z1       km/h Gust peak(one second); maximum
-    //prestas0       hPa Pressure at station level(QFE); current value
-    //pp0qffs0 hPa            Pressure reduced to sea level(QFF); current value
-    //pp0qnhs0 hPa            Pressure reduced to sea level according to standard atmosphere(QNH); current value
-    //ppz850s0 gpm            geopotential height of the 850 hPa-surface; current value
-    //ppz700s0 gpm            geopotential height of the 700 hPa-surface; current value
-    //dv1towz0       °              wind direction vectorial, average of 10 min; instrument 1
-    //fu3towz0 km/h Wind speed tower; ten minutes mean
-    //fu3towz1       km/h Gust peak(one second) tower; maximum
-    //ta1tows0       °C Air temperature tool 1
-    //uretows0       %              Relative air humidity tower; current value
-    //tdetows0       °C Dew point tower
-
-
 }

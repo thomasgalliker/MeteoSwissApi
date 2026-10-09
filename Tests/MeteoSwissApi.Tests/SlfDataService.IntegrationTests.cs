@@ -1,36 +1,18 @@
 namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.IntegrationTests)]
-    public class SlfDataServiceIntegrationTests
+    /// <summary>
+    /// The tests in this file call the live SLF services.
+    /// </summary>
+    [Collection(Collections.IntegrationTests)]
+    public partial class SlfDataServiceTests
     {
-        private readonly ILogger<SlfDataService> logger;
         private readonly MeteoSwissApiOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
 
-        public SlfDataServiceIntegrationTests(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
-            this.logger = new TestOutputHelperLogger<SlfDataService>(testOutputHelper);
-            this.options = new MeteoSwissApiOptions
-            {
-                VerboseLogging = true
-            };
-
-            this.dumpOptions = new DumpOptions
-            {
-                DumpStyle = DumpStyle.CSharp,
-                SetPropertiesOnly = true
-            };
-
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Angle>(a => $"Angle.FromDegrees({a.Value})");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(l => $"Length.FromMeters({l.Value})");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Speed>(s => $"Speed.FromKilometersPerHour({s.Value})");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"Temperature.FromDegreesCelsius({t.Value})");
-        }
-
         [Fact]
-        public async Task ShouldGetLatestMeasurementsAsync()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetLatestMeasurementsAsync_Live_ReturnsMeasurements()
         {
             // Arrange
             ISlfDataService slfDataService = new SlfDataService(this.logger, this.options);
@@ -47,11 +29,12 @@ namespace MeteoSwissApi.Tests
             measurements.Should().Contain(m => !string.IsNullOrWhiteSpace(m.Station.Network));
             measurements.Should().Contain(m => !string.IsNullOrWhiteSpace(m.Station.Code));
             measurements.Should().Contain(m => !string.IsNullOrWhiteSpace(m.Station.Type.Value));
-            measurements.Should().Contain(m => m.SnowHeight.Date != default || m.AirTemperature.Date != default || m.WindSpeedMean.Date != default);
+            measurements.Should().Contain(m => m.SnowHeight != null || m.AirTemperature != null || m.WindSpeedMean != null);
         }
 
         [Fact]
-        public async Task ShouldGetMeasurementsByStationCodeAsync()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetMeasurementsByStationCodeAsync_Live_ReturnsMeasurements()
         {
             // Arrange
             const string network = "IMIS";
@@ -68,6 +51,7 @@ namespace MeteoSwissApi.Tests
 
             measurements.Should().NotBeEmpty();
             measurements.Should().BeInAscendingOrder(m => m.Date);
+            measurements.Should().OnlyContain(m => m.Date.Kind == DateTimeKind.Utc);
 
             // Snow height and snow surface temperature share the air temperature time grid.
             measurements.Should().Contain(m => m.SnowHeight.HasValue);

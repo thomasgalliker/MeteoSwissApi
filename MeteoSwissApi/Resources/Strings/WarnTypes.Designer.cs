@@ -70,6 +70,15 @@ namespace MeteoSwissApi.Resources.Strings {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Drought.
+        /// </summary>
+        internal static string Drought {
+            get {
+                return ResourceManager.GetString("Drought", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Earthquakes.
         /// </summary>
         internal static string Earthquakes {

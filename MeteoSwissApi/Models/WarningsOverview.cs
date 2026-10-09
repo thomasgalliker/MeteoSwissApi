@@ -12,7 +12,7 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"WarnType={this.WarnType}, WarnLevel={this.WarnType.ToString(this.WarnLevel)}";
+            return $"WarnType={this.WarnType}, WarnLevel={this.WarnLevel}";
         }
     }
 }

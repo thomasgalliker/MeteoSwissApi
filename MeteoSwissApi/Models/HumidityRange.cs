@@ -8,14 +8,17 @@
         public static readonly HumidityRange Moist = new HumidityRange(nameof(Moist), min: RelativeHumidity.FromPercent(70), max: RelativeHumidity.FromPercent(80), minInclusive: false, maxInclusive: false);
         public static readonly HumidityRange VeryMoist = new HumidityRange(nameof(VeryMoist), min: RelativeHumidity.FromPercent(80), max: RelativeHumidity.FromPercent(100), minInclusive: true, maxInclusive: true);
 
-        public static readonly IEnumerable<HumidityRange> All = new List<HumidityRange>
+        /// <summary>
+        /// The humidity ranges from <see cref="VeryDry"/> to <see cref="VeryMoist"/>.
+        /// </summary>
+        public static readonly IReadOnlyList<HumidityRange> All = Array.AsReadOnly(new[]
         {
             VeryDry,
             Dry,
             Average,
             Moist,
-            VeryMoist
-        };
+            VeryMoist,
+        });
 
         private readonly string resourceId;
 
@@ -25,8 +28,18 @@
             this.resourceId = resourceId;
         }
 
+        /// <summary>
+        /// Returns the range that contains <paramref name="value"/>. A sensor may read slightly more than 100 %,
+        /// which counts as <see cref="VeryMoist"/>.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is negative.</exception>
         public static HumidityRange FromValue(RelativeHumidity value)
         {
+            if (value > VeryMoist.Max)
+            {
+                return VeryMoist;
+            }
+
             foreach (var humidityRange in All)
             {
                 if (humidityRange.InRange(value))
@@ -35,7 +48,7 @@
                 }
             }
 
-            throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 100");
+            throw new ArgumentOutOfRangeException(nameof(value), value, "Relative humidity must not be negative.");
         }
 
         public override string ToString()
@@ -48,7 +61,12 @@
             return this.ToString(format, null);
         }
 
-        public string ToString(string? format, IFormatProvider? provider)
+        /// <summary>
+        /// Formats the range: "N" (default) returns its name, such as "Very dry", in the language of
+        /// <paramref name="formatProvider"/> if that is a <see cref="CultureInfo"/>, otherwise of the current UI culture.
+        /// "I" returns the interval, such as "[0 %RH, 30 %RH]", with the bounds formatted by <paramref name="formatProvider"/>.
+        /// </summary>
+        public string ToString(string? format, IFormatProvider? formatProvider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -58,13 +76,12 @@
             switch (format)
             {
                 case "I":
-                    return base.ToString();
+                    return base.ToString(formatProvider);
                 case "N":
                 default:
-                    var str = HumidityRanges.ResourceManager.GetString(this.resourceId, (CultureInfo)(provider ?? CultureInfo.CurrentCulture));
-                    return str ?? this.resourceId;
+                    var text = HumidityRanges.ResourceManager.GetString(this.resourceId, formatProvider as CultureInfo);
+                    return text ?? this.resourceId;
             }
-
         }
     }
 }

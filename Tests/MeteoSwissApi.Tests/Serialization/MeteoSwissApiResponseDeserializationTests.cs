@@ -14,13 +14,13 @@ namespace MeteoSwissApi.Tests.Serialization
     public class MeteoSwissApiResponseDeserializationTests
     {
         [Fact]
-        public void ShouldDeserializePlzDetailV3_Strict()
+        public void Deserialize_PlzDetailV3Strict_ReturnsWeatherInfo()
         {
             // Arrange
-            var json = LoadFixture("plzDetail_v3_633000.json");
+            var json = Fixtures.GetString("plzDetail_v3_633000.json");
 
             // Act
-            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.CreateOptions(disallowUnmappedMembers: true));
+            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Strict);
 
             // Assert
             weatherInfo.Should().NotBeNull();
@@ -34,13 +34,13 @@ namespace MeteoSwissApi.Tests.Serialization
         }
 
         [Fact]
-        public void ShouldDeserializeForecastV3_Strict()
+        public void Deserialize_ForecastV3Strict_ReturnsForecastInfo()
         {
             // Arrange
-            var json = LoadFixture("forecast_v3_633000.json");
+            var json = Fixtures.GetString("forecast_v3_633000.json");
 
             // Act
-            var forecastInfo = JsonSerializer.Deserialize<ForecastInfo>(json, JsonSerialization.CreateOptions(disallowUnmappedMembers: true));
+            var forecastInfo = JsonSerializer.Deserialize<ForecastInfo>(json, JsonSerialization.Strict);
 
             // Assert
             forecastInfo.Should().NotBeNull();
@@ -48,19 +48,68 @@ namespace MeteoSwissApi.Tests.Serialization
             forecastInfo.CurrentWeather.Should().NotBeNull();
             forecastInfo.Forecast.Should().NotBeNullOrEmpty();
             forecastInfo.Graph.Should().NotBeNull();
-            // Note: the forecast endpoint returns "warningsOverview": null (not an empty array),
-            // so WarningsOverview is intentionally not asserted to be non-null here.
         }
 
-        private static string LoadFixture(string fileName)
+        [Fact]
+        public void Deserialize_ForecastV3WithNullWarningsOverview_ReturnsEmptyArray()
         {
-            var assembly = typeof(MeteoSwissApiResponseDeserializationTests).Assembly;
-            var resourceName = assembly.GetManifestResourceNames()
-                .Single(n => n.EndsWith(fileName, StringComparison.Ordinal));
+            // Arrange
+            // The forecast endpoint returns "warningsOverview": null instead of an empty array.
+            var json = Fixtures.GetString("forecast_v3_633000.json");
 
-            using var stream = assembly.GetManifestResourceStream(resourceName)!;
-            using var reader = new StreamReader(stream);
-            return reader.ReadToEnd();
+            // Act
+            var forecastInfo = JsonSerializer.Deserialize<ForecastInfo>(json, JsonSerialization.Default);
+
+            // Assert
+            forecastInfo.WarningsOverview.Should().BeEmpty();
+        }
+
+        [Fact]
+        public void Deserialize_PlzDetailV3WithUnknownWarnTypeAndLevel_KeepsWarnings()
+        {
+            // Arrange
+            // MeteoSwiss may add warn types and levels that this version does not know yet.
+            var json = Fixtures.GetString("plzDetail_v3_633000.json")
+                .Replace("\"warnType\":10,\"warnLevel\":4", "\"warnType\":99,\"warnLevel\":6");
+
+            // Act
+            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Default);
+
+            // Assert
+            weatherInfo.Warnings.Select(w => (w.WarnType.Value, w.WarnLevel.Level)).Should().Contain((99, 6));
+            weatherInfo.WarningsOverview.Select(w => (w.WarnType.Value, w.WarnLevel.Level)).Should().Contain((99, 6));
+        }
+
+        [Fact]
+        public void Deserialize_PlzDetailV3_ReturnsUtcTimestamps()
+        {
+            // Arrange
+            var json = Fixtures.GetString("plzDetail_v3_633000.json");
+
+            // Act
+            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Default);
+
+            // Assert
+            weatherInfo.CurrentWeather.Time.Should().Be(new DateTime(2026, 7, 19, 16, 10, 0, DateTimeKind.Utc));
+            weatherInfo.CurrentWeather.Time.Kind.Should().Be(DateTimeKind.Utc);
+            weatherInfo.Graph.Start.Kind.Should().Be(DateTimeKind.Utc);
+            weatherInfo.Graph.Sunrise.Should().OnlyContain(d => d.Kind == DateTimeKind.Utc);
+            weatherInfo.Warnings.Should().OnlyContain(w => w.ValidFrom.Kind == DateTimeKind.Utc);
+        }
+
+        [Fact]
+        public void Deserialize_PlzDetailV3_ReturnsForecastDayAsCalendarDate()
+        {
+            // Arrange
+            var json = Fixtures.GetString("plzDetail_v3_633000.json");
+
+            // Act
+            var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Default);
+
+            // Assert
+            var dayDate = weatherInfo.Forecast[0].DayDate;
+            dayDate.Should().Be(new DateTime(2026, 7, 19));
+            dayDate.Kind.Should().Be(DateTimeKind.Unspecified);
         }
     }
 }

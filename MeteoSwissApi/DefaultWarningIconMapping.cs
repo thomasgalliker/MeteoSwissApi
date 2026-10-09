@@ -1,17 +1,20 @@
+using System.Net;
+
 namespace MeteoSwissApi
 {
-    public class DefaultWarningIconMapping : IWarningIconMapping
+    public sealed class DefaultWarningIconMapping : IWarningIconMapping
     {
-        private const string ImageApiEndpoint = "https://www.meteoschweiz.admin.ch/static/resources/warn-symbols/{0}.svg";
+        private const string ImageApiEndpoint = "https://www.meteoschweiz.admin.ch/static/resources/warn-symbols/";
 
         private readonly HttpClient httpClient;
 
+        /// <exception cref="ArgumentNullException"><paramref name="httpClient"/> is null.</exception>
         public DefaultWarningIconMapping(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<Stream> GetIconAsync(WarnLevel warnLevel)
+        public async Task<Stream> GetIconAsync(WarnLevel warnLevel, CancellationToken cancellationToken = default)
         {
             if (warnLevel == WarnLevel.NoWarnLevel ||
                 warnLevel == WarnLevel.Level1)
@@ -20,13 +23,18 @@ namespace MeteoSwissApi
                 return EmbeddedIcons.GetTransparentIcon();
             }
 
-            var iconUrl = string.Format(ImageApiEndpoint, warnLevel.Level);
+            var iconUri = new Uri(FormattableString.Invariant($"{ImageApiEndpoint}{warnLevel.Level}.svg"), UriKind.Absolute);
 
-            var response = await this.httpClient.GetAsync(iconUrl);
-            response.EnsureSuccessStatusCode();
-
-            var responseStream = await response.Content.ReadAsStreamAsync();
-            return responseStream;
+            try
+            {
+                var iconBytes = await this.httpClient.GetBytesOrThrowAsync(iconUri, null, cancellationToken).ConfigureAwait(false);
+                return new MemoryStream(iconBytes, writable: false);
+            }
+            catch (MeteoSwissApiException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+            {
+                // MeteoSwiss has no icon for this warn level.
+                return EmbeddedIcons.GetTransparentIcon();
+            }
         }
     }
 }

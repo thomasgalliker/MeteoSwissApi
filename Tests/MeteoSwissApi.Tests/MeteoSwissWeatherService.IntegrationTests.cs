@@ -1,37 +1,20 @@
 namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.IntegrationTests)]
-    public class MeteoSwissWeatherServiceIntegrationTests
+    /// <summary>
+    /// The tests in this file call the live MeteoSwiss services.
+    /// </summary>
+    [Collection(Collections.IntegrationTests)]
+    public partial class MeteoSwissWeatherServiceTests
     {
         private const string IconFileExtension = "svg";
 
-        private readonly ILogger<MeteoSwissWeatherService> logger;
         private readonly MeteoSwissApiOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
         private readonly TestHelper testHelper;
 
-        public MeteoSwissWeatherServiceIntegrationTests(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
-            this.logger = new TestOutputHelperLogger<MeteoSwissWeatherService>(testOutputHelper);
-            this.options = new MeteoSwissApiOptions
-            {
-                VerboseLogging = true
-            };
-
-            this.dumpOptions = new DumpOptions
-            {
-                DumpStyle = DumpStyle.CSharp,
-                SetPropertiesOnly = true
-            };
-
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"Temperature.FromDegreesCelsius({t.Value})");
-
-            this.testHelper = new TestHelper(testOutputHelper);
-        }
-
         [Theory]
+        [Trait(Traits.Category, Traits.IntegrationTests)]
         [InlineData(6330)]
         [InlineData(633000)]
         [InlineData(690000)]
@@ -40,11 +23,11 @@ namespace MeteoSwissApi.Tests
         [InlineData(671700)]
         [InlineData(195000)]
         [InlineData(774200)]
-        public async Task ShouldGetCurrentWeatherAsync(int plz)
+        public async Task GetCurrentWeatherAsync_Live_ReturnsWeatherInfo(int plz)
         {
             // Arrange
             var meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
-            meteoSwissWeatherService.ThrowExceptionOnMissingJsonProperties = true;
+            meteoSwissWeatherService.DisallowUnmappedJsonMembers = true;
 
             // Act
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
@@ -64,6 +47,7 @@ namespace MeteoSwissApi.Tests
         }
 
         [Theory]
+        [Trait(Traits.Category, Traits.IntegrationTests)]
         [InlineData(6330)]
         [InlineData(633000)]
         [InlineData(690000)]
@@ -72,11 +56,11 @@ namespace MeteoSwissApi.Tests
         [InlineData(671700)]
         [InlineData(195000)]
         [InlineData(774200)]
-        public async Task ShouldGetForecastAsync(int plz)
+        public async Task GetForecastAsync_Live_ReturnsForecastInfo(int plz)
         {
             // Arrange
             var meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
-            meteoSwissWeatherService.ThrowExceptionOnMissingJsonProperties = true;
+            meteoSwissWeatherService.DisallowUnmappedJsonMembers = true;
 
             // Act
             var forecastInfo = await meteoSwissWeatherService.GetForecastAsync(plz);
@@ -88,11 +72,12 @@ namespace MeteoSwissApi.Tests
         }
 
         [Theory]
+        [Trait(Traits.Category, Traits.IntegrationTests)]
         [InlineData("en")]
         [InlineData("de")]
         [InlineData("fr")]
         [InlineData("it")]
-        public async Task ShouldGetCurrentWeatherAsync_WithLanguage(string language)
+        public async Task GetCurrentWeatherAsync_LiveWithLanguage_ReturnsWeatherInfo(string language)
         {
             // Arrange
             const int plz = 774200;
@@ -115,6 +100,7 @@ namespace MeteoSwissApi.Tests
         }
 
         [Fact]
+        [Trait(Traits.Category, Traits.IntegrationTests)]
         public async Task ShouldGetWeatherIconAsync_6330()
         {
             // Arrange
@@ -122,9 +108,10 @@ namespace MeteoSwissApi.Tests
 
             IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
             var weatherInfo = await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
+            var iconId = weatherInfo.CurrentWeather.IconV2!.Value;
 
             // Act
-            var iconStream = await meteoSwissWeatherService.GetWeatherIconAsync(weatherInfo.CurrentWeather.IconV2);
+            var iconStream = await meteoSwissWeatherService.GetWeatherIconAsync(iconId);
 
             // Assert
             iconStream.Should().NotBeNull();
@@ -132,25 +119,27 @@ namespace MeteoSwissApi.Tests
         }
 
         [Theory]
+        [Trait(Traits.Category, Traits.IntegrationTests)]
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
         [InlineData(5)]
-        public async Task ShouldGetWarningIconAsync(int warnLevel)
+        public async Task GetWarningIconAsync_Live_ReturnsIcon(int warnLevel)
         {
             // Arrange
             IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);
 
             // Act
-            var iconStream = await meteoSwissWeatherService.GetWarningIconAsync(warnLevel);
+            var iconStream = await meteoSwissWeatherService.GetWarningIconAsync(WarnLevel.FromValue(warnLevel));
 
             // Assert
             iconStream.Should().NotBeNull();
-            this.testHelper.WriteFile(iconStream, fileName: $"{nameof(this.ShouldGetWarningIconAsync)}_{warnLevel}", fileExtension: IconFileExtension);
+            this.testHelper.WriteFile(iconStream, fileName: $"{nameof(this.GetWarningIconAsync_Live_ReturnsIcon)}_{warnLevel}", fileExtension: IconFileExtension);
         }
 
         [Fact]
-        public async Task ShouldGetWarningIconAsync_ReturnsTransparentIcon_IfWarnLevelHasNoIcon()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetWarningIconAsync_LiveWarnLevelWithoutIcon_ReturnsTransparentIcon()
         {
             // Arrange
             IMeteoSwissWeatherService meteoSwissWeatherService = new MeteoSwissWeatherService(this.logger, this.options);

@@ -1,6 +1,6 @@
 namespace MeteoSwissApi.Models
 {
-    internal class SlfStationMeasurementResponse
+    internal sealed class SlfStationMeasurementResponse
     {
         public SlfStationMeasurementResponse()
         {
@@ -11,6 +11,7 @@ namespace MeteoSwissApi.Models
         public string Type { get; set; } = null!;
 
         [JsonProperty("features")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfFeature>))]
         public SlfFeature[] Features { get; set; }
     }
 }

@@ -1,30 +1,19 @@
 namespace MeteoSwissApi
 {
-    public class HighContrastWeatherIconMapping : IWeatherIconMapping
+    public sealed class HighContrastWeatherIconMapping : IWeatherIconMapping
     {
-        private static readonly Assembly Assembly = typeof(HighContrastWeatherIconMapping).Assembly;
-        private const string EmbeddedResourcePath = "Icons.Weather.HighContrast.{0}.svg";
+        private const string IconNamePrefix = "Weather.HighContrast.";
 
-        /// <summary>
-        /// MeteoSwiss encodes missing/unavailable values as 32767 (0x7FFF) in the JSON API.
-        /// There is no icon for this id; an embedded transparent 1x1 icon is returned instead.
-        /// </summary>
-        private const int NoDataIconId = 32767;
-
-        public HighContrastWeatherIconMapping()
+        public Task<Stream> GetIconAsync(int iconId, CancellationToken cancellationToken = default)
         {
-        }
-
-        public Task<Stream> GetIconAsync(int iconId)
-        {
-            if (iconId == NoDataIconId)
+            if (cancellationToken.IsCancellationRequested)
             {
-                return Task.FromResult(EmbeddedIcons.GetTransparentIcon());
+                return Task.FromCanceled<Stream>(cancellationToken);
             }
 
-            var resourceFileName = string.Format(EmbeddedResourcePath, iconId);
-            var stream = ResourceLoader.Current.GetEmbeddedResourceStream(Assembly, resourceFileName);
-            return Task.FromResult(stream);
+            // Icon ids without high-contrast icon return the transparent icon.
+            var iconName = FormattableString.Invariant($"{IconNamePrefix}{iconId}.svg");
+            return Task.FromResult(EmbeddedIcons.GetIconOrTransparentIcon(iconName));
         }
     }
 }

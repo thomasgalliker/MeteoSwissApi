@@ -3,9 +3,16 @@
     [DebuggerDisplay("{this.Date}")]
     public class SlfStationMeasurementItem
     {
+        /// <summary>
+        /// The time of the measurement, in UTC.
+        /// </summary>
         public DateTime Date { get; set; }
 
-        public Temperature TemperatureAir { get; set; }
+        /// <summary>
+        /// Air temperature, or <c>null</c> if the station reported no value for <see cref="Date"/>.
+        /// Observer stations, for example, report snow values but no air temperature.
+        /// </summary>
+        public Temperature? TemperatureAir { get; set; }
 
         public SlfWindInfo Wind { get; set; } = new SlfWindInfo();
 

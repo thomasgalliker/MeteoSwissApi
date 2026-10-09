@@ -176,3 +176,18 @@ dotnet_diagnostic.CS1591.severity = none
 
 # CA1416: Validate platform compatibility
 dotnet_diagnostic.CA1416.severity = suggestion
+dotnet_diagnostic.CA1416.severity = suggestion
+
+# CA1510-CA1513: ArgumentNullException.ThrowIfNull and the other throw helpers do not exist on netstandard2.0
+dotnet_diagnostic.CA1510.severity = none
+dotnet_diagnostic.CA1511.severity = none
+dotnet_diagnostic.CA1512.severity = none
+dotnet_diagnostic.CA1513.severity = none
+
+# CA1307/CA2249: string.Contains(string, StringComparison) does not exist on netstandard2.0
+dotnet_diagnostic.CA1307.severity = none
+dotnet_diagnostic.CA2249.severity = none
+
+# CA1848/CA1873: plain logger.LogDebug(...) calls with message templates are preferred over LoggerMessage source generation;
+dotnet_diagnostic.CA1848.severity = none
+dotnet_diagnostic.CA1873.severity = none

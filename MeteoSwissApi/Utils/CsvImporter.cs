@@ -3,46 +3,42 @@ using MeteoSwissApi.Models.Csv;
 
 namespace MeteoSwissApi.Utils
 {
-    internal class CsvImporter : ICsvImporter
+    internal static class CsvImporter
     {
-        private static readonly Encoding DefaultEncoding = Encoding.UTF8;
+        private const string Delimiter = ";";
 
-        public static IEnumerable<T> Import<T>(string content, Encoding? encoding = null, string delimiter = ";")
+        /// <summary>
+        /// Reads the records of the semicolon-separated <paramref name="content"/>.
+        /// </summary>
+        /// <param name="content">The CSV content.</param>
+        /// <param name="logger">Logs values the mappings cannot interpret.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="content"/> is null.</exception>
+        /// <exception cref="CsvHelperException"><paramref name="content"/> cannot be read as <typeparamref name="T"/>.</exception>
+        public static IReadOnlyList<T> Import<T>(string content, ILogger logger)
         {
-            if (string.IsNullOrEmpty(content))
+            if (content is null)
             {
                 throw new ArgumentNullException(nameof(content));
             }
-
-            if (encoding == null)
-            {
-                encoding = DefaultEncoding;
-            }
-
-            List<T> importedRecords;
 
             using (var textReader = new StringReader(content))
             {
                 var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    Delimiter = delimiter,
-                    Encoding = encoding,
+                    Delimiter = Delimiter,
                     MissingFieldFound = null,
-                    //ShouldSkipRecord = new ShouldSkipRecord(x => x.Row.ColumnCount < (x.Row.Context.Reader.HeaderRecord?.Length ?? 0))
+
+                    // The stations file ends with metadata lines ("creation_time", "license", ...)
+                    // which have fewer fields than the header. They are no records.
+                    ShouldSkipRecord = args => args.Row.HeaderRecord is string[] header && args.Row.Parser.Count < header.Length,
                 };
 
                 var csvReader = new CsvReader(textReader, config);
-                csvReader.Context.RegisterClassMap<WeatherStationCsvMapping>();
-                csvReader.Context.RegisterClassMap<WeatherStationMeasurementCsvMapping>();
+                csvReader.Context.RegisterClassMap(new WeatherStationCsvMapping(logger));
+                csvReader.Context.RegisterClassMap(new WeatherStationMeasurementCsvMapping());
 
-                importedRecords = csvReader.GetRecords<T>().ToList();
+                return csvReader.GetRecords<T>().ToList();
             }
-
-            return importedRecords;
         }
-    }
-
-    internal interface ICsvImporter
-    {
     }
 }

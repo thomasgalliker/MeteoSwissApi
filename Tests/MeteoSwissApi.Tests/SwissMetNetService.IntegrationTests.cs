@@ -1,39 +1,18 @@
 namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.IntegrationTests)]
-    public class SwissMetNetServiceIntegrationTests
+    /// <summary>
+    /// The tests in this file call the live SwissMetNet files.
+    /// </summary>
+    [Collection(Collections.IntegrationTests)]
+    public partial class SwissMetNetServiceTests
     {
-        private readonly ILogger<SwissMetNetService> logger;
         private readonly MeteoSwissApiOptions options;
         private readonly ITestOutputHelper testOutputHelper;
         private readonly DumpOptions dumpOptions;
 
-        public SwissMetNetServiceIntegrationTests(ITestOutputHelper testOutputHelper)
-        {
-            this.testOutputHelper = testOutputHelper;
-            this.logger = new TestOutputHelperLogger<SwissMetNetService>(testOutputHelper);
-            this.options = new MeteoSwissApiOptions
-            {
-                VerboseLogging = true
-            };
-
-            this.dumpOptions = new DumpOptions
-            {
-                DumpStyle = DumpStyle.CSharp,
-                SetPropertiesOnly = true
-            };
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => $"Temperature.FromDegreesCelsius({t.Value})");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(t => $"Length.FromMeters({t.Value})");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Duration>(t => $"{t.Value} (Duration)");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Irradiance>(t => $"{t.Value} (Irradiance)");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<RelativeHumidity>(t => $"{t.Value} (RelativeHumidity)");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Angle>(t => $"{t.Value} (Angle)");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Speed>(t => $"{t.Value} (Speed)");
-            this.dumpOptions.CustomInstanceFormatters.AddFormatter<Pressure>(t => $"{t.Value} (Pressure)");
-        }
-
         [Fact]
-        public async Task ShouldGetWeatherStationsAsync()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetWeatherStationsAsync_Live_ReturnsStations()
         {
             // Arrange
             ISwissMetNetService swissMetNetService = new SwissMetNetService(this.logger, this.options);
@@ -48,7 +27,8 @@ namespace MeteoSwissApi.Tests
         }
 
         [Fact]
-        public async Task ShouldGetWeatherStationAsync_ByStationCode()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetWeatherStationAsync_Live_ReturnsStation()
         {
             // Arrange
             const string stationCode = "CHZ";
@@ -76,7 +56,8 @@ namespace MeteoSwissApi.Tests
         }
 
         [Fact]
-        public async Task ShouldGetLatestMeasurementsAsync()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetLatestMeasurementsAsync_Live_ReturnsMeasurements()
         {
             // Arrange
             ISwissMetNetService swissMetNetService = new SwissMetNetService(this.logger, this.options);
@@ -91,7 +72,8 @@ namespace MeteoSwissApi.Tests
         }
 
         [Fact]
-        public async Task ShouldGetLatestMeasurementAsync_ByStationCode()
+        [Trait(Traits.Category, Traits.IntegrationTests)]
+        public async Task GetLatestMeasurementAsync_Live_ReturnsMeasurement()
         {
             // Arrange
             const string stationCode = "CHZ";

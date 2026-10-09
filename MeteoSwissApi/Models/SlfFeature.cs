@@ -1,7 +1,7 @@
 
 namespace MeteoSwissApi.Models
 {
-    internal class SlfFeature
+    internal sealed class SlfFeature
     {
         [JsonProperty("geometry")]
         public SlfGeometry Geometry { get; set; } = new SlfGeometry();

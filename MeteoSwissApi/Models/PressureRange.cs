@@ -8,14 +8,17 @@
         public static readonly PressureRange High = new PressureRange(nameof(High), min: Pressure.FromHectopascals(1018), max: Pressure.FromHectopascals(1028), minInclusive: false, maxInclusive: false);
         public static readonly PressureRange VeryHigh = new PressureRange(nameof(VeryHigh), min: Pressure.FromHectopascals(1028), max: Pressure.FromHectopascals(int.MaxValue), minInclusive: true, maxInclusive: true);
 
-        public static readonly IEnumerable<PressureRange> All = new List<PressureRange>
+        /// <summary>
+        /// The pressure ranges from <see cref="VeryLow"/> to <see cref="VeryHigh"/>.
+        /// </summary>
+        public static readonly IReadOnlyList<PressureRange> All = Array.AsReadOnly(new[]
         {
             VeryLow,
             Low,
             Average,
             High,
-            VeryHigh
-        };
+            VeryHigh,
+        });
 
         private readonly string resourceId;
 
@@ -25,6 +28,10 @@
             this.resourceId = resourceId;
         }
 
+        /// <summary>
+        /// Returns the range that contains <paramref name="value"/>.
+        /// </summary>
+        /// <exception cref="ArgumentOutOfRangeException"><paramref name="value"/> is negative.</exception>
         public static PressureRange FromValue(Pressure value)
         {
             foreach (var pressureRange in All)
@@ -35,7 +42,7 @@
                 }
             }
 
-            throw new ArgumentOutOfRangeException(nameof(value), "Value must be between 0 and 100");
+            throw new ArgumentOutOfRangeException(nameof(value), value, "Pressure must not be negative.");
         }
 
         public override string ToString()
@@ -48,7 +55,12 @@
             return this.ToString(format, null);
         }
 
-        public string ToString(string? format, IFormatProvider? provider)
+        /// <summary>
+        /// Formats the range: "N" (default) returns its name, such as "Very low", in the language of
+        /// <paramref name="formatProvider"/> if that is a <see cref="CultureInfo"/>, otherwise of the current UI culture.
+        /// "I" returns the interval, such as "[0 hPa, 998 hPa]", with the bounds formatted by <paramref name="formatProvider"/>.
+        /// </summary>
+        public string ToString(string? format, IFormatProvider? formatProvider)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -58,13 +70,12 @@
             switch (format)
             {
                 case "I":
-                    return base.ToString();
+                    return base.ToString(formatProvider);
                 case "N":
                 default:
-                    var str = PressureRanges.ResourceManager.GetString(this.resourceId, (CultureInfo)(provider ?? CultureInfo.CurrentCulture));
-                    return str ?? this.resourceId;
+                    var text = PressureRanges.ResourceManager.GetString(this.resourceId, formatProvider as CultureInfo);
+                    return text ?? this.resourceId;
             }
-
         }
     }
 }

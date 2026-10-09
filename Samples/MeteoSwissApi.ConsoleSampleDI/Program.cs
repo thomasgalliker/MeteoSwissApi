@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MeteoSwissApi;
 using Microsoft.Extensions.DependencyInjection;
 
-internal class Program
+internal sealed class Program
 {
     private static async Task Main(string[] _)
     {
@@ -57,8 +57,8 @@ internal class Program
         var slfDataService = serviceProvider.GetRequiredService<ISlfDataService>();
         var measurementTIT1 = await slfDataService.GetLatestMeasurementByStationCodeAsync("SMN", "*TIT1");
         Console.WriteLine("ISlfDataService.GetLatestMeasurementByStationCodeAsync");
-        Console.WriteLine($"measurementTIT1.AirTemperature.Date: {measurementTIT1.AirTemperature.Date:u}");
-        Console.WriteLine($"measurementTIT1.AirTemperature.Value: {measurementTIT1.AirTemperature.Value}");
+        Console.WriteLine($"measurementTIT1.AirTemperature.Date: {measurementTIT1.AirTemperature?.Date:u}");
+        Console.WriteLine($"measurementTIT1.AirTemperature.Value: {measurementTIT1.AirTemperature?.Value}");
         Console.WriteLine($"measurementTIT1.SnowHeight: {measurementTIT1.SnowHeight}");
         Console.WriteLine("...");
         Console.WriteLine();

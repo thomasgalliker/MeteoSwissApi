@@ -35,7 +35,7 @@
             return new NonDisposable();
         }
 
-        private class NonDisposable : IDisposable
+        private sealed class NonDisposable : IDisposable
         {
             public void Dispose() { }
         }

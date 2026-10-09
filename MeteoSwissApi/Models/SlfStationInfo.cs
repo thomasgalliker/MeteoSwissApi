@@ -11,8 +11,7 @@ namespace MeteoSwissApi.Models
         public bool WinterplotAvailable { get; set; }
 
         [JsonProperty("nearestStations")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<NearestStation>))]
         public NearestStation[] NearestStations { get; set; }
     }
-
-
 }

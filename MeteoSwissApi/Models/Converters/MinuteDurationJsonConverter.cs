@@ -1,6 +1,6 @@
 ﻿namespace MeteoSwissApi.Models.Converters
 {
-    internal class MinuteDurationJsonConverter : DurationJsonConverter
+    internal sealed class MinuteDurationJsonConverter : DurationJsonConverter
     {
         public MinuteDurationJsonConverter()
             : base(DurationUnit.Minute)

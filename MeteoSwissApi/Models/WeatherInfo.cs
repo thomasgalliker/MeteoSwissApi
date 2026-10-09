@@ -13,12 +13,15 @@ namespace MeteoSwissApi.Models
         public CurrentWeather CurrentWeather { get; set; } = null!;
 
         [JsonProperty("forecast")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<Forecast>))]
         public Forecast[] Forecast { get; set; }
 
         [JsonProperty("warnings")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<Warning>))]
         public Warning[] Warnings { get; set; }
 
         [JsonProperty("warningsOverview")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<WarningsOverview>))]
         public WarningsOverview[] WarningsOverview { get; set; }
 
         [JsonProperty("graph")]
@@ -29,7 +32,7 @@ namespace MeteoSwissApi.Models
 
         public override string ToString()
         {
-            return $"Time: {this.CurrentWeather.Time}, Temperature: {this.CurrentWeather.Temperature}, ";
+            return $"Time: {this.CurrentWeather.Time}, Temperature: {this.CurrentWeather.Temperature}";
         }
     }
 }

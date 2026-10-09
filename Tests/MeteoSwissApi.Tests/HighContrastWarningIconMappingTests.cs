@@ -1,98 +1,76 @@
+using System.Text.Json;
+
 namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.UnitTests)]
-    public class HighContrastWarningIconMappingTests
+    public partial class HighContrastWarningIconMappingTests
     {
-        [Fact]
-        public async Task ShouldGetIconAsync()
-        {
-            // Arrange
-            var highContrastWarningIconMapping = new HighContrastWarningIconMapping();
-
-            // The original source is probed directly (instead of using DefaultWarningIconMapping)
-            // so that this test also fails if MeteoSwiss adds warning icons
-            // outside the currently known warn levels.
-            const string imageApiEndpoint = "https://www.meteoschweiz.admin.ch/static/resources/warn-symbols/{0}.svg";
-            var expectedWarnLevelsWithIcons = new[] { 2, 3, 4, 5 };
-            var range = Enumerable.Range(0, 11).ToArray();
-
-            var httpClient = new HttpClient();
-
-            async Task<Stream> DownloadIconAsync(int warnLevel)
-            {
-                var response = await httpClient.GetAsync(string.Format(imageApiEndpoint, warnLevel));
-                response.EnsureSuccessStatusCode();
-                return await response.Content.ReadAsStreamAsync();
-            }
-
-            // Act
-            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, DownloadIconAsync);
-
-            // Assert
-            downloadedIcons.Select(i => i.IconId).Should().BeEquivalentTo(
-                expectedWarnLevelsWithIcons,
-                because: "the embedded high-contrast warning icons must be updated whenever MeteoSwiss adds or removes warning icons");
-
-            foreach (var (iconId, _) in downloadedIcons)
-            {
-                var stream = await highContrastWarningIconMapping.GetIconAsync(iconId);
-                stream.Should().NotBeNull();
-            }
-        }
-
         [Theory]
+        [Trait(Traits.Category, Traits.UnitTests)]
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
         [InlineData(5)]
-        public async Task ShouldGetIconAsync_ReturnsEmbeddedIcon(int warnLevel)
+        public async Task GetIconAsync_WarnLevelWithIcon_ReturnsEmbeddedIcon(int warnLevel)
         {
             // Arrange
             var highContrastWarningIconMapping = new HighContrastWarningIconMapping();
 
             // Act
-            var stream = await highContrastWarningIconMapping.GetIconAsync(warnLevel);
+            using var stream = await highContrastWarningIconMapping.GetIconAsync(WarnLevel.FromValue(warnLevel));
 
             // Assert
-            stream.Should().NotBeNull();
+            TestHelper.IsTransparentIcon(stream).Should().BeFalse();
 
-            using var streamReader = new StreamReader(stream!);
-            var content = await streamReader.ReadToEndAsync();
-            content.Should().Contain("<svg");
+            using var streamReader = new StreamReader(stream);
+            (await streamReader.ReadToEndAsync()).Should().Contain("<svg");
         }
 
         [Theory]
+        [Trait(Traits.Category, Traits.UnitTests)]
         [InlineData(0)] // WarnLevel.NoWarnLevel
         [InlineData(1)] // WarnLevel.Level1 has no warning icon
-        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfWarnLevelHasNoIcon(int warnLevel)
+        public async Task GetIconAsync_WarnLevelWithoutIcon_ReturnsTransparentIcon(int warnLevel)
         {
             // Arrange
             var highContrastWarningIconMapping = new HighContrastWarningIconMapping();
 
             // Act
-            var stream = await highContrastWarningIconMapping.GetIconAsync(warnLevel);
+            using var stream = await highContrastWarningIconMapping.GetIconAsync(WarnLevel.FromValue(warnLevel));
 
             // Assert
-            stream.Should().NotBeNull();
-
-            using var streamReader = new StreamReader(stream);
-            var content = await streamReader.ReadToEndAsync();
-            content.Should().Contain("width=\"1px\"");
-            content.Should().Contain("height=\"1px\"");
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
         }
 
         [Fact]
-        public async Task ShouldGetIconAsync_Throws_IfWarnLevelIsInvalid()
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_UnknownWarnLevel_ReturnsTransparentIcon()
         {
             // Arrange
+            // MeteoSwiss may send warn levels above 5, which have no icon.
+            var warnLevel = JsonSerializer.Deserialize<WarningsOverview>("{\"warnType\":0,\"warnLevel\":6}").WarnLevel;
             var highContrastWarningIconMapping = new HighContrastWarningIconMapping();
 
             // Act
-            // The implicit int-to-WarnLevel conversion rejects unknown warn levels.
-            Func<Task> action = () => highContrastWarningIconMapping.GetIconAsync(99);
+            using var stream = await highContrastWarningIconMapping.GetIconAsync(warnLevel);
 
             // Assert
-            await action.Should().ThrowAsync<ArgumentOutOfRangeException>();
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_Cancelled_ThrowsOperationCanceledException()
+        {
+            // Arrange
+            using var cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Cancel();
+            var highContrastWarningIconMapping = new HighContrastWarningIconMapping();
+
+            // Act
+            Func<Task> action = () => highContrastWarningIconMapping.GetIconAsync(WarnLevel.Level3, cancellationTokenSource.Token);
+
+            // Assert
+            await action.Should().ThrowAsync<OperationCanceledException>();
         }
     }
 }

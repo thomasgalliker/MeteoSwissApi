@@ -2,4 +2,4 @@
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("MeteoSwissApi.Tests")]
-[assembly: NeutralResourcesLanguage("sv")]
+[assembly: NeutralResourcesLanguage("en")]
