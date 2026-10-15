@@ -19,9 +19,7 @@ namespace MeteoSwissApi.Tests.Models.Converters
 
             // Assert
             currentWeather.Should().NotBeNull();
-#pragma warning disable CS0618 // The obsolete property stays readable until it is removed.
             currentWeather.Icon.Should().BeNull();
-#pragma warning restore CS0618
             currentWeather.IconV2.Should().Be(3);
         }
 

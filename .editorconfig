@@ -196,3 +196,6 @@ dotnet_diagnostic.CA2249.severity = none
 # CA1848/CA1873: plain logger.LogDebug(...) calls with message templates are preferred over LoggerMessage source generation;
 dotnet_diagnostic.CA1848.severity = none
 dotnet_diagnostic.CA1873.severity = none
+
+# Disables inspection of hard-coded string literals and suggests moving them to resource files.
+resharper_localizable_element_highlighting = none

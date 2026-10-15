@@ -16,7 +16,7 @@ namespace MeteoSwissApi.Models.Converters
         /// <summary>
         /// Returns the UTC date and time <paramref name="milliseconds"/> after the Unix epoch.
         /// </summary>
-        internal static DateTime ToDateTime(long milliseconds)
+        private static DateTime ToDateTime(long milliseconds)
         {
             return Epoch.AddMilliseconds(milliseconds);
         }
@@ -24,7 +24,7 @@ namespace MeteoSwissApi.Models.Converters
         /// <summary>
         /// Returns the milliseconds between the Unix epoch and <paramref name="dateTime"/>.
         /// </summary>
-        internal static long ToUnixTimeMilliseconds(DateTime dateTime)
+        private static long ToUnixTimeMilliseconds(DateTime dateTime)
         {
             var utcDateTime = dateTime.Kind == DateTimeKind.Unspecified ? DateTime.SpecifyKind(dateTime, DateTimeKind.Utc) : dateTime.ToUniversalTime();
             return (long)(utcDateTime - Epoch).TotalMilliseconds;

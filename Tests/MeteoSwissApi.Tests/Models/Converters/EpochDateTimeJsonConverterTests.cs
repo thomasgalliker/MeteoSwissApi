@@ -50,21 +50,6 @@ namespace MeteoSwissApi.Tests.Models.Converters
             json.Should().Be("1784477400000");
         }
 
-        [Fact]
-        public void Read_ObsoletePublicConverter_ReturnsSameDateTime()
-        {
-            // Arrange
-#pragma warning disable CS0618 // The public converter stays until it is removed; it must keep working meanwhile.
-            var options = CreateOptions(new EpochDateTimeConverter());
-#pragma warning restore CS0618
-
-            // Act
-            var timestamp = JsonSerializer.Deserialize<DateTime>(Milliseconds.ToString(CultureInfo.InvariantCulture), options);
-
-            // Assert
-            timestamp.Should().Be(ExpectedTimestamp);
-        }
-
         private static JsonSerializerOptions CreateOptions(System.Text.Json.Serialization.JsonConverter converter)
         {
             return new JsonSerializerOptions { Converters = { converter } };

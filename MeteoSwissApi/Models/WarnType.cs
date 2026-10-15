@@ -171,24 +171,6 @@
             return this.ToString(null, null);
         }
 
-        [Obsolete("The text of a warn level does not depend on the warn type. Use WarnLevel.ToString() instead.")]
-        public string ToString(WarnLevel warnLevel)
-        {
-            return warnLevel.ToString(null, null);
-        }
-
-        [Obsolete("The text of a warn level does not depend on the warn type. Use WarnLevel.ToString(string, IFormatProvider) instead.")]
-        public string ToString(WarnLevel warnLevel, IFormatProvider? formatProvider)
-        {
-            return warnLevel.ToString(null, formatProvider);
-        }
-
-        [Obsolete("The text of a warn level does not depend on the warn type. Use WarnLevel.ToString(string, IFormatProvider) instead.")]
-        public string ToString(string? format, WarnLevel warnLevel, IFormatProvider? formatProvider)
-        {
-            return warnLevel.ToString(format, formatProvider);
-        }
-
         public string ToString(string? format)
         {
             return this.ToString(format, null);

@@ -8,12 +8,6 @@ namespace MeteoSwissApi
         private static readonly Uri SlfApiEndpoint = new Uri("https://public-meas-data-v2.slf.ch", UriKind.Absolute);
         private static readonly Uri WhiteRiskApiEndpoint = new Uri("https://whiterisk.ch", UriKind.Absolute);
 
-        [Obsolete("PlzMinLength is not used by SlfDataService and will be removed in a future version.")]
-        public const int PlzMinLength = 4;
-
-        [Obsolete("PlzPaddingLength is not used by SlfDataService and will be removed in a future version.")]
-        public const int PlzPaddingLength = 6;
-
         private const string ParentPathSegment = "..";
         private const string CurrentPathSegment = ".";
 
