@@ -28,4 +28,8 @@
     <EmbeddedResource Include="Resources\ApiResponses\*.csv" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\MeteoSwissApi\MeteoSwissApi.csproj" />
+  </ItemGroup>
+
 </Project>
