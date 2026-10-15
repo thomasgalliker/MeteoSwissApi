@@ -1,6 +1,6 @@
 ﻿namespace MeteoSwissApi.Models.Converters
 {
-    internal class DecimalFractionRatioJsonConverter : RatioJsonConverter
+    internal sealed class DecimalFractionRatioJsonConverter : RatioJsonConverter
     {
         public DecimalFractionRatioJsonConverter()
             : base(RatioUnit.DecimalFraction)

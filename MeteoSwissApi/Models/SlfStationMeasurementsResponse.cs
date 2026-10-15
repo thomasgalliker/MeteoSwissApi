@@ -1,41 +1,48 @@
 namespace MeteoSwissApi.Models
 {
-    internal class SlfStationMeasurementsResponse
+    internal sealed class SlfStationMeasurementsResponse
     {
         public SlfStationMeasurementsResponse()
         {
-            this.TemperatureAir = Array.Empty<SlfStationDateTemperature>();
+            this.TemperatureAir = Array.Empty<SlfStationDateNullableTemperature>();
             this.WindVelocityMax = Array.Empty<SlfStationDateNullableSpeed>();
             this.WindVelocityMean = Array.Empty<SlfStationDateNullableSpeed>();
             this.WindDirectionMean = Array.Empty<SlfStationDateNullableAngle>();
-            this.HeightNewSnow = Array.Empty<SlfStationDateLength>();
-            this.SnowHeight = Array.Empty<SlfStationDateLength>();
-            this.TemperatureSnowSurface = Array.Empty<SlfStationDateTemperature>();
+            this.HeightNewSnow = Array.Empty<SlfStationDateNullableLength>();
+            this.SnowHeight = Array.Empty<SlfStationDateNullableLength>();
+            this.TemperatureSnowSurface = Array.Empty<SlfStationDateNullableTemperature>();
         }
 
         [JsonProperty("temperatureAir")]
-        public SlfStationDateTemperature[] TemperatureAir { get; set; }
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableTemperature>))]
+        public SlfStationDateNullableTemperature[] TemperatureAir { get; set; }
 
         /// <summary>
         /// New snow height. Note: this series uses a coarser (daily) time grid than the
         /// other series, so it only lines up with a subset of the measurement timestamps.
         /// </summary>
         [JsonProperty("heightNewSnow")]
-        public SlfStationDateLength[] HeightNewSnow { get; set; }
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableLength>))]
+        public SlfStationDateNullableLength[] HeightNewSnow { get; set; }
 
         [JsonProperty("snowHeight")]
-        public SlfStationDateLength[] SnowHeight { get; set; }
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableLength>))]
+        public SlfStationDateNullableLength[] SnowHeight { get; set; }
 
         [JsonProperty("temperatureSnowSurface")]
-        public SlfStationDateTemperature[] TemperatureSnowSurface { get; set; }
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableTemperature>))]
+        public SlfStationDateNullableTemperature[] TemperatureSnowSurface { get; set; }
 
         [JsonProperty("windVelocityMax")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableSpeed>))]
         public SlfStationDateNullableSpeed[] WindVelocityMax { get; set; }
 
         [JsonProperty("windVelocityMean")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableSpeed>))]
         public SlfStationDateNullableSpeed[] WindVelocityMean { get; set; }
 
         [JsonProperty("windDirectionMean")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<SlfStationDateNullableAngle>))]
         public SlfStationDateNullableAngle[] WindDirectionMean { get; set; }
     }
 }

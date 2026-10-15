@@ -1,66 +1,54 @@
 ﻿namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.UnitTests)]
-    public class HighContrastWeatherIconMappingTests
+    public partial class HighContrastWeatherIconMappingTests
     {
-        [Fact]
-        public async Task ShouldGetIconAsync()
+        [Theory]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        [InlineData(1)]
+        [InlineData(142)]
+        public async Task GetIconAsync_IconExists_ReturnsEmbeddedIcon(int iconId)
         {
             // Arrange
             var highContrastWeatherIconMapping = new HighContrastWeatherIconMapping();
 
-            var range = Enumerable.Range(1, 200).ToArray();
-
-            var httpClient = new HttpClient();
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
-            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, weatherIconMapping.GetIconAsync);
-
-            async Task<(int Id, Exception Exception)> TryGetHighContrastIcon((int IconId, Stream Stream) i)
-            {
-                try
-                {
-                    _ = await highContrastWeatherIconMapping.GetIconAsync(i.IconId);
-                    return (i.IconId, null);
-                }
-                catch (Exception ex)
-                {
-                    return (i.IconId, ex);
-                }
-            }
-
             // Act
-            var icons = await Task.WhenAll(downloadedIcons.Select(TryGetHighContrastIcon));
+            using var stream = await highContrastWeatherIconMapping.GetIconAsync(iconId);
 
             // Assert
-            var iconsWithExceptions = icons
-                .Where(c => c.Exception != null)
-                .Select(c => c.Id)
-                .ToArray();
+            TestHelper.IsTransparentIcon(stream).Should().BeFalse();
 
-            iconsWithExceptions.Length.Should().Be(
-                expected: 0,
-                because: $"Following high-contrast icons are missing: " +
-                $"[{string.Join(", ", iconsWithExceptions)}]");
+            using var streamReader = new StreamReader(stream);
+            (await streamReader.ReadToEndAsync()).Should().Contain("<svg");
         }
 
         [Fact]
-        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfNoDataIconIdIsRequested()
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_IconDoesNotExist_ReturnsTransparentIcon()
         {
             // Arrange
-            const int iconId = 32767; // 'No data' sentinel value returned by the MeteoSwiss API
-
             var highContrastWeatherIconMapping = new HighContrastWeatherIconMapping();
 
             // Act
-            var stream = await highContrastWeatherIconMapping.GetIconAsync(iconId);
+            using var stream = await highContrastWeatherIconMapping.GetIconAsync(999);
 
             // Assert
-            stream.Should().NotBeNull();
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
+        }
 
-            using var streamReader = new StreamReader(stream);
-            var content = streamReader.ReadToEnd();
-            content.Should().Contain("width=\"1px\"");
-            content.Should().Contain("height=\"1px\"");
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_Cancelled_ThrowsOperationCanceledException()
+        {
+            // Arrange
+            using var cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Cancel();
+            var highContrastWeatherIconMapping = new HighContrastWeatherIconMapping();
+
+            // Act
+            Func<Task> action = () => highContrastWeatherIconMapping.GetIconAsync(1, cancellationTokenSource.Token);
+
+            // Assert
+            await action.Should().ThrowAsync<OperationCanceledException>();
         }
     }
 }

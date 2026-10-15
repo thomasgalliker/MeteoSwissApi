@@ -6,9 +6,9 @@ namespace MeteoSwissApi.Models.Converters
     /// <summary>
     /// Reads a weather icon identifier and maps the MeteoSwiss "no data" sentinel
     /// (<c>32767</c> = <see cref="short.MaxValue"/>) to <c>null</c> instead of returning it
-    /// as a valid icon id.
+    /// as a valid icon id. A JSON <c>null</c> and anything that is no integer are <c>null</c> too.
     /// </summary>
-    internal class NullableIconJsonConverter : JsonConverter<int?>
+    internal sealed class NullableIconJsonConverter : JsonConverter<int?>
     {
         /// <summary>
         /// MeteoSwiss encodes missing/unavailable values as 32767 (0x7FFF) in the JSON API
@@ -18,16 +18,9 @@ namespace MeteoSwissApi.Models.Converters
 
         public override int? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Number)
+            if (reader.TokenType == JsonTokenType.Number && reader.TryGetInt32(out var iconId))
             {
-                if (reader.TryGetInt32(out var intValue))
-                {
-                    return intValue == NoDataValue ? null : intValue;
-                }
-
-                // Fallback for numbers that are not exact int32 (e.g. "32767.0").
-                var doubleValue = reader.GetDouble();
-                return Math.Abs(doubleValue) >= NoDataValue ? null : (int?)(int)doubleValue;
+                return iconId == NoDataValue ? null : iconId;
             }
 
             return null;

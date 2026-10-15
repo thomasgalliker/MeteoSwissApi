@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using MeteoSwissApi.Extensions;
@@ -36,13 +37,14 @@ namespace MeteoSwissApi.ConsoleSample
                 DumpStyle = DumpStyle.Console,
                 ExcludeProperties = { "Graph" },
             };
-            dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => t.ToString());
-            dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(l => l.ToString());
-            dumpOptions.CustomInstanceFormatters.AddFormatter<RelativeHumidity>(l => l.ToString());
-            dumpOptions.CustomInstanceFormatters.AddFormatter<Duration>(l => l.ToString());
-            dumpOptions.CustomInstanceFormatters.AddFormatter<Speed>(l => l.ToString());
-            dumpOptions.CustomInstanceFormatters.AddFormatter<Pressure>(l => l.ToString());
-            dumpOptions.CustomInstanceFormatters.AddFormatter<Angle>(l => l.ToString());
+            var culture = CultureInfo.CurrentCulture;
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Temperature>(t => t.ToString(culture));
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Length>(l => l.ToString(culture));
+            dumpOptions.CustomInstanceFormatters.AddFormatter<RelativeHumidity>(l => l.ToString(culture));
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Duration>(l => l.ToString(culture));
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Speed>(l => l.ToString(culture));
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Pressure>(l => l.ToString(culture));
+            dumpOptions.CustomInstanceFormatters.AddFormatter<Angle>(l => l.ToString(culture));
 
             var options = new MeteoSwissApiOptions
             {
@@ -88,7 +90,7 @@ namespace MeteoSwissApi.ConsoleSample
                 Console.WriteLine();
 
                 var measurements = await swissMetNetService.GetLatestMeasurementsAsync(cacheExpiration: TimeSpan.FromMinutes(20));
-                Console.WriteLine($"measurements={measurements.Count()}");
+                Console.WriteLine($"measurements={measurements.Count}");
                 Console.WriteLine();
             }
             {

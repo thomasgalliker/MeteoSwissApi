@@ -11,4 +11,3 @@ namespace MeteoSwissApi.Models
         public Angle Bearing { get; set; }
     }
 }
-

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace MeteoSwissApi.Models.Converters
 {
-    internal class SlfStationTypeJsonConverter : JsonConverter<SlfStationType>
+    internal sealed class SlfStationTypeJsonConverter : JsonConverter<SlfStationType>
     {
         public override SlfStationType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
@@ -17,7 +17,7 @@ namespace MeteoSwissApi.Models.Converters
                 return new SlfStationType(reader.GetString()!);
             }
 
-            throw new NotSupportedException($"Cannot convert from {reader.TokenType} to {nameof(SlfStationType)}");
+            throw new JsonException($"Cannot convert from {reader.TokenType} to {nameof(SlfStationType)}.");
         }
 
         public override void Write(Utf8JsonWriter writer, SlfStationType value, JsonSerializerOptions options)

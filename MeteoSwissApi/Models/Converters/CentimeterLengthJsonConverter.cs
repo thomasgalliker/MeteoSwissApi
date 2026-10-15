@@ -1,6 +1,6 @@
 ﻿namespace MeteoSwissApi.Models.Converters
 {
-    internal class CentimeterLengthJsonConverter : LengthJsonConverter
+    internal sealed class CentimeterLengthJsonConverter : LengthJsonConverter
     {
         public CentimeterLengthJsonConverter()
             : base(LengthUnit.Centimeter)

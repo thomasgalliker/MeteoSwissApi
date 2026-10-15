@@ -15,7 +15,10 @@
         private Speed? speed;
         private double course = double.NaN;
 
-        public static readonly GeoCoordinate Unknown = new GeoCoordinate();
+        /// <summary>
+        /// A coordinate without latitude and longitude. Every access returns a new instance, so a caller cannot change it for others.
+        /// </summary>
+        public static GeoCoordinate Unknown => new GeoCoordinate();
 
         public GeoCoordinate()
         {
@@ -53,9 +56,9 @@
             }
             set
             {
-                if (value is > 90.0 or < (-90.0))
+                if (!IsValidLatitude(value))
                 {
-                    throw new ArgumentOutOfRangeException("Latitude", "The value of the parameter must be from -90.0 to 90.0.");
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "The latitude must be from -90.0 to 90.0.");
                 }
                 this.latitude = value;
             }
@@ -69,12 +72,28 @@
             }
             set
             {
-                if (value is > 180.0 or < (-180.0))
+                if (!IsValidLongitude(value))
                 {
-                    throw new ArgumentOutOfRangeException("Longitude", "The value of the parameter must be from -180.0 to 180.0.");
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "The longitude must be from -180.0 to 180.0.");
                 }
                 this.longitude = value;
             }
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if <paramref name="latitude"/> is between -90 and 90, or <see cref="double.NaN"/> for unknown.
+        /// </summary>
+        internal static bool IsValidLatitude(double latitude)
+        {
+            return !(latitude is > 90.0 or < (-90.0));
+        }
+
+        /// <summary>
+        /// Returns <c>true</c> if <paramref name="longitude"/> is between -180 and 180, or <see cref="double.NaN"/> for unknown.
+        /// </summary>
+        internal static bool IsValidLongitude(double longitude)
+        {
+            return !(longitude is > 180.0 or < (-180.0));
         }
 
         public Length? Altitude { get; set; }
@@ -89,7 +108,7 @@
             {
                 if (value < 0.0)
                 {
-                    throw new ArgumentOutOfRangeException("HorizontalAccuracy", "The value of the parameter must be greater than or equal to zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "The horizontal accuracy must be greater than or equal to zero.");
                 }
                 this.horizontalAccuracy = value == 0.0 ? double.NaN : value;
             }
@@ -105,7 +124,7 @@
             {
                 if (value < 0.0)
                 {
-                    throw new ArgumentOutOfRangeException("VerticalAccuracy", "The value of the parameter must be greater than or equal to zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "The vertical accuracy must be greater than or equal to zero.");
                 }
                 this.verticalAccuracy = value == 0.0 ? double.NaN : value;
             }
@@ -121,7 +140,7 @@
             {
                 if (value < UnitsNet.Speed.Zero)
                 {
-                    throw new ArgumentOutOfRangeException("speed", "The value of the parameter must be greater than or equal to zero.");
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "The speed must be greater than or equal to zero.");
                 }
                 this.speed = value;
             }
@@ -137,16 +156,29 @@
             {
                 if (value is < 0.0 or > 360.0)
                 {
-                    throw new ArgumentOutOfRangeException("course", "The value of the parameter must be from 0.0 to 360.0.");
+                    throw new ArgumentOutOfRangeException(nameof(value), value, "The course must be from 0.0 to 360.0.");
                 }
                 this.course = value;
             }
         }
 
-        public bool IsUnknown => this.Equals(Unknown);
+        /// <summary>
+        /// <c>true</c> if the coordinate has neither latitude nor longitude.
+        /// </summary>
+        public bool IsUnknown => double.IsNaN(this.latitude) && double.IsNaN(this.longitude);
 
+        /// <summary>
+        /// Returns the great-circle distance to <paramref name="other"/>.
+        /// </summary>
+        /// <exception cref="ArgumentNullException"><paramref name="other"/> is null.</exception>
+        /// <exception cref="ArgumentException">The latitude or longitude of either coordinate is not a number.</exception>
         public Length GetDistanceTo(GeoCoordinate other)
         {
+            if (other is null)
+            {
+                throw new ArgumentNullException(nameof(other));
+            }
+
             //  The Haversine formula according to Dr. Math.
             //  http://mathforum.org/library/drmath/view/51879.html
 
@@ -180,9 +212,11 @@
             var dLat = dLat2 - dLat1;
 
             // Intermediate result a.
-            var a = Math.Pow(Math.Sin(dLat / 2.0), 2.0) +
+            var sinDLat = Math.Sin(dLat / 2.0);
+            var sinDLon = Math.Sin(dLon / 2.0);
+            var a = (sinDLat * sinDLat) +
                        (Math.Cos(dLat1) * Math.Cos(dLat2) *
-                       Math.Pow(Math.Sin(dLon / 2.0), 2.0));
+                       sinDLon * sinDLon);
 
             // Intermediate result c (great circle distance in Radians).
             var c = 2.0 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1.0 - a));
@@ -209,7 +243,7 @@
         }
         public override string ToString()
         {
-            if (this == Unknown)
+            if (this.IsUnknown)
             {
                 return "Unknown";
             }

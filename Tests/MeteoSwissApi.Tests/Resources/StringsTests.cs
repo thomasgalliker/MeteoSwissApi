@@ -23,7 +23,7 @@ namespace MeteoSwissApi.Tests.Resources
 
         [Theory]
         [MemberData(nameof(ResxChecks))]
-        public void ShouldAnalyzeStringResources(IResxCheck check)
+        public void StringResources_Check_Passes(IResxCheck check)
         {
             // Arrange
             var resourcesDirectory = Path.Combine(

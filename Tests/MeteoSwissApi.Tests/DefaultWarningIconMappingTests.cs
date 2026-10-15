@@ -1,7 +1,6 @@
 namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.IntegrationTests)]
-    public class DefaultWarningIconMappingTests
+    public partial class DefaultWarningIconMappingTests
     {
         private const string IconFileExtension = "svg";
 
@@ -12,75 +11,79 @@ namespace MeteoSwissApi.Tests
             this.testHelper = new TestHelper(testOutputHelper);
         }
 
-        [Fact]
-        public async Task ShouldDownloadAllExistingIcons()
-        {
-            // Arrange
-            var range = Enumerable.Range(2, 4).ToArray();
-
-            var httpClient = new HttpClient();
-            var warningIconMapping = new DefaultWarningIconMapping(httpClient);
-
-            // Act
-            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, warnLevel => warningIconMapping.GetIconAsync(warnLevel));
-
-            // Assert
-            downloadedIcons.Should().HaveCount(range.Length);
-
-            foreach (var (IconId, Stream) in downloadedIcons)
-            {
-                this.testHelper.WriteFile(
-                    Stream,
-                    fileName: $"meteoswiss_warning_icon_{IconId}",
-                    fileExtension: IconFileExtension);
-            }
-        }
-
         [Theory]
+        [Trait(Traits.Category, Traits.UnitTests)]
         [InlineData(0)] // WarnLevel.NoWarnLevel
         [InlineData(1)] // WarnLevel.Level1 has no warning icon
-        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfWarnLevelHasNoIcon(int warnLevel)
+        public async Task GetIconAsync_WarnLevelWithoutIcon_ReturnsTransparentIconWithoutRequest(int warnLevel)
         {
             // Arrange
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-
-            var httpClient = new HttpClient(httpMessageHandlerMock.Object);
-            var warningIconMapping = new DefaultWarningIconMapping(httpClient);
+            var warningIconMapping = new DefaultWarningIconMapping(new HttpClient(httpMessageHandlerMock.Object));
 
             // Act
-            var stream = await warningIconMapping.GetIconAsync(warnLevel);
+            using var stream = await warningIconMapping.GetIconAsync(WarnLevel.FromValue(warnLevel));
 
             // Assert
-            stream.Should().NotBeNull();
-
-            using var streamReader = new StreamReader(stream);
-            var content = await streamReader.ReadToEndAsync();
-            content.Should().Contain("width=\"1px\"");
-            content.Should().Contain("height=\"1px\"");
-
-            httpMessageHandlerMock.Protected()
-                .Verify("SendAsync", Times.Never(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
+            httpMessageHandlerMock.VerifySendAsync(Times.Never());
         }
 
-        [Theory]
-        [InlineData(HttpStatusCode.NotFound)]
-        [InlineData(HttpStatusCode.InternalServerError)]
-        public async Task ShouldGetIconAsync_Throws_IfServerReturnsError(HttpStatusCode httpStatusCode)
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_IconExists_ReturnsIcon()
         {
             // Arrange
-            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-            httpMessageHandlerMock.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
+            var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(HttpStatusCode.OK, "<svg>3</svg>");
+            var warningIconMapping = new DefaultWarningIconMapping(new HttpClient(httpMessageHandlerMock.Object));
 
-            var httpClient = new HttpClient(httpMessageHandlerMock.Object);
-            var warningIconMapping = new DefaultWarningIconMapping(httpClient);
+            // Act
+            using var stream = await warningIconMapping.GetIconAsync(WarnLevel.Level3);
+
+            // Assert
+            using var streamReader = new StreamReader(stream);
+            (await streamReader.ReadToEndAsync()).Should().Be("<svg>3</svg>");
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.EndsWith("/warn-symbols/3.svg"));
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_IconDoesNotExist_ReturnsTransparentIcon()
+        {
+            // Arrange
+            var warningIconMapping = new DefaultWarningIconMapping(new HttpClient(HttpMessageHandlerMocks.Returning(HttpStatusCode.NotFound, string.Empty).Object));
+
+            // Act
+            using var stream = await warningIconMapping.GetIconAsync(WarnLevel.Level3);
+
+            // Assert
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_ServerError_ThrowsMeteoSwissApiException()
+        {
+            // Arrange
+            var warningIconMapping = new DefaultWarningIconMapping(new HttpClient(HttpMessageHandlerMocks.Returning(HttpStatusCode.InternalServerError, string.Empty).Object));
 
             // Act
             Func<Task> action = () => warningIconMapping.GetIconAsync(WarnLevel.Level3);
 
             // Assert
-            await action.Should().ThrowAsync<HttpRequestException>();
+            var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
+            exception.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
+        {
+            // Act
+            Action action = () => _ = new DefaultWarningIconMapping(null!);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>();
         }
     }
 }

@@ -22,10 +22,13 @@
         public static readonly CardinalWindDirection NNW = new CardinalWindDirection(nameof(NNW));
         public static readonly CardinalWindDirection N = new CardinalWindDirection(nameof(N));
 
-        public static readonly IEnumerable<CardinalWindDirection> All = new List<CardinalWindDirection>
+        /// <summary>
+        /// The 16 wind directions, clockwise from <see cref="NNE"/> to <see cref="N"/>.
+        /// </summary>
+        public static readonly IReadOnlyList<CardinalWindDirection> All = Array.AsReadOnly(new[]
         {
             NNE, NE, ENE, E, ESE, SE, SSE, S, SSW, SW, WSW, W, WNW, NW, NNW, N
-        };
+        });
 
         private readonly string resourceId;
 
@@ -45,7 +48,7 @@
 
         /// <inheritdoc cref="ToString(string, IFormatProvider)"/>
         /// <summary>
-        /// YYYConverts the value of the current CardinalWindDirection object to its equivalent string representation using the specified format and the formatting conventions of the current culture.
+        /// Converts the value of the current CardinalWindDirection object to its equivalent string representation using the specified format and the formatting conventions of the current culture.
         /// </summary>
         /// <param name="format">A standard format string.</param>
         /// <returns>A string representation of value of the current CardinalWindDirection object as specified by format.</returns>
@@ -75,11 +78,13 @@
         ///     </item>
         /// </list>
         /// </remarks>
-        /// <param name="provider">An object that supplies culture-specific formatting information.</param>
+        /// <param name="formatProvider">
+        /// The culture of the text. Any other <see cref="IFormatProvider"/>, or <c>null</c>, uses the current UI culture.
+        /// </param>
         /// <returns>A string representation of value of the current CardinalWindDirection object as specified by format.</returns>
-        public string ToString(string? format, IFormatProvider? provider)
+        public string ToString(string? format, IFormatProvider? formatProvider)
         {
-            var culture = provider as CultureInfo ?? CultureInfo.CurrentCulture;
+            var culture = formatProvider as CultureInfo;
 
             if (string.IsNullOrWhiteSpace(format))
             {
@@ -87,7 +92,6 @@
             }
 
             var formatSpecifier = format![0];
-
 
             switch (formatSpecifier)
             {

@@ -8,7 +8,7 @@ namespace MeteoSwissApi.Tests.Models.Converters
     public class NullableTemperatureJsonConverterTests
     {
         [Fact]
-        public void ShouldDeserializeCurrentWeather_MapsNoDataSentinelToNull()
+        public void Deserialize_CurrentWeatherWithNoDataSentinel_ReturnsNullTemperature()
         {
             // Arrange
             // Real-world payload observed when the MeteoSwiss 'currentWeather' block is frozen:
@@ -16,7 +16,7 @@ namespace MeteoSwissApi.Tests.Models.Converters
             const string json = "{\"time\":1784356800000,\"icon\":32767,\"iconV2\":3,\"temperature\":32767.0}";
 
             // Act
-            var currentWeather = JsonSerializer.Deserialize<CurrentWeather>(json, JsonSerialization.CreateOptions());
+            var currentWeather = JsonSerializer.Deserialize<CurrentWeather>(json, JsonSerialization.Default);
 
             // Assert
             currentWeather.Should().NotBeNull();
@@ -25,13 +25,13 @@ namespace MeteoSwissApi.Tests.Models.Converters
         }
 
         [Fact]
-        public void ShouldDeserializeCurrentWeather_ParsesValidTemperature()
+        public void Deserialize_CurrentWeatherWithTemperature_ReturnsTemperature()
         {
             // Arrange
             const string json = "{\"time\":1784356800000,\"icon\":3,\"iconV2\":3,\"temperature\":14.6}";
 
             // Act
-            var currentWeather = JsonSerializer.Deserialize<CurrentWeather>(json, JsonSerialization.CreateOptions());
+            var currentWeather = JsonSerializer.Deserialize<CurrentWeather>(json, JsonSerialization.Default);
 
             // Assert
             currentWeather.Should().NotBeNull();
@@ -42,10 +42,10 @@ namespace MeteoSwissApi.Tests.Models.Converters
         [InlineData("14.6", 14.6)]
         [InlineData("\"14.6\"", 14.6)]  // numeric string
         [InlineData("-0.1", -0.1)]
-        public void ShouldReadTemperature_ReturnsValue(string jsonValue, double expectedCelsius)
+        public void Read_NumberOrNumericString_ReturnsTemperature(string jsonValue, double expectedCelsius)
         {
             // Arrange
-            var options = new JsonSerializerOptions { Converters = { new NullableTemperatureJsonConverter() } };
+            var options = CreateOptions();
 
             // Act
             var temperature = JsonSerializer.Deserialize<Temperature?>(jsonValue, options);
@@ -59,10 +59,10 @@ namespace MeteoSwissApi.Tests.Models.Converters
         [InlineData("32767.0")]  // sentinel sent as a non-integer number
         [InlineData("-32768")]   // magnitude at/above the sentinel
         [InlineData("null")]
-        public void ShouldReadTemperature_ReturnsNull(string jsonValue)
+        public void Read_MissingValue_ReturnsNull(string jsonValue)
         {
             // Arrange
-            var options = new JsonSerializerOptions { Converters = { new NullableTemperatureJsonConverter() } };
+            var options = CreateOptions();
 
             // Act
             var temperature = JsonSerializer.Deserialize<Temperature?>(jsonValue, options);
@@ -72,29 +72,34 @@ namespace MeteoSwissApi.Tests.Models.Converters
         }
 
         [Fact]
-        public void ShouldWriteTemperature_AsInvariantString()
+        public void Write_Temperature_WritesCelsiusAsNumber()
         {
             // Arrange
-            var options = new JsonSerializerOptions { Converters = { new NullableTemperatureJsonConverter() } };
+            var options = CreateOptions();
 
             // Act
             var json = JsonSerializer.Serialize<Temperature?>(Temperature.FromDegreesCelsius(14.6), options);
 
             // Assert
-            json.Should().Be("\"14.6\"");
+            json.Should().Be("14.6");
         }
 
         [Fact]
-        public void ShouldWriteNull_ForMissingTemperature()
+        public void Write_Null_WritesNull()
         {
             // Arrange
-            var options = new JsonSerializerOptions { Converters = { new NullableTemperatureJsonConverter() } };
+            var options = CreateOptions();
 
             // Act
             var json = JsonSerializer.Serialize<Temperature?>(null, options);
 
             // Assert
             json.Should().Be("null");
+        }
+
+        private static JsonSerializerOptions CreateOptions()
+        {
+            return new JsonSerializerOptions { Converters = { new NullableTemperatureJsonConverter() } };
         }
     }
 }

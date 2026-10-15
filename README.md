@@ -34,6 +34,37 @@ Request weather information for any Swiss zip code (plz):
 var weatherInfo = await weatherService.GetCurrentWeatherAsync(plz: 6330);
 ```
 
+#### Dependency injection
+
+`AddMeteoSwissApi` registers `IMeteoSwissWeatherService`, `ISwissMetNetService` and `ISlfDataService` as singletons. The
+options can be set in code or bound to a configuration section:
+
+```C#
+services.AddMeteoSwissApi(o =>
+{
+    o.Language = "de";
+    o.SwissMetNet.CacheExpiration = TimeSpan.FromMinutes(20);
+});
+
+// or, with the section "MeteoSwissApi" of appsettings.json:
+services.AddMeteoSwissApi(configuration.GetSection("MeteoSwissApi"));
+```
+
+```json
+{
+  "MeteoSwissApi": {
+    "Language": "de",
+    "VerboseLogging": false,
+    "SwissMetNet": {
+      "CacheExpiration": "00:20:00"
+    }
+  }
+}
+```
+
+`Language` must be one of `de`, `fr`, `it` or `en`, the languages the MeteoSwiss API serves. Invalid options fail when a
+service is first resolved.
+
 #### Download icons
 
 `IMeteoSwissWeatherService` provides methods to download icons as SVG image streams. Each method returns the icon
@@ -41,13 +72,16 @@ stream. If no real icon exists for the given identifier, a transparent 1x1 icon 
 
 | Method                                               | Description                                                                                                  |
 |------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| `GetWeatherIconAsync(iconId, weatherIconMapping)`    | Returns the weather icon for the given icon id, e.g. `weatherInfo.CurrentWeather.IconV2`.                    |
+| `GetWeatherIconAsync(iconId, weatherIconMapping)`    | Returns the weather icon for the given icon id, e.g. `weatherInfo.CurrentWeather.IconV2`, which is `null` when MeteoSwiss reports no icon. |
 | `GetWarningIconAsync(warnLevel, warningIconMapping)` | Returns the warning icon for the given warn level. MeteoSwiss provides warning icons for warn levels 2 to 5; lower warn levels return a transparent 1x1 icon. |
 
-Download the weather icon which illustrates the current weather condition:
+Download the weather icon which illustrates the current weather condition, if MeteoSwiss reports one:
 
 ```C#
-var weatherIconStream = await weatherService.GetWeatherIconAsync(weatherInfo.CurrentWeather.IconV2);
+if (weatherInfo.CurrentWeather.IconV2 is int iconId)
+{
+    var weatherIconStream = await weatherService.GetWeatherIconAsync(iconId);
+}
 ```
 
 Weather icons are resolved via `IWeatherIconMapping`. By default, `DefaultWeatherIconMapping` downloads the original
@@ -55,7 +89,7 @@ weather icons from MeteoSwiss. Alternatively, `HighContrastWeatherIconMapping` s
 embedded in this library. You can also provide your own `IWeatherIconMapping` implementation:
 
 ```C#
-var weatherIconStream = await weatherService.GetWeatherIconAsync(weatherInfo.CurrentWeather.IconV2, new HighContrastWeatherIconMapping());
+var weatherIconStream = await weatherService.GetWeatherIconAsync(iconId, new HighContrastWeatherIconMapping());
 ```
 
 Weather warnings (`weatherInfo.Warnings`, `weatherInfo.WarningsOverview`) report a warn level between 1 and 5. For warn

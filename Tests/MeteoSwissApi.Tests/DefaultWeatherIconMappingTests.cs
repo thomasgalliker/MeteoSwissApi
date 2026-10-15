@@ -1,7 +1,6 @@
 ﻿namespace MeteoSwissApi.Tests
 {
-    [Trait(Traits.Category, Traits.IntegrationTests)]
-    public class DefaultWeatherIconMappingTests
+    public partial class DefaultWeatherIconMappingTests
     {
         private const string IconFileExtension = "svg";
 
@@ -13,70 +12,95 @@
         }
 
         [Fact]
-        public async Task ShouldDownloadAllExistingIcons()
-        {
-            // Arrange
-            var range = Enumerable.Range(1, 200).ToArray();
-
-            var httpClient = new HttpClient();
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
-
-            // Act
-            var downloadedIcons = await TestHelper.TryGetIconsAsync(range, weatherIconMapping.GetIconAsync);
-
-            // Assert
-            foreach (var (iconId, stream) in downloadedIcons)
-            {
-                this.testHelper.WriteFile(
-                    stream,
-                    fileName: $"meteoswiss_icon_{iconId:000}",
-                    fileExtension: IconFileExtension);
-            }
-        }
-
-        [Fact]
-        public async Task ShouldGetIconAsync_ReturnsTransparentIcon_IfNoDataIconIdIsRequested()
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_NoDataIconId_ReturnsTransparentIconWithoutRequest()
         {
             // Arrange
             const int iconId = 32767; // 'No data' sentinel value returned by the MeteoSwiss API
 
             var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-
-            var httpClient = new HttpClient(httpMessageHandlerMock.Object);
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
+            var weatherIconMapping = new DefaultWeatherIconMapping(new HttpClient(httpMessageHandlerMock.Object));
 
             // Act
-            var stream = await weatherIconMapping.GetIconAsync(iconId);
+            using var stream = await weatherIconMapping.GetIconAsync(iconId);
 
             // Assert
-            stream.Should().NotBeNull();
-
-            using var streamReader = new StreamReader(stream);
-            var content = await streamReader.ReadToEndAsync();
-            content.Should().Contain("width=\"1px\"");
-            content.Should().Contain("height=\"1px\"");
-
-            httpMessageHandlerMock.Protected()
-                .Verify("SendAsync", Times.Never(), ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>());
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
+            httpMessageHandlerMock.VerifySendAsync(Times.Never());
         }
 
         [Fact]
-        public async Task ShouldGetIconAsync_Throws_IfServerReturnsError()
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_IconExists_ReturnsIcon()
         {
             // Arrange
-            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
-            httpMessageHandlerMock.Protected()
-                .Setup<Task<HttpResponseMessage>>("SendAsync", ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-                .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.InternalServerError));
+            var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(HttpStatusCode.OK, "<svg>1</svg>");
+            var weatherIconMapping = new DefaultWeatherIconMapping(new HttpClient(httpMessageHandlerMock.Object));
 
-            var httpClient = new HttpClient(httpMessageHandlerMock.Object);
-            var weatherIconMapping = new DefaultWeatherIconMapping(httpClient);
+            // Act
+            using var stream = await weatherIconMapping.GetIconAsync(1);
+
+            // Assert
+            using var streamReader = new StreamReader(stream);
+            (await streamReader.ReadToEndAsync()).Should().Be("<svg>1</svg>");
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.EndsWith("/weather-symbols/1.svg"));
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_IconDoesNotExist_ReturnsTransparentIcon()
+        {
+            // Arrange
+            var weatherIconMapping = new DefaultWeatherIconMapping(new HttpClient(HttpMessageHandlerMocks.Returning(HttpStatusCode.NotFound, string.Empty).Object));
+
+            // Act
+            using var stream = await weatherIconMapping.GetIconAsync(999);
+
+            // Assert
+            TestHelper.IsTransparentIcon(stream).Should().BeTrue();
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_ServerError_ThrowsMeteoSwissApiException()
+        {
+            // Arrange
+            var weatherIconMapping = new DefaultWeatherIconMapping(new HttpClient(HttpMessageHandlerMocks.Returning(HttpStatusCode.InternalServerError, string.Empty).Object));
 
             // Act
             Func<Task> action = () => weatherIconMapping.GetIconAsync(1);
 
             // Assert
-            await action.Should().ThrowAsync<HttpRequestException>();
+            var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
+            exception.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public async Task GetIconAsync_Cancelled_ThrowsOperationCanceledException()
+        {
+            // Arrange
+            using var cancellationTokenSource = new CancellationTokenSource();
+            var weatherIconMapping = new DefaultWeatherIconMapping(new HttpClient(HttpMessageHandlerMocks.WaitingForCancellation().Object));
+
+            // Act
+            var iconTask = weatherIconMapping.GetIconAsync(1, cancellationTokenSource.Token);
+            cancellationTokenSource.Cancel();
+            Func<Task> action = () => iconTask;
+
+            // Assert
+            await action.Should().ThrowAsync<OperationCanceledException>();
+        }
+
+        [Fact]
+        [Trait(Traits.Category, Traits.UnitTests)]
+        public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
+        {
+            // Act
+            Action action = () => _ = new DefaultWeatherIconMapping(null!);
+
+            // Assert
+            action.Should().Throw<ArgumentNullException>();
         }
     }
 }

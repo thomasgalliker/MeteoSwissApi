@@ -1,25 +1,15 @@
-using System.Text.Json;
-
 namespace MeteoSwissApi.Models.Converters
 {
     /// <summary>
-    /// Reads/writes a <see cref="Temperature"/> using the MeteoSwiss wire format
-    /// (a JSON number or an invariant-culture numeric string). Unlike
-    /// <see cref="NullableTemperatureJsonConverter"/>, this converter does not treat the
+    /// Reads and writes a <see cref="Temperature"/> in degrees Celsius, the unit of the MeteoSwiss and SLF APIs.
+    /// Unlike <see cref="NullableTemperatureJsonConverter"/>, this converter does not treat the
     /// MeteoSwiss "no data" sentinel (32767) specially.
     /// </summary>
-    internal class TemperatureJsonConverter : TemperatureJsonConverterBase<Temperature>
+    internal sealed class TemperatureJsonConverter : QuantityJsonConverter<Temperature>
     {
-        public override Temperature Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public TemperatureJsonConverter()
+            : base(value => Temperature.FromDegreesCelsius(value), temperature => temperature.DegreesCelsius)
         {
-            return TryReadDegreesCelsius(ref reader, out var celsius)
-                ? Temperature.FromDegreesCelsius(celsius)
-                : default;
-        }
-
-        public override void Write(Utf8JsonWriter writer, Temperature value, JsonSerializerOptions options)
-        {
-            WriteTemperature(writer, value);
         }
     }
 }

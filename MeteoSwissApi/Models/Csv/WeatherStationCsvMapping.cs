@@ -1,8 +1,11 @@
-﻿namespace MeteoSwissApi.Models.Csv
+﻿
+namespace MeteoSwissApi.Models.Csv
 {
-    internal class WeatherStationCsvMapping : ClassMap<WeatherStation>
+    internal sealed class WeatherStationCsvMapping : ClassMap<WeatherStation>
     {
-        internal WeatherStationCsvMapping()
+        private static readonly char[] DataOwnerSeparators = { ',' };
+
+        internal WeatherStationCsvMapping(ILogger logger)
         {
             this.Map(m => m.Place).Name("Station");
 
@@ -23,7 +26,7 @@
                     case null:
                         return WeatherStationType.Unknown;
                     default:
-                        Debug.WriteLine($"No mapping from '{stationTypeString}' to WeatherStationType found.");
+                        logger.LogDebug("No mapping from '{StationType}' to WeatherStationType found.", stationTypeString);
                         return WeatherStationType.Unknown;
                 }
             });
@@ -37,8 +40,8 @@
             {
                 var latitudeString = row.Row["Latitude"];
                 var longitudeString = row.Row["Longitude"];
-                if (double.TryParse(latitudeString, out var latitude) &&
-                    double.TryParse(longitudeString, out var longitude))
+                if (CsvValueParser.TryParseDouble(latitudeString, out var latitude) &&
+                    CsvValueParser.TryParseDouble(longitudeString, out var longitude))
                 {
                     var location = new GeoCoordinate(latitude, longitude);
                     location.Altitude = GetAltitudeLength(row, "Station height m a. sea level");
@@ -53,7 +56,10 @@
                 var dataOwnersString = row.Row["Data Owner"];
                 if (dataOwnersString is string s)
                 {
-                    return s.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                    return s.Split(DataOwnerSeparators, StringSplitOptions.RemoveEmptyEntries)
+                        .Select(dataOwner => dataOwner.Trim())
+                        .Where(dataOwner => dataOwner.Length > 0)
+                        .ToArray();
                 }
                 else
                 {
@@ -67,7 +73,7 @@
         private static Length? GetAltitudeLength(CsvHelper.ConvertFromStringArgs row, string columnTitle)
         {
             var columnValue = row.Row[columnTitle];
-            if (decimal.TryParse(columnValue, out var length))
+            if (CsvValueParser.TryParseDecimal(columnValue, out var length))
             {
                 return Length.FromMeters(length);
             }

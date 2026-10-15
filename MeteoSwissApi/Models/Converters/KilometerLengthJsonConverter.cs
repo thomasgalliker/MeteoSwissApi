@@ -1,6 +1,6 @@
 ﻿namespace MeteoSwissApi.Models.Converters
 {
-    internal class KilometerLengthJsonConverter : LengthJsonConverter
+    internal sealed class KilometerLengthJsonConverter : LengthJsonConverter
     {
         public KilometerLengthJsonConverter()
             : base(LengthUnit.Kilometer)

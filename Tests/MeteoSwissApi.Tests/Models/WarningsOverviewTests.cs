@@ -3,23 +3,25 @@
     [Trait(Traits.Category, Traits.UnitTests)]
     public class WarningsOverviewTests
     {
-        [Fact]
-        public void ShouldDoSomething_WhenCondition_ExpectedResult()
+        [Theory]
+        [InlineData("en", "WarnType=Avalanches, WarnLevel=Low")]
+        [InlineData("de", "WarnType=Lawinen, WarnLevel=Niedrig")]
+        public void ToString_AvalanchesLevel1_ReturnsTypeAndLevel(string cultureName, string expectedText)
         {
             // Arrange
-            var cultureInfo = new CultureInfo("de");
+            using var cultureScope = new CultureScope(cultureName);
 
-            var warningOverview = new WarningsOverview
+            var warningsOverview = new WarningsOverview
             {
                 WarnType = WarnType.Avalanches,
                 WarnLevel = WarnLevel.Level1,
             };
 
             // Act
-            var warnTypeAndLevel = warningOverview.WarnType.ToString(warningOverview.WarnLevel, cultureInfo);
+            var text = warningsOverview.ToString();
 
             // Assert
-            // TODO
+            text.Should().Be(expectedText);
         }
     }
 }

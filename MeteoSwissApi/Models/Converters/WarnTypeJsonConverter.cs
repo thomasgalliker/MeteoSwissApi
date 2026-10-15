@@ -3,16 +3,22 @@ using System.Text.Json.Serialization;
 
 namespace MeteoSwissApi.Models.Converters
 {
-    internal class WarnTypeJsonConverter : JsonConverter<WarnType>
+    internal sealed class WarnTypeJsonConverter : JsonConverter<WarnType>
     {
         public override WarnType Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (reader.TokenType == JsonTokenType.Number)
+            if (reader.TokenType == JsonTokenType.Null)
             {
-                return (WarnType)reader.GetInt32();
+                return default;
             }
 
-            throw new NotSupportedException($"Cannot convert from {reader.TokenType} to {nameof(WarnType)}");
+            // Values MeteoSwiss adds later are kept instead of failing the whole response.
+            if (reader.TokenType == JsonTokenType.Number && reader.TryGetInt32(out var value))
+            {
+                return WarnType.FromValueOrUnknown(value);
+            }
+
+            throw new JsonException($"Cannot convert {reader.TokenType} to {nameof(WarnType)}.");
         }
 
         public override void Write(Utf8JsonWriter writer, WarnType value, JsonSerializerOptions options)

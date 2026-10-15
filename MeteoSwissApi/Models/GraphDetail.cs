@@ -35,12 +35,18 @@ namespace MeteoSwissApi.Models
             this.PrecipitationProbability3h = Array.Empty<Ratio>();
         }
 
+        /// <summary>
+        /// The time of the first value of the hourly and ten-minute arrays, in UTC. MeteoSwiss starts the graph at Swiss midnight.
+        /// </summary>
         [JsonProperty("start")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        [JsonConverter(typeof(EpochDateTimeJsonConverter))]
         public DateTime Start { get; set; }
 
+        /// <summary>
+        /// The time of the first value of the 3-hour arrays, in UTC.
+        /// </summary>
         [JsonProperty("startLowResolution")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        [JsonConverter(typeof(EpochDateTimeJsonConverter))]
         public DateTime StartLowResolution { get; set; }
 
         [JsonProperty("temperatureMin1h")]
@@ -58,9 +64,11 @@ namespace MeteoSwissApi.Models
         [Obsolete("Use WeatherIcon3hV2")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("weatherIcon3h")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<int>))]
         public int[] WeatherIcon3h { get; set; }
 
         [JsonProperty("weatherIcon3hV2")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<int>))]
         public int[] WeatherIcon3hV2 { get; set; }
 
         [JsonProperty("windDirection3h")]
@@ -70,23 +78,23 @@ namespace MeteoSwissApi.Models
         [JsonProperty("windSpeed1h")]
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] WindSpeed1h { get; set; }
-        
+
         [JsonProperty("windSpeed1hq10")]
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] WindSpeed1hQ10 { get; set; }
-        
+
         [JsonProperty("windSpeed1hq90")]
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] WindSpeed1hQ90 { get; set; }
-        
+
         [JsonProperty("windSpeed3h")]
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] WindSpeed3h { get; set; }
-        
+
         [JsonProperty("gustSpeed1h")]
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] GustSpeed1h { get; set; }
-        
+
         [JsonProperty("gustSpeed1hq10")]
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] GustSpeed1hQ10 { get; set; }
@@ -95,10 +103,16 @@ namespace MeteoSwissApi.Models
         [JsonConverter(typeof(WindSpeedArrayJsonConverter))]
         public Speed[] GustSpeed1hQ90 { get; set; }
 
+        /// <summary>
+        /// The time of sunrise of each day, in UTC.
+        /// </summary>
         [JsonProperty("sunrise")]
         [JsonConverter(typeof(EpochDateTimeArrayJsonConverter))]
         public DateTime[] Sunrise { get; set; }
 
+        /// <summary>
+        /// The time of sunset of each day, in UTC.
+        /// </summary>
         [JsonProperty("sunset")]
         [JsonConverter(typeof(EpochDateTimeArrayJsonConverter))]
         public DateTime[] Sunset { get; set; }
@@ -106,7 +120,7 @@ namespace MeteoSwissApi.Models
         [JsonProperty("sunshine1h")]
         [JsonConverter(typeof(MinuteDurationArrayJsonConverter))]
         public Duration[] Sunshine1h { get; set; }
-        
+
         [JsonProperty("precipitation10m")]
         [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
         public Length[] Precipitation10m { get; set; }
@@ -130,7 +144,7 @@ namespace MeteoSwissApi.Models
         [JsonProperty("precipitationMax1h")]
         [JsonConverter(typeof(MillimeterLengthArrayJsonConverter))]
         public Length[] PrecipitationMax1h { get; set; }
-        
+
         [JsonProperty("precipitationProbability3h")]
         [JsonConverter(typeof(PercentRatioArrayJsonConverter))]
         public Ratio[] PrecipitationProbability3h { get; set; }
@@ -141,4 +155,3 @@ namespace MeteoSwissApi.Models
         }
     }
 }
-

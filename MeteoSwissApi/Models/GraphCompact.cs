@@ -15,8 +15,11 @@ namespace MeteoSwissApi.Models
             this.PrecipitationMean1h = Array.Empty<Length>();
         }
 
+        /// <summary>
+        /// The time of the first value of the arrays, in UTC. MeteoSwiss starts the graph at Swiss midnight.
+        /// </summary>
         [JsonProperty("start")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        [JsonConverter(typeof(EpochDateTimeJsonConverter))]
         public DateTime Start { get; set; }
 
         [JsonProperty("temperatureMin1h")]
@@ -61,4 +64,3 @@ namespace MeteoSwissApi.Models
         }
     }
 }
-

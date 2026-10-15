@@ -1,13 +1,13 @@
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace MeteoSwissApi.Models.Converters
 {
     /// <summary>
-    /// Reads a temperature value from JSON and maps the MeteoSwiss "no data" sentinel
-    /// (<c>32767</c> = <see cref="short.MaxValue"/>) to <c>null</c> instead of returning it
-    /// as a valid temperature.
+    /// Reads a temperature in degrees Celsius from a JSON number or an invariant-culture numeric string and maps
+    /// missing values (JSON <c>null</c>, unreadable values and the MeteoSwiss "no data" value 32767) to <c>null</c>.
     /// </summary>
-    internal class NullableTemperatureJsonConverter : TemperatureJsonConverterBase<Temperature?>
+    internal sealed class NullableTemperatureJsonConverter : JsonConverter<Temperature?>
     {
         /// <summary>
         /// MeteoSwiss encodes missing/unavailable measurements as 32767 (0x7FFF)
@@ -17,7 +17,7 @@ namespace MeteoSwissApi.Models.Converters
 
         public override Temperature? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            if (TryReadDegreesCelsius(ref reader, out var celsius) && Math.Abs(celsius) < NoDataValue)
+            if (JsonNumberReader.TryReadDouble(ref reader, out var celsius) && Math.Abs(celsius) < NoDataValue)
             {
                 return Temperature.FromDegreesCelsius(celsius);
             }
@@ -29,7 +29,7 @@ namespace MeteoSwissApi.Models.Converters
         {
             if (value is Temperature temperature)
             {
-                WriteTemperature(writer, temperature);
+                writer.WriteNumberValue(temperature.DegreesCelsius);
             }
             else
             {

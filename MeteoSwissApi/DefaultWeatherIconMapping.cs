@@ -1,8 +1,10 @@
-﻿namespace MeteoSwissApi
+﻿using System.Net;
+
+namespace MeteoSwissApi
 {
-    public class DefaultWeatherIconMapping : IWeatherIconMapping
+    public sealed class DefaultWeatherIconMapping : IWeatherIconMapping
     {
-        private const string ImageApiEndpoint = "https://www.meteoschweiz.admin.ch/static/resources/weather-symbols/{0}.svg";
+        private const string ImageApiEndpoint = "https://www.meteoschweiz.admin.ch/static/resources/weather-symbols/";
 
         /// <summary>
         /// MeteoSwiss encodes missing/unavailable values as 32767 (0x7FFF) in the JSON API.
@@ -12,25 +14,31 @@
 
         private readonly HttpClient httpClient;
 
+        /// <exception cref="ArgumentNullException"><paramref name="httpClient"/> is null.</exception>
         public DefaultWeatherIconMapping(HttpClient httpClient)
         {
-            this.httpClient = httpClient;
+            this.httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         }
 
-        public async Task<Stream> GetIconAsync(int iconId)
+        public async Task<Stream> GetIconAsync(int iconId, CancellationToken cancellationToken = default)
         {
             if (iconId == NoDataIconId)
             {
                 return EmbeddedIcons.GetTransparentIcon();
             }
 
-            var iconUrl = string.Format(ImageApiEndpoint, iconId);
+            var iconUri = new Uri(FormattableString.Invariant($"{ImageApiEndpoint}{iconId}.svg"), UriKind.Absolute);
 
-            var response = await this.httpClient.GetAsync(iconUrl);
-            response.EnsureSuccessStatusCode();
-
-            var responseStream = await response.Content.ReadAsStreamAsync();
-            return responseStream;
+            try
+            {
+                var iconBytes = await this.httpClient.GetBytesOrThrowAsync(iconUri, null, cancellationToken).ConfigureAwait(false);
+                return new MemoryStream(iconBytes, writable: false);
+            }
+            catch (MeteoSwissApiException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+            {
+                // MeteoSwiss has no icon for this icon id.
+                return EmbeddedIcons.GetTransparentIcon();
+            }
         }
     }
 }

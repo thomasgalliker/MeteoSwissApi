@@ -5,8 +5,11 @@ namespace MeteoSwissApi.Models
         [JsonProperty("plz")]
         public int Plz { get; set; }
 
+        /// <summary>
+        /// The first month of the graph, in UTC.
+        /// </summary>
         [JsonProperty("start")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        [JsonConverter(typeof(EpochDateTimeJsonConverter))]
         public DateTime Start { get; set; }
 
         [JsonProperty("temperatureGraphValues")]
@@ -28,7 +31,7 @@ namespace MeteoSwissApi.Models
         {
             this.Absolute = Array.Empty<Temperature>();
             this.Normal = Array.Empty<Temperature>();
-            this.Deviation = Array.Empty<Temperature>();
+            this.Deviation = Array.Empty<TemperatureDelta>();
         }
 
         /// <summary>
@@ -50,11 +53,15 @@ namespace MeteoSwissApi.Models
         public Temperature[] Normal { get; set; }
 
         /// <summary>
-        /// Monthly temperature deviations, last 24 months.
+        /// Monthly temperature deviations from the climate normal, last 24 months.
         /// </summary>
+        /// <remarks>
+        /// A deviation is a temperature difference, so it is a <see cref="TemperatureDelta"/>:
+        /// +1.5 °C means 1.5 K warmer than <see cref="Normal"/>.
+        /// </remarks>
         [JsonProperty("abweichung")]
-        [JsonConverter(typeof(TemperatureArrayJsonConverter))]
-        public Temperature[] Deviation { get; set; }
+        [JsonConverter(typeof(TemperatureDeltaArrayJsonConverter))]
+        public TemperatureDelta[] Deviation { get; set; }
     }
 
     public class SunshineGraphValues

@@ -50,7 +50,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: 'env | sort'
-   
+
 - task: Assembly-Info-NetCore@3
   displayName: 'Update Assembly Info'
   inputs:
@@ -73,9 +73,11 @@ steps:
     DisableTelemetry: true
 
 - task: UseDotNet@2
-  displayName: 'Use .NET 10.0.x'
+  displayName: 'Use .NET SDK from global.json'
   inputs:
-    version: 10.0.x
+    packageType: 'sdk'
+    useGlobalJson: true
+    workingDirectory: '$(Build.SourcesDirectory)'
 
 - task: NuGetToolInstaller@0
   displayName: 'Use NuGet 6.x'
@@ -147,13 +149,13 @@ steps:
       **\bin\*.snupkg
       **\ReleaseNotes.txt
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
-     
+
 - task: PublishCodeCoverageResults@2
   displayName: 'Publish Code Coverage Results'
   inputs:
     summaryFileLocation: '$(Build.SourcesDirectory)/TestResults/**/coverage.cobertura.xml'
     pathToSources: '$(Build.SourcesDirectory)'
     failIfCoverageEmpty: true
-    
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'

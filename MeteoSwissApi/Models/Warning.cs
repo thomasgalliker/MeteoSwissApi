@@ -18,12 +18,18 @@ namespace MeteoSwissApi.Models
         [JsonProperty("text")]
         public string Text { get; set; } = null!;
 
+        /// <summary>
+        /// The start of the validity, in UTC.
+        /// </summary>
         [JsonProperty("validFrom")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        [JsonConverter(typeof(EpochDateTimeJsonConverter))]
         public DateTime ValidFrom { get; set; }
 
+        /// <summary>
+        /// The end of the validity, in UTC, or <c>null</c> if the warning has no end yet.
+        /// </summary>
         [JsonProperty("validTo")]
-        [JsonConverter(typeof(EpochDateTimeConverter))]
+        [JsonConverter(typeof(EpochDateTimeJsonConverter))]
         public DateTime? ValidTo { get; set; }
 
         [JsonProperty("ordering")]
@@ -39,12 +45,13 @@ namespace MeteoSwissApi.Models
         public bool Outlook { get; set; }
 
         [JsonProperty("links")]
+        [JsonConverter(typeof(EmptyArrayJsonConverter<Link>))]
         public Link[] Links { get; set; }
 
         public override string ToString()
         {
             return
-                $"WarnType={this.WarnType}, WarnLevel={this.WarnType.ToString(this.WarnLevel)}, " +
+                $"WarnType={this.WarnType}, WarnLevel={this.WarnLevel}, " +
                 $"Validity={this.ValidFrom}{(this.ValidTo is DateTime validTo ? $"-{validTo}" : "")} {(this.Text is string text ? $" ({text})" : "")}";
         }
     }

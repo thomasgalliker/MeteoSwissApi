@@ -2,8 +2,11 @@ namespace MeteoSwissApi.Models
 {
     public class Forecast
     {
-        private int iconDayV2;
+        private int? iconDayV2;
 
+        /// <summary>
+        /// The day of the forecast as calendar date: midnight, <see cref="DateTimeKind.Unspecified"/>, no time zone.
+        /// </summary>
         [JsonProperty("dayDate")]
         [JsonConverter(typeof(DateTimeStringJsonConverter))]
         public DateTime DayDate { get; set; }
@@ -11,16 +14,18 @@ namespace MeteoSwissApi.Models
         [Obsolete("Use IconDayV2")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         [JsonProperty("iconDay")]
-        public int IconDay { get; set; }
+        [JsonConverter(typeof(NullableIconJsonConverter))]
+        public int? IconDay { get; set; }
 
         [JsonProperty("iconDayV2")]
-        public int IconDayV2
+        [JsonConverter(typeof(NullableIconJsonConverter))]
+        public int? IconDayV2
         {
             get => this.iconDayV2;
             set
             {
                 this.iconDayV2 = value;
-                if (WeatherConditionCode.TryGetFromValue(value, out var weatherConditionCode))
+                if (value is int iconId && WeatherConditionCode.TryGetFromValue(iconId, out var weatherConditionCode))
                 {
                     this.WeatherCondition = weatherConditionCode;
                 }
@@ -30,29 +35,44 @@ namespace MeteoSwissApi.Models
         [JsonIgnore]
         public WeatherConditionCode WeatherCondition { get; private set; }
 
+        /// <summary>
+        /// Maximum temperature of the day, or <c>null</c> if MeteoSwiss reports no value.
+        /// </summary>
         [JsonProperty("temperatureMax")]
-        [JsonConverter(typeof(TemperatureJsonConverter))]
-        public Temperature TemperatureMax { get; set; }
+        [JsonConverter(typeof(NullableTemperatureJsonConverter))]
+        public Temperature? TemperatureMax { get; set; }
 
+        /// <summary>
+        /// Minimum temperature of the day, or <c>null</c> if MeteoSwiss reports no value.
+        /// </summary>
         [JsonProperty("temperatureMin")]
-        [JsonConverter(typeof(TemperatureJsonConverter))]
-        public Temperature TemperatureMin { get; set; }
+        [JsonConverter(typeof(NullableTemperatureJsonConverter))]
+        public Temperature? TemperatureMin { get; set; }
 
+        /// <summary>
+        /// Expected precipitation of the day, or <c>null</c> if MeteoSwiss reports no value.
+        /// </summary>
         [JsonProperty("precipitation")]
-        [JsonConverter(typeof(MillimeterLengthJsonConverter))]
-        public Length Precipitation { get; set; }
-        
+        [JsonConverter(typeof(NullableMillimeterLengthJsonConverter))]
+        public Length? Precipitation { get; set; }
+
+        /// <summary>
+        /// Lower bound of the expected precipitation, or <c>null</c> if MeteoSwiss reports no value.
+        /// </summary>
         [JsonProperty("precipitationMin")]
-        [JsonConverter(typeof(MillimeterLengthJsonConverter))]
-        public Length PrecipitationMin { get; set; }
-        
+        [JsonConverter(typeof(NullableMillimeterLengthJsonConverter))]
+        public Length? PrecipitationMin { get; set; }
+
+        /// <summary>
+        /// Upper bound of the expected precipitation, or <c>null</c> if MeteoSwiss reports no value.
+        /// </summary>
         [JsonProperty("precipitationMax")]
-        [JsonConverter(typeof(MillimeterLengthJsonConverter))]
-        public Length PrecipitationMax { get; set; }
+        [JsonConverter(typeof(NullableMillimeterLengthJsonConverter))]
+        public Length? PrecipitationMax { get; set; }
 
         public override string ToString()
         {
-            return $"{this.DayDate:d} ({this.TemperatureMin.Value:N0}-{this.TemperatureMax})";
+            return $"{this.DayDate:d} ({this.TemperatureMin} - {this.TemperatureMax})";
         }
     }
 }

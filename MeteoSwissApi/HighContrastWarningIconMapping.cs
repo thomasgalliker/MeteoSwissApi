@@ -1,16 +1,16 @@
 namespace MeteoSwissApi
 {
-    public class HighContrastWarningIconMapping : IWarningIconMapping
+    public sealed class HighContrastWarningIconMapping : IWarningIconMapping
     {
-        private static readonly Assembly Assembly = typeof(HighContrastWarningIconMapping).Assembly;
-        private const string EmbeddedResourcePath = "Icons.Warning.HighContrast.{0}.svg";
+        private const string IconNamePrefix = "Warning.HighContrast.";
 
-        public HighContrastWarningIconMapping()
+        public Task<Stream> GetIconAsync(WarnLevel warnLevel, CancellationToken cancellationToken = default)
         {
-        }
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return Task.FromCanceled<Stream>(cancellationToken);
+            }
 
-        public Task<Stream> GetIconAsync(WarnLevel warnLevel)
-        {
             if (warnLevel == WarnLevel.NoWarnLevel ||
                 warnLevel == WarnLevel.Level1)
             {
@@ -18,9 +18,9 @@ namespace MeteoSwissApi
                 return Task.FromResult(EmbeddedIcons.GetTransparentIcon());
             }
 
-            var resourceFileName = string.Format(EmbeddedResourcePath, warnLevel.Level);
-            var stream = ResourceLoader.Current.GetEmbeddedResourceStream(Assembly, resourceFileName);
-            return Task.FromResult(stream);
+            // Warn levels without high-contrast icon, such as levels MeteoSwiss added later, return the transparent icon.
+            var iconName = FormattableString.Invariant($"{IconNamePrefix}{warnLevel.Level}.svg");
+            return Task.FromResult(EmbeddedIcons.GetIconOrTransparentIcon(iconName));
         }
     }
 }

@@ -3,18 +3,29 @@ using System.Text.Json.Serialization;
 
 namespace MeteoSwissApi.Models.Converters
 {
-    internal abstract class JsonCollectionConverter<TCollection, TElement> : JsonConverter<TCollection>
-        where TCollection : class
+    /// <summary>
+    /// Reads a JSON array into an array, converting each element with the given element converter.
+    /// A JSON <c>null</c> becomes an empty array.
+    /// </summary>
+    internal abstract class JsonArrayConverter<TElement> : JsonConverter<TElement[]>
     {
-        protected abstract JsonConverter<TElement> ElementConverter { get; }
+        private readonly JsonConverter<TElement> elementConverter;
 
-        protected abstract TCollection CreateCollection(IReadOnlyCollection<TElement> values);
+        protected JsonArrayConverter(JsonConverter<TElement> elementConverter)
+        {
+            this.elementConverter = elementConverter;
+        }
 
-        public override TCollection? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        /// <summary>
+        /// Lets <see cref="Read"/> see JSON <c>null</c>, so that a missing collection becomes empty instead of <c>null</c>.
+        /// </summary>
+        public override bool HandleNull => true;
+
+        public override TElement[] Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             if (reader.TokenType == JsonTokenType.Null)
             {
-                return null;
+                return Array.Empty<TElement>();
             }
 
             if (reader.TokenType != JsonTokenType.StartArray)
@@ -23,20 +34,21 @@ namespace MeteoSwissApi.Models.Converters
             }
 
             var values = new List<TElement>();
+
             while (reader.Read())
             {
                 if (reader.TokenType == JsonTokenType.EndArray)
                 {
-                    return this.CreateCollection(values);
+                    return values.ToArray();
                 }
 
-                values.Add(this.ElementConverter.Read(ref reader, typeof(TElement), options)!);
+                values.Add(this.elementConverter.Read(ref reader, typeof(TElement), options)!);
             }
 
-            throw new JsonException("Unexpected end of JSON while reading collection.");
+            throw new JsonException("Unexpected end of JSON while reading an array.");
         }
 
-        public override void Write(Utf8JsonWriter writer, TCollection? value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, TElement[]? value, JsonSerializerOptions options)
         {
             if (value == null)
             {
@@ -45,124 +57,93 @@ namespace MeteoSwissApi.Models.Converters
             }
 
             writer.WriteStartArray();
-            foreach (var item in (IEnumerable<TElement>)value)
+
+            foreach (var item in value)
             {
-                this.ElementConverter.Write(writer, item, options);
+                this.elementConverter.Write(writer, item, options);
             }
 
             writer.WriteEndArray();
         }
     }
 
-    internal sealed class TemperatureCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<Temperature>, Temperature>
+    internal sealed class WindDirectionArrayJsonConverter : JsonArrayConverter<Angle>
     {
-        private static readonly TemperatureJsonConverter Converter = new TemperatureJsonConverter();
-        protected override JsonConverter<Temperature> ElementConverter => Converter;
-        protected override IReadOnlyCollection<Temperature> CreateCollection(IReadOnlyCollection<Temperature> values) => new List<Temperature>(values);
+        public WindDirectionArrayJsonConverter()
+            : base(new DegreeAngleJsonConverter())
+        {
+        }
     }
 
-    internal sealed class MillimeterLengthCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<Length>, Length>
+    internal sealed class WindSpeedArrayJsonConverter : JsonArrayConverter<Speed>
     {
-        private static readonly MillimeterLengthJsonConverter Converter = new MillimeterLengthJsonConverter();
-        protected override JsonConverter<Length> ElementConverter => Converter;
-        protected override IReadOnlyCollection<Length> CreateCollection(IReadOnlyCollection<Length> values) => new List<Length>(values);
+        public WindSpeedArrayJsonConverter()
+            : base(new SpeedJsonConverter())
+        {
+        }
     }
 
-    internal sealed class WindDirectionCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<Angle>, Angle>
+    internal sealed class EpochDateTimeArrayJsonConverter : JsonArrayConverter<DateTime>
     {
-        private static readonly WindDirectionJsonConverter Converter = new WindDirectionJsonConverter();
-        protected override JsonConverter<Angle> ElementConverter => Converter;
-        protected override IReadOnlyCollection<Angle> CreateCollection(IReadOnlyCollection<Angle> values) => new List<Angle>(values);
+        public EpochDateTimeArrayJsonConverter()
+            : base(new EpochDateTimeJsonConverter())
+        {
+        }
     }
 
-    internal sealed class WindSpeedCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<Speed>, Speed>
+    internal sealed class MinuteDurationArrayJsonConverter : JsonArrayConverter<Duration>
     {
-        private static readonly WindSpeedJsonConverter Converter = new WindSpeedJsonConverter();
-        protected override JsonConverter<Speed> ElementConverter => Converter;
-        protected override IReadOnlyCollection<Speed> CreateCollection(IReadOnlyCollection<Speed> values) => new List<Speed>(values);
+        public MinuteDurationArrayJsonConverter()
+            : base(new MinuteDurationJsonConverter())
+        {
+        }
     }
 
-    internal sealed class EpochDateTimeCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<DateTime>, DateTime>
+    internal sealed class HourDurationArrayJsonConverter : JsonArrayConverter<Duration>
     {
-        private static readonly EpochDateTimeConverter Converter = new EpochDateTimeConverter();
-        protected override JsonConverter<DateTime> ElementConverter => Converter;
-        protected override IReadOnlyCollection<DateTime> CreateCollection(IReadOnlyCollection<DateTime> values) => new List<DateTime>(values);
+        public HourDurationArrayJsonConverter()
+            : base(new HourDurationJsonConverter())
+        {
+        }
     }
 
-    internal sealed class MinuteDurationCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<Duration>, Duration>
+    internal sealed class PercentRatioArrayJsonConverter : JsonArrayConverter<Ratio>
     {
-        private static readonly MinuteDurationJsonConverter Converter = new MinuteDurationJsonConverter();
-        protected override JsonConverter<Duration> ElementConverter => Converter;
-        protected override IReadOnlyCollection<Duration> CreateCollection(IReadOnlyCollection<Duration> values) => new List<Duration>(values);
+        public PercentRatioArrayJsonConverter()
+            : base(new PercentRatioJsonConverter())
+        {
+        }
     }
 
-    internal sealed class PercentRatioCollectionJsonConverter : JsonCollectionConverter<IReadOnlyCollection<Ratio>, Ratio>
+    internal sealed class DecimalFractionRatioArrayJsonConverter : JsonArrayConverter<Ratio>
     {
-        private static readonly PercentRatioJsonConverter Converter = new PercentRatioJsonConverter();
-        protected override JsonConverter<Ratio> ElementConverter => Converter;
-        protected override IReadOnlyCollection<Ratio> CreateCollection(IReadOnlyCollection<Ratio> values) => new List<Ratio>(values);
+        public DecimalFractionRatioArrayJsonConverter()
+            : base(new DecimalFractionRatioJsonConverter())
+        {
+        }
     }
 
-    internal sealed class WindDirectionArrayJsonConverter : JsonCollectionConverter<Angle[], Angle>
+    internal sealed class TemperatureArrayJsonConverter : JsonArrayConverter<Temperature>
     {
-        private static readonly WindDirectionJsonConverter Converter = new WindDirectionJsonConverter();
-        protected override JsonConverter<Angle> ElementConverter => Converter;
-        protected override Angle[] CreateCollection(IReadOnlyCollection<Angle> values) => new List<Angle>(values).ToArray();
+        public TemperatureArrayJsonConverter()
+            : base(new TemperatureJsonConverter())
+        {
+        }
     }
 
-    internal sealed class WindSpeedArrayJsonConverter : JsonCollectionConverter<Speed[], Speed>
+    internal sealed class TemperatureDeltaArrayJsonConverter : JsonArrayConverter<TemperatureDelta>
     {
-        private static readonly WindSpeedJsonConverter Converter = new WindSpeedJsonConverter();
-        protected override JsonConverter<Speed> ElementConverter => Converter;
-        protected override Speed[] CreateCollection(IReadOnlyCollection<Speed> values) => new List<Speed>(values).ToArray();
+        public TemperatureDeltaArrayJsonConverter()
+            : base(new TemperatureDeltaJsonConverter())
+        {
+        }
     }
 
-    internal sealed class EpochDateTimeArrayJsonConverter : JsonCollectionConverter<DateTime[], DateTime>
+    internal sealed class MillimeterLengthArrayJsonConverter : JsonArrayConverter<Length>
     {
-        private static readonly EpochDateTimeConverter Converter = new EpochDateTimeConverter();
-        protected override JsonConverter<DateTime> ElementConverter => Converter;
-        protected override DateTime[] CreateCollection(IReadOnlyCollection<DateTime> values) => new List<DateTime>(values).ToArray();
-    }
-
-    internal sealed class MinuteDurationArrayJsonConverter : JsonCollectionConverter<Duration[], Duration>
-    {
-        private static readonly MinuteDurationJsonConverter Converter = new MinuteDurationJsonConverter();
-        protected override JsonConverter<Duration> ElementConverter => Converter;
-        protected override Duration[] CreateCollection(IReadOnlyCollection<Duration> values) => new List<Duration>(values).ToArray();
-    }
-
-    internal sealed class PercentRatioArrayJsonConverter : JsonCollectionConverter<Ratio[], Ratio>
-    {
-        private static readonly PercentRatioJsonConverter Converter = new PercentRatioJsonConverter();
-        protected override JsonConverter<Ratio> ElementConverter => Converter;
-        protected override Ratio[] CreateCollection(IReadOnlyCollection<Ratio> values) => new List<Ratio>(values).ToArray();
-    }
-
-    internal sealed class TemperatureArrayJsonConverter : JsonCollectionConverter<Temperature[], Temperature>
-    {
-        private static readonly TemperatureJsonConverter Converter = new TemperatureJsonConverter();
-        protected override JsonConverter<Temperature> ElementConverter => Converter;
-        protected override Temperature[] CreateCollection(IReadOnlyCollection<Temperature> values) => new List<Temperature>(values).ToArray();
-    }
-
-    internal sealed class HourDurationArrayJsonConverter : JsonCollectionConverter<Duration[], Duration>
-    {
-        private static readonly HourDurationJsonConverter Converter = new HourDurationJsonConverter();
-        protected override JsonConverter<Duration> ElementConverter => Converter;
-        protected override Duration[] CreateCollection(IReadOnlyCollection<Duration> values) => new List<Duration>(values).ToArray();
-    }
-
-    internal sealed class DecimalFractionRatioArrayJsonConverter : JsonCollectionConverter<Ratio[], Ratio>
-    {
-        private static readonly DecimalFractionRatioJsonConverter Converter = new DecimalFractionRatioJsonConverter();
-        protected override JsonConverter<Ratio> ElementConverter => Converter;
-        protected override Ratio[] CreateCollection(IReadOnlyCollection<Ratio> values) => new List<Ratio>(values).ToArray();
-    }
-
-    internal sealed class MillimeterLengthArrayJsonConverter : JsonCollectionConverter<Length[], Length>
-    {
-        private static readonly MillimeterLengthJsonConverter Converter = new MillimeterLengthJsonConverter();
-        protected override JsonConverter<Length> ElementConverter => Converter;
-        protected override Length[] CreateCollection(IReadOnlyCollection<Length> values) => new List<Length>(values).ToArray();
+        public MillimeterLengthArrayJsonConverter()
+            : base(new MillimeterLengthJsonConverter())
+        {
+        }
     }
 }

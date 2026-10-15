@@ -1,29 +1,13 @@
-using System.Text.Json;
-using System.Text.Json.Serialization;
-
 namespace MeteoSwissApi.Models.Converters
 {
-    internal class SpeedJsonConverter : JsonConverter<Speed>
+    /// <summary>
+    /// Reads and writes a <see cref="Speed"/> in kilometers per hour, the unit of MeteoSwiss and SLF wind speeds.
+    /// </summary>
+    internal sealed class SpeedJsonConverter : QuantityJsonConverter<Speed>
     {
-        public override Speed Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public SpeedJsonConverter()
+            : base(value => Speed.FromKilometersPerHour(value), speed => speed.KilometersPerHour)
         {
-            if (reader.TokenType == JsonTokenType.Number)
-            {
-                return Speed.FromKilometersPerHour(reader.GetDouble());
-            }
-
-            if (reader.TokenType == JsonTokenType.String
-                && double.TryParse(reader.GetString(), NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.InvariantCulture, out var value))
-            {
-                return Speed.FromKilometersPerHour(value);
-            }
-
-            return default;
-        }
-
-        public override void Write(Utf8JsonWriter writer, Speed value, JsonSerializerOptions options)
-        {
-            writer.WriteStringValue(value.Value.ToString(CultureInfo.InvariantCulture));
         }
     }
 }
