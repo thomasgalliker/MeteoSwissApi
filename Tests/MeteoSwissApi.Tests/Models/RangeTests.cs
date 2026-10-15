@@ -95,7 +95,7 @@ namespace MeteoSwissApi.Tests.Models
         public void Constructor_MinIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new Range<string>(null, "b");
+            Action action = () => _ = new Range<string>(null!, "b");
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("min");
@@ -120,7 +120,7 @@ namespace MeteoSwissApi.Tests.Models
             var range = new Range<string>("a", "c");
 
             // Act
-            Action action = () => range.InRange(null);
+            Action action = () => range.InRange(null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("value");

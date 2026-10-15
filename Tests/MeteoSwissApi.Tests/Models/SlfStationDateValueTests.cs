@@ -39,6 +39,7 @@ namespace MeteoSwissApi.Tests.Models
             var roundTripped = JsonSerializer.Deserialize<SlfStationMeasurement>(json, JsonSerialization.Default);
 
             // Assert
+            roundTripped.Should().NotBeNull();
             roundTripped.SnowHeight.Should().NotBeNull();
             roundTripped.SnowHeight!.Value.Should().Be(Length.FromCentimeters(12));
         }

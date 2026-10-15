@@ -21,6 +21,7 @@ namespace MeteoSwissApi.Tests.Models
             var forecast = JsonSerializer.Deserialize<Forecast>(json, JsonSerialization.Default);
 
             // Assert
+            forecast.Should().NotBeNull();
             forecast.TemperatureMax.Should().BeNull();
             forecast.TemperatureMin.Should().BeNull();
             forecast.Precipitation.Should().BeNull();
@@ -39,6 +40,7 @@ namespace MeteoSwissApi.Tests.Models
             var forecast = JsonSerializer.Deserialize<Forecast>(json, JsonSerialization.Default);
 
             // Assert
+            forecast.Should().NotBeNull();
             forecast.TemperatureMax.Should().Be(Temperature.FromDegreesCelsius(26));
             forecast.TemperatureMin.Should().Be(Temperature.FromDegreesCelsius(18));
             forecast.Precipitation.Should().Be(Length.FromMillimeters(0.2));

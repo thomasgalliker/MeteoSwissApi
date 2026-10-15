@@ -43,7 +43,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             using var streamReader = new StreamReader(stream);
             (await streamReader.ReadToEndAsync()).Should().Be("<svg>3</svg>");
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.AbsolutePath.EndsWith("/warn-symbols/3.svg"));
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.EndsWith("/warn-symbols/3.svg"));
         }
 
         [Fact]
@@ -80,7 +80,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new DefaultWarningIconMapping(null);
+            Action action = () => _ = new DefaultWarningIconMapping(null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();

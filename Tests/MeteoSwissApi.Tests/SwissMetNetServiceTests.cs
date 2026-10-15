@@ -55,7 +55,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             measurement.Should().NotBeNull();
-            measurement!.AirTemperature.Should().Be(Temperature.FromDegreesCelsius(17.4));
+            measurement.AirTemperature.Should().Be(Temperature.FromDegreesCelsius(17.4));
             measurement.RelativeAirHumidity.Should().Be(RelativeHumidity.FromPercent(81.9));
             measurement.PressureQNH.Should().Be(Pressure.FromHectopascals(1027.8));
         }
@@ -72,7 +72,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             measurement.Should().NotBeNull();
-            measurement!.PressureQFF.Should().BeNull();
+            measurement.PressureQFF.Should().BeNull();
         }
 
         [Theory]
@@ -93,7 +93,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             weatherStation.Should().NotBeNull();
-            weatherStation!.Location.Should().Be(new GeoCoordinate(47.479892d, 8.904928d));
+            weatherStation.Location.Should().Be(new GeoCoordinate(47.479892d, 8.904928d));
             weatherStation.Location!.Altitude.Should().Be(Length.FromMeters(539));
             weatherStation.BarometricAltitude.Should().Be(Length.FromMeters(539));
         }
@@ -110,7 +110,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             measurement.Should().NotBeNull();
-            measurement!.Precipitation.Should().BeNull();
+            measurement.Precipitation.Should().BeNull();
         }
 
         [Fact]
@@ -160,7 +160,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             measurement.Should().NotBeNull();
-            measurement!.AirTemperature.Should().Be(Temperature.FromDegreesCelsius(17.4));
+            measurement.AirTemperature.Should().Be(Temperature.FromDegreesCelsius(17.4));
         }
 
         [Fact]
@@ -189,7 +189,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             weatherStation.Should().NotBeNull();
-            weatherStation!.DataOwners.Should().Equal("Kt. BE", "SLF");
+            weatherStation.DataOwners.Should().Equal("Kt. BE", "SLF");
         }
 
         [Fact]
@@ -205,7 +205,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             weatherStation.Should().NotBeNull();
-            weatherStation!.Place.Should().Be("Aadorf / Tänikon");
+            weatherStation.Place.Should().Be("Aadorf / Tänikon");
         }
 
         [Fact]
@@ -235,6 +235,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
             exception.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            exception.RequestUri.Should().NotBeNull();
             exception.RequestUri.AbsolutePath.Should().EndWith(StationsFixture);
         }
 
@@ -250,6 +251,7 @@ namespace MeteoSwissApi.Tests
 
             // Assert
             var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
+            exception.RequestUri.Should().NotBeNull();
             exception.RequestUri.AbsolutePath.Should().EndWith(MeasurementsFixture);
         }
 
@@ -263,7 +265,7 @@ namespace MeteoSwissApi.Tests
 
             // Act
             var weatherStationsTask = swissMetNetService.GetWeatherStationsAsync(cancellationTokenSource.Token);
-            cancellationTokenSource.Cancel();
+            await cancellationTokenSource.CancelAsync();
             Func<Task> action = () => weatherStationsTask;
 
             // Assert
@@ -282,7 +284,7 @@ namespace MeteoSwissApi.Tests
             await swissMetNetService.GetWeatherStationsAsync();
 
             // Assert
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.Headers.CacheControl.NoCache);
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.Headers.CacheControl!.NoCache);
         }
 
         [Fact]
@@ -340,7 +342,7 @@ namespace MeteoSwissApi.Tests
             // The response of the first request is held back until the test releases it, so both calls miss the cache.
             var responseReleased = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             var requestCount = 0;
-            var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(async (HttpRequestMessage _, CancellationToken _) =>
+            var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(async (_, _) =>
             {
                 Interlocked.Increment(ref requestCount);
                 await responseReleased.Task;
@@ -478,7 +480,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_SwissMetNetOptionsAreNull_ThrowsArgumentException()
         {
             // Arrange
-            var options = new MeteoSwissApiOptions { SwissMetNet = null };
+            var options = new MeteoSwissApiOptions { SwissMetNet = null! };
 
             // Act
             Action action = () => _ = new SwissMetNetService(this.logger, options);
@@ -538,7 +540,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new SwissMetNetService(this.logger, (HttpClient)null, new MeteoSwissApiOptions());
+            Action action = () => _ = new SwissMetNetService(this.logger, null!, new MeteoSwissApiOptions());
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("httpClient");
@@ -637,9 +639,9 @@ namespace MeteoSwissApi.Tests
                 l => l.Log(
                     LogLevel.Debug,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString().Contains("skipped 1 rows without a readable date")),
+                    It.Is<It.IsAnyType>((state, _) => $"{state}".Contains("skipped 1 rows without a readable date")),
                     It.IsAny<Exception>(),
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
         }
 
@@ -651,7 +653,7 @@ namespace MeteoSwissApi.Tests
             var swissMetNetService = this.CreateSwissMetNetService(StationsFixture);
 
             // Act
-            Func<Task> action = () => swissMetNetService.GetWeatherStationAsync(null);
+            Func<Task> action = () => swissMetNetService.GetWeatherStationAsync(null!);
 
             // Assert
             await action.Should().ThrowAsync<ArgumentNullException>();
@@ -665,7 +667,7 @@ namespace MeteoSwissApi.Tests
             var swissMetNetService = this.CreateSwissMetNetService(MeasurementsFixture);
 
             // Act
-            Func<Task> action = () => swissMetNetService.GetLatestMeasurementAsync(null);
+            Func<Task> action = () => swissMetNetService.GetLatestMeasurementAsync(null!);
 
             // Assert
             await action.Should().ThrowAsync<ArgumentNullException>();

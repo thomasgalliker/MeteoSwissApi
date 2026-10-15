@@ -16,6 +16,7 @@ namespace MeteoSwissApi.Tests.Models
             var klimaGraph = JsonSerializer.Deserialize<KlimaGraph>(json, JsonSerialization.Default);
 
             // Assert
+            klimaGraph.Should().NotBeNull();
             var temperatureGraphValues = klimaGraph.TemperatureGraphValues;
             temperatureGraphValues.Deviation.Should().Equal(TemperatureDelta.FromDegreesCelsius(1.5));
             (temperatureGraphValues.Normal[0] + temperatureGraphValues.Deviation[0]).DegreesCelsius
@@ -32,6 +33,7 @@ namespace MeteoSwissApi.Tests.Models
             var klimaGraph = JsonSerializer.Deserialize<KlimaGraph>(json, JsonSerialization.Default);
 
             // Assert
+            klimaGraph.Should().NotBeNull();
             klimaGraph.TemperatureGraphValues.Deviation.Should().BeEmpty();
         }
     }

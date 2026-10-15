@@ -16,6 +16,7 @@ namespace MeteoSwissApi.Tests.Models
             var slfLocation = JsonSerializer.Deserialize<SlfLocation>(json, JsonSerialization.Default);
 
             // Assert
+            slfLocation.Should().NotBeNull();
             slfLocation.Location.Should().NotBeNull();
             slfLocation.Location!.Latitude.Should().BeApproximately(46.6988884749, 1e-9);
             slfLocation.Location.Longitude.Should().BeApproximately(9.8194108372, 1e-9);
@@ -32,6 +33,7 @@ namespace MeteoSwissApi.Tests.Models
             var slfLocation = JsonSerializer.Deserialize<SlfLocation>(json, JsonSerialization.Default);
 
             // Assert
+            slfLocation.Should().NotBeNull();
             slfLocation.Location.Should().BeNull();
         }
 

@@ -16,6 +16,7 @@ namespace MeteoSwissApi.Tests.Models
             var graphDetail = JsonSerializer.Deserialize<GraphDetail>(json, JsonSerialization.Default);
 
             // Assert
+            graphDetail.Should().NotBeNull();
             graphDetail.TemperatureMin1h.Should().BeEmpty();
             graphDetail.WindSpeed1h.Should().BeEmpty();
             graphDetail.Sunrise.Should().BeEmpty();

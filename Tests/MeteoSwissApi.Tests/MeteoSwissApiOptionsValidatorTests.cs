@@ -20,11 +20,11 @@ namespace MeteoSwissApi.Tests
         [InlineData(null)]
         [InlineData("")]
         [InlineData("es")]
-        public void Validate_UnsupportedLanguage_Fails(string language)
+        public void Validate_UnsupportedLanguage_Fails(string? language)
         {
             // Arrange
             var validator = new MeteoSwissApiOptionsValidator();
-            var options = new MeteoSwissApiOptions { Language = language };
+            var options = new MeteoSwissApiOptions { Language = language! };
 
             // Act
             var result = validator.Validate(null, options);
@@ -54,7 +54,7 @@ namespace MeteoSwissApi.Tests
         {
             // Arrange
             var validator = new MeteoSwissApiOptionsValidator();
-            var options = new MeteoSwissApiOptions { Language = "es", SwissMetNet = null };
+            var options = new MeteoSwissApiOptions { Language = "es", SwissMetNet = null! };
 
             // Act
             var result = validator.Validate(null, options);
@@ -76,7 +76,7 @@ namespace MeteoSwissApi.Tests
         public void ThrowIfInvalid_OptionsIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => MeteoSwissApiOptionsValidator.ThrowIfInvalid(null, "options");
+            Action action = () => MeteoSwissApiOptionsValidator.ThrowIfInvalid(null!, "options");
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("options");

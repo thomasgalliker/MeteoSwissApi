@@ -150,7 +150,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             var location = measurements.Should().ContainSingle().Which.Station.Location.Location;
             location.Should().Be(new GeoCoordinate(46.7042518299, 9.9976221513));
-            location!.Altitude.Should().Be(Length.FromMeters(3133));
+            location.Altitude.Should().Be(Length.FromMeters(3133));
         }
 
         [Fact]
@@ -207,8 +207,8 @@ namespace MeteoSwissApi.Tests
             await slfDataService.GetLatestMeasurementsAsync();
 
             // Assert
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.AbsolutePath.Contains("/WIND_MEAN/") && r.RequestUri.Query == "?stationTypeFilter=WIND");
-            httpMessageHandlerMock.VerifySendAsync(Times.Exactly(6), r => !r.RequestUri.AbsolutePath.Contains("/WIND_MEAN/") && r.RequestUri.Query == string.Empty);
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.Contains("/WIND_MEAN/") && r.RequestUri.Query == "?stationTypeFilter=WIND");
+            httpMessageHandlerMock.VerifySendAsync(Times.Exactly(6), r => !r.RequestUri!.AbsolutePath.Contains("/WIND_MEAN/") && r.RequestUri.Query == string.Empty);
         }
 
         [Fact]
@@ -235,9 +235,9 @@ namespace MeteoSwissApi.Tests
                 l => l.Log(
                     LogLevel.Debug,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString().Contains("2 stations reported no value for SNOW_HEIGHT")),
+                    It.Is<It.IsAnyType>((state, _) => $"{state}".Contains("2 stations reported no value for SNOW_HEIGHT")),
                     It.IsAny<Exception>(),
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
         }
 
@@ -312,7 +312,7 @@ namespace MeteoSwissApi.Tests
             // The first request is answered only once the second one has arrived, so sequential requests would time out.
             var secondRequestArrived = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
             var requestCount = 0;
-            var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(async (HttpRequestMessage request, CancellationToken cancellationToken) =>
+            var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(async (request, cancellationToken) =>
             {
                 if (Interlocked.Increment(ref requestCount) == 1)
                 {
@@ -323,7 +323,7 @@ namespace MeteoSwissApi.Tests
                     secondRequestArrived.TrySetResult(true);
                 }
 
-                var responseJson = request.RequestUri.AbsolutePath.Contains("/info/")
+                var responseJson = request.RequestUri!.AbsolutePath.Contains("/info/")
                     ? CreateStationInfoResponseJson()
                     : CreateLatestMeasurementResponseJson(temperatureAir: 5.347m);
 
@@ -632,7 +632,7 @@ namespace MeteoSwissApi.Tests
             var slfDataService = this.CreateSlfDataServiceWithResponse(CreateStationInfoResponseJson());
 
             // Act
-            Func<Task> action = () => slfDataService.GetStationInfoAsync(Network, null);
+            Func<Task> action = () => slfDataService.GetStationInfoAsync(Network, null!);
 
             // Assert
             await action.Should().ThrowExactlyAsync<ArgumentNullException>();
@@ -679,7 +679,7 @@ namespace MeteoSwissApi.Tests
             await slfDataService.GetMeasurementsByStationCodeAsync("SMN", "*ABG0");
 
             // Assert
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.AbsolutePath == "/public/station-data/timeseries/week/current/SMN/*ABG0");
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath == "/public/station-data/timeseries/week/current/SMN/*ABG0");
         }
 
         [Fact]
@@ -739,7 +739,8 @@ namespace MeteoSwissApi.Tests
             // Assert
             var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
             exception.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
-            exception.RequestUri.AbsolutePath.Should().Be($"/public/station-data/info/{Network}/{StationCode}");
+            exception.RequestUri.Should().NotBeNull();
+            exception.RequestUri!.AbsolutePath.Should().Be($"/public/station-data/info/{Network}/{StationCode}");
         }
 
         [Fact]
@@ -875,7 +876,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new SlfDataService(this.logger, (HttpClient)null, new MeteoSwissApiOptions());
+            Action action = () => _ = new SlfDataService(this.logger, null!, new MeteoSwissApiOptions());
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("httpClient");
@@ -912,7 +913,7 @@ namespace MeteoSwissApi.Tests
         {
             return HttpMessageHandlerMocks.Returning(request =>
             {
-                var parameter = responsesByParameter.Keys.FirstOrDefault(p => request.RequestUri.AbsolutePath.Contains($"/{p}/"));
+                var parameter = responsesByParameter.Keys.FirstOrDefault(p => request.RequestUri!.AbsolutePath.Contains($"/{p}/"));
                 var responseJson = parameter != null ? responsesByParameter[parameter] : EmptyFeatureCollectionJson;
                 return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(responseJson) };
             });
@@ -1000,7 +1001,7 @@ namespace MeteoSwissApi.Tests
             var stationInfoJson = CreateStationInfoResponseJson();
             var httpMessageHandlerMock = HttpMessageHandlerMocks.Returning(request => new HttpResponseMessage(HttpStatusCode.OK)
             {
-                Content = new StringContent(request.RequestUri.AbsolutePath.Contains("/info/")
+                Content = new StringContent(request.RequestUri!.AbsolutePath.Contains("/info/")
                     ? stationInfoJson
                     : latestMeasurementJson),
             });

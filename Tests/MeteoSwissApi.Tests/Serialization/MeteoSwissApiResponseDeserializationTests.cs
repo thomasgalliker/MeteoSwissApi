@@ -61,6 +61,7 @@ namespace MeteoSwissApi.Tests.Serialization
             var forecastInfo = JsonSerializer.Deserialize<ForecastInfo>(json, JsonSerialization.Default);
 
             // Assert
+            forecastInfo.Should().NotBeNull();
             forecastInfo.WarningsOverview.Should().BeEmpty();
         }
 
@@ -76,6 +77,7 @@ namespace MeteoSwissApi.Tests.Serialization
             var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Default);
 
             // Assert
+            weatherInfo.Should().NotBeNull();
             weatherInfo.Warnings.Select(w => (w.WarnType.Value, w.WarnLevel.Level)).Should().Contain((99, 6));
             weatherInfo.WarningsOverview.Select(w => (w.WarnType.Value, w.WarnLevel.Level)).Should().Contain((99, 6));
         }
@@ -90,6 +92,7 @@ namespace MeteoSwissApi.Tests.Serialization
             var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Default);
 
             // Assert
+            weatherInfo.Should().NotBeNull();
             weatherInfo.CurrentWeather.Time.Should().Be(new DateTime(2026, 7, 19, 16, 10, 0, DateTimeKind.Utc));
             weatherInfo.CurrentWeather.Time.Kind.Should().Be(DateTimeKind.Utc);
             weatherInfo.Graph.Start.Kind.Should().Be(DateTimeKind.Utc);
@@ -107,6 +110,7 @@ namespace MeteoSwissApi.Tests.Serialization
             var weatherInfo = JsonSerializer.Deserialize<WeatherInfo>(json, JsonSerialization.Default);
 
             // Assert
+            weatherInfo.Should().NotBeNull();
             var dayDate = weatherInfo.Forecast[0].DayDate;
             dayDate.Should().Be(new DateTime(2026, 7, 19));
             dayDate.Kind.Should().Be(DateTimeKind.Unspecified);

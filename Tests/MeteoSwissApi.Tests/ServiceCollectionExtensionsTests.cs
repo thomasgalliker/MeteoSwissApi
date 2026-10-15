@@ -158,7 +158,7 @@ namespace MeteoSwissApi.Tests
             var services = new ServiceCollection();
 
             // Act
-            Action action = () => services.AddMeteoSwissApi((Action<MeteoSwissApiOptions>)null);
+            Action action = () => services.AddMeteoSwissApi((Action<MeteoSwissApiOptions>)null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();
@@ -167,7 +167,7 @@ namespace MeteoSwissApi.Tests
         public void AddMeteoSwissApi_ServicesIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => ServiceCollectionExtensions.AddMeteoSwissApi(null);
+            Action action = () => ServiceCollectionExtensions.AddMeteoSwissApi(null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("services");
@@ -180,7 +180,7 @@ namespace MeteoSwissApi.Tests
             var services = new ServiceCollection();
 
             // Act
-            Action action = () => services.AddMeteoSwissApi((IConfiguration)null);
+            Action action = () => services.AddMeteoSwissApi((IConfiguration)null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("configuration");

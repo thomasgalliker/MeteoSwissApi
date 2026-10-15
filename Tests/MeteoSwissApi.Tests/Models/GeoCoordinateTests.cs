@@ -24,7 +24,7 @@
             var geoCoordinate = new GeoCoordinate(47.1486137d, 8.5539378d);
 
             // Act
-            Action action = () => geoCoordinate.GetDistanceTo(null);
+            Action action = () => geoCoordinate.GetDistanceTo(null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();

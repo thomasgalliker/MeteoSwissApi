@@ -15,7 +15,7 @@
             }
         }
 
-        internal void WriteFile(Stream bitmapStream, [CallerMemberName] string fileName = null, string fileExtension = "png")
+        internal void WriteFile(Stream? bitmapStream, [CallerMemberName] string? fileName = null, string fileExtension = "png")
         {
             if (bitmapStream == null)
             {
@@ -67,7 +67,7 @@
                 .Where(x => x.Stream != null)
                 .ToArray();
 
-            return downloadedIcons;
+            return downloadedIcons!;
         }
 
         /// <summary>

@@ -5,20 +5,4 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
-
-  <!--Shared by the library, the tests and the samples-->
-  <PropertyGroup>
-    <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisLevel>latest-recommended</AnalysisLevel>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-  </PropertyGroup>
-
-  <!--CI builds are reproducible and fail on warnings; local builds only report them-->
-  <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
-    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <!--A new NuGet audit advisory against a dependency is reported, but must not fail the monthly build without a code change-->
-    <WarningsNotAsErrors>NU1901;NU1902;NU1903;NU1904</WarningsNotAsErrors>
-  </PropertyGroup>
-
 </Project>

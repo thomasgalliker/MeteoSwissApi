@@ -47,7 +47,7 @@ namespace MeteoSwissApi.Tests
         {
             // Arrange
             // MeteoSwiss may send warn levels above 5, which have no icon.
-            var warnLevel = JsonSerializer.Deserialize<WarningsOverview>("{\"warnType\":0,\"warnLevel\":6}").WarnLevel;
+            var warnLevel = JsonSerializer.Deserialize<WarningsOverview>("{\"warnType\":0,\"warnLevel\":6}")!.WarnLevel;
             var highContrastWarningIconMapping = new HighContrastWarningIconMapping();
 
             // Act

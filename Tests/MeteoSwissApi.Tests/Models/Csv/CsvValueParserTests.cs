@@ -27,7 +27,7 @@ namespace MeteoSwissApi.Tests.Models.Csv
         [InlineData("-")]
         [InlineData("")]
         [InlineData(null)]
-        public void TryParseDecimal_MissingValue_ReturnsFalse(string text)
+        public void TryParseDecimal_MissingValue_ReturnsFalse(string? text)
         {
             // Act
             var result = CsvValueParser.TryParseDecimal(text, out _);

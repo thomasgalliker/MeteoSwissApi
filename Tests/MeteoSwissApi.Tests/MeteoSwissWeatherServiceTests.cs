@@ -50,7 +50,7 @@ namespace MeteoSwissApi.Tests
             await meteoSwissWeatherService.GetCurrentWeatherAsync(plz);
 
             // Assert
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.Query == expectedQuery);
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.Query == expectedQuery);
         }
 
         [Theory]
@@ -131,7 +131,7 @@ namespace MeteoSwissApi.Tests
 
             // Act
             var weatherInfoTask = meteoSwissWeatherService.GetCurrentWeatherAsync(Plz, cancellationTokenSource.Token);
-            cancellationTokenSource.Cancel();
+            await cancellationTokenSource.CancelAsync();
             Func<Task> action = () => weatherInfoTask;
 
             // Assert
@@ -151,6 +151,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
             exception.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            exception.RequestUri.Should().NotBeNull();
             exception.RequestUri.AbsolutePath.Should().Be("/v3/plzDetail");
         }
 
@@ -257,9 +258,9 @@ namespace MeteoSwissApi.Tests
                 l => l.Log(
                     LogLevel.Debug,
                     It.IsAny<EventId>(),
-                    It.Is<It.IsAnyType>((state, _) => state.ToString().Contains("warnType=99")),
+                    It.Is<It.IsAnyType>((state, _) => $"{state}".Contains("warnType=99")),
                     It.IsAny<Exception>(),
-                    It.IsAny<Func<It.IsAnyType, Exception, string>>()),
+                    It.IsAny<Func<It.IsAnyType, Exception?, string>>()),
                 Times.Once);
         }
 
@@ -275,7 +276,7 @@ namespace MeteoSwissApi.Tests
             await meteoSwissWeatherService.GetForecastAsync(8001);
 
             // Assert
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.Query == "?plz=800100");
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.Query == "?plz=800100");
         }
 
         [Theory]
@@ -308,6 +309,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
             exception.StatusCode.Should().Be(HttpStatusCode.ServiceUnavailable);
+            exception.RequestUri.Should().NotBeNull();
             exception.RequestUri.AbsolutePath.Should().Be("/v3/forecast");
         }
 
@@ -325,7 +327,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             using var streamReader = new StreamReader(iconStream);
             (await streamReader.ReadToEndAsync()).Should().Be("<svg>1</svg>");
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.AbsolutePath.EndsWith("/weather-symbols/1.svg"));
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.EndsWith("/weather-symbols/1.svg"));
         }
 
         [Fact]
@@ -336,7 +338,7 @@ namespace MeteoSwissApi.Tests
             var meteoSwissWeatherService = this.CreateMeteoSwissWeatherService(HttpStatusCode.OK, string.Empty);
 
             // Act
-            Func<Task> action = () => meteoSwissWeatherService.GetWeatherIconAsync(1, weatherIconMapping: null);
+            Func<Task> action = () => meteoSwissWeatherService.GetWeatherIconAsync(1, weatherIconMapping: null!);
 
             // Assert
             await action.Should().ThrowAsync<ArgumentNullException>();
@@ -350,7 +352,7 @@ namespace MeteoSwissApi.Tests
             var meteoSwissWeatherService = this.CreateMeteoSwissWeatherService(HttpStatusCode.OK, string.Empty);
 
             // Act
-            Func<Task> action = () => meteoSwissWeatherService.GetWarningIconAsync(WarnLevel.Level3, warningIconMapping: null);
+            Func<Task> action = () => meteoSwissWeatherService.GetWarningIconAsync(WarnLevel.Level3, warningIconMapping: null!);
 
             // Assert
             await action.Should().ThrowAsync<ArgumentNullException>();
@@ -362,10 +364,10 @@ namespace MeteoSwissApi.Tests
         [InlineData("")]
         [InlineData("es")]
         [InlineData("de-CH")]
-        public void Constructor_UnsupportedLanguage_ThrowsArgumentException(string language)
+        public void Constructor_UnsupportedLanguage_ThrowsArgumentException(string? language)
         {
             // Arrange
-            var options = new MeteoSwissApiOptions { Language = language };
+            var options = new MeteoSwissApiOptions { Language = language! };
 
             // Act
             Action action = () => _ = new MeteoSwissWeatherService(this.logger, options);
@@ -395,7 +397,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_LoggerIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new MeteoSwissWeatherService(logger: null, new MeteoSwissApiOptions());
+            Action action = () => _ = new MeteoSwissWeatherService(logger: null!, new MeteoSwissApiOptions());
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("logger");
@@ -415,6 +417,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             var exception = (await action.Should().ThrowAsync<MeteoSwissApiException>()).Which;
             exception.Message.Should().Be("MeteoSwiss does not know the PLZ 999900.");
+            exception.RequestUri.Should().NotBeNull();
             exception.RequestUri.AbsolutePath.Should().Be("/v3/forecast");
             exception.StatusCode.Should().BeNull();
         }
@@ -517,7 +520,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new MeteoSwissWeatherService(this.logger, (HttpClient)null, new MeteoSwissApiOptions());
+            Action action = () => _ = new MeteoSwissWeatherService(this.logger, null!, new MeteoSwissApiOptions());
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("httpClient");
@@ -542,7 +545,7 @@ namespace MeteoSwissApi.Tests
             // Assert
             using var streamReader = new StreamReader(iconStream);
             (await streamReader.ReadToEndAsync()).Should().Be("<svg>3</svg>");
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.AbsolutePath.EndsWith("/warn-symbols/3.svg"));
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.EndsWith("/warn-symbols/3.svg"));
         }
 
         [Fact]
@@ -550,7 +553,7 @@ namespace MeteoSwissApi.Tests
         public void Constructor_OptionsIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new MeteoSwissWeatherService(this.logger, (IOptions<MeteoSwissApiOptions>)null);
+            Action action = () => _ = new MeteoSwissWeatherService(this.logger, (IOptions<MeteoSwissApiOptions>)null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>().WithParameterName("options");

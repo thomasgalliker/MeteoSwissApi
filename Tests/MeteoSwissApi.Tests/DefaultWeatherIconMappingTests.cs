@@ -43,7 +43,7 @@
             // Assert
             using var streamReader = new StreamReader(stream);
             (await streamReader.ReadToEndAsync()).Should().Be("<svg>1</svg>");
-            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri.AbsolutePath.EndsWith("/weather-symbols/1.svg"));
+            httpMessageHandlerMock.VerifySendAsync(Times.Once(), r => r.RequestUri!.AbsolutePath.EndsWith("/weather-symbols/1.svg"));
         }
 
         [Fact]
@@ -97,7 +97,7 @@
         public void Constructor_HttpClientIsNull_ThrowsArgumentNullException()
         {
             // Act
-            Action action = () => _ = new DefaultWeatherIconMapping(null);
+            Action action = () => _ = new DefaultWeatherIconMapping(null!);
 
             // Assert
             action.Should().Throw<ArgumentNullException>();
